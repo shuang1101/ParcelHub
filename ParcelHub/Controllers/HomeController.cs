@@ -20,6 +20,7 @@ namespace ParcelHub.Controllers
 
         public IActionResult Index()
         {
+            ViewBag.Key = "Hello world";
             _logger.LogInformation("home page visit");
             
             return View();
