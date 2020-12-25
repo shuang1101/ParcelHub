@@ -20,6 +20,8 @@ namespace ParcelHub.Controllers
 
         public IActionResult Index()
         {
+            _logger.LogInformation("home page visit");
+            
             return View();
         }
 
