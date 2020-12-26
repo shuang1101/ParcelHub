@@ -18,7 +18,6 @@ namespace ParcelHub.Models
         public string LastName { get; set; }
         [Required]
         [MaxLength(50)]
-
         public string FirstName { get; set; }
         public string MobileNumber { get; set; }
         [Key]
