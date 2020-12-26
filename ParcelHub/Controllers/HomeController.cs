@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using ParcelHub.DatabaseConnection;
 using ParcelHub.Models;
 using System;
 using System.Collections.Generic;
@@ -12,10 +13,12 @@ namespace ParcelHub.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly ApplicationDbContext _dbContext;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger,ApplicationDbContext dbContext)
         {
             _logger = logger;
+            _dbContext = dbContext;
         }
 
         public IActionResult Index()
