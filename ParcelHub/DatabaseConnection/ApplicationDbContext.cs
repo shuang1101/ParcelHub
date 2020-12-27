@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using ParcelHub.Controllers;
 using ParcelHub.Models;
 using System;
@@ -8,15 +9,16 @@ using System.Threading.Tasks;
 
 namespace ParcelHub.DatabaseConnection
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
 
         }
-        //
+ 
         public DbSet<ConsumerAddress> ConsumerAddress { get; set; }
+
         public DbSet<Consumer> Consumer { get; set; }
         public DbSet<Invoice> Invoice { get; set; }
 
@@ -27,6 +29,10 @@ namespace ParcelHub.DatabaseConnection
         public DbSet<Shippment> Shippment { get;set;}
 
         public DbSet<ParcelHub.Models.HomePageNews> HomePageNews { get; set; }
+       
+        public DbSet<ParcelHub.Models.InValidUser> InValidUser { get; set; }
+       
+        public DbSet<ParcelHub.Models.LoginUser> LoginUser { get; set; }
         
     }
 }

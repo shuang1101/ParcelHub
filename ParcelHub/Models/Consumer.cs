@@ -1,4 +1,5 @@
-﻿using ParcelHub.Controllers;
+﻿using Microsoft.AspNetCore.Identity;
+using ParcelHub.Controllers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
