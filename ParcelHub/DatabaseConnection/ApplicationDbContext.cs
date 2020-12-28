@@ -33,6 +33,10 @@ namespace ParcelHub.DatabaseConnection
         public DbSet<ParcelHub.Models.InValidUser> InValidUser { get; set; }
        
         public DbSet<ParcelHub.Models.LoginUser> LoginUser { get; set; }
+       
+        public DbSet<ParcelHub.Models.ChangePasswordUserModel> ChangePasswordUserModel { get; set; }
+       
+        public DbSet<ParcelHub.Models.PackagePerClient> PackagePerClient { get; set; }
         
     }
 }

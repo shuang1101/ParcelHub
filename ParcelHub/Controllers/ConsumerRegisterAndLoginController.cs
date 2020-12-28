@@ -2,21 +2,31 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using ParcelHub.DatabaseConnection;
 using ParcelHub.Models;
 using ParcelHub.ServiceRepository;
 
 namespace ParcelHub.Controllers
 {
-    //
+    // Consumer reigster    =>     ConsumerSignUp GET+ POST
+    // Consumer Login       =>     ConsumerLogIn  GET+POST
+    // Consumer Logout      =>     ConsumerLogOut
+    // Consumer Email Varification  =>ConfirmEmailVarification
+
     public class ConsumerRegisterAndLoginController : Controller
     {
         private readonly IAccountRepository _accountRepo;
+        private readonly ApplicationDbContext _dbcontect;
+        private readonly UserManager<IdentityUser> _userManager;
         private readonly IEmailService _emailService;
 
-        public ConsumerRegisterAndLoginController(IEmailService emailService, IAccountRepository accountRepo)
+        public ConsumerRegisterAndLoginController(ApplicationDbContext dbcontect, UserManager<IdentityUser> userManager, IEmailService emailService, IAccountRepository accountRepo)
         {
             _accountRepo = accountRepo;
+            _dbcontect = dbcontect;
+            _userManager = userManager;
             _emailService = emailService;
         }
 
@@ -33,7 +43,6 @@ namespace ParcelHub.Controllers
         {
             if (ModelState.IsValid)
             {
-
                 var result = await _accountRepo.CreateUserAsync(invalidUser);
                 if (!result.Succeeded)
                 {
@@ -43,9 +52,6 @@ namespace ParcelHub.Controllers
                     }
                     return View(invalidUser);
                 }
-
-
-
 
                 ModelState.Clear();
             }
@@ -78,15 +84,17 @@ namespace ParcelHub.Controllers
                 if (result.IsNotAllowed)
                 {
                     ModelState.AddModelError("", "Email not verified");
-
                 }
-                else {
+                else
+                {
                     ModelState.AddModelError("", "Crediential error");
                 }
-                
+
             }
             return View();
         }
+
+
 
         // LogOut
         public async Task<IActionResult> ConsumerLogOut()
@@ -98,19 +106,58 @@ namespace ParcelHub.Controllers
         [HttpGet("confirm-email")]
         public async Task<IActionResult> ConfirmEmailVarification(string uid, string token)
         {
+            
+
+
             if (!string.IsNullOrEmpty(uid) && !string.IsNullOrEmpty(token))
             {
+                var user = await _userManager.FindByEmailAsync(uid);
+                if (user.EmailConfirmed == true)
+                {
+                    // if already varified => 2
+                    ViewBag.Flag = 2;
+                    return View();
+                }
                 token = token.Replace(" ", "+");
+
                 var result = await _accountRepo.ConfirmVarification(uid, token);
                 if (result.Succeeded)
                 {
-                    ViewBag.Flag = true;
+                    //if successfully varifed =>1
+                    await CopyIdentityAsConsumer(user,uid);
+                    ViewBag.Flag = 1;
                     return View(); ;
-
                 }
             }
-            ViewBag.Flag = false;
+            //error => 0
+            ViewBag.Flag = 0;
             return View();
+        }
+
+        // copy this to consumerTable
+        private async Task<IActionResult> CopyIdentityAsConsumer(IdentityUser user,string uid)
+        {
+           
+            var Exist =  _dbcontect.Consumer
+                .Where(user => user.Email == uid);
+
+            if (user != null)
+            {
+               Consumer consumer = new Consumer()
+            {
+                Email = user.Email,
+                Password = user.PasswordHash,
+               LastName="Please update Last Name",
+               FirstName ="Please update First Name"
+               };
+
+
+            _dbcontect.Add(consumer);
+            await _dbcontect.SaveChangesAsync();  
+            }
+           
+            return null;
+
         }
     }
 }

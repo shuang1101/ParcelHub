@@ -3,13 +3,17 @@
 *@
 
 
-@if (ViewBag.Flag == true)
+@if (ViewBag.Flag == 1)
 {
-<h1 class="alert-success"> Verified</h1>
+    <h1 class="alert-success"> Verified</h1>
 }
-else
+else if (ViewBag.Flag == 0)
 {
-<h1 class="alert-danger">Error </h1>
+    <h1 class="alert-danger">Error </h1>
+}
+else if (ViewBag.Flag == 2)
+{
+    <h1 class="alert-warning">Already Verified </h1>
 }
 
 

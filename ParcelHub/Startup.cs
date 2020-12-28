@@ -4,12 +4,14 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using ParcelHub.DatabaseConnection;
 using ParcelHub.Models;
 using ParcelHub.ServiceRepository;
 using System;
+
 
 namespace ParcelHub
 {
@@ -44,9 +46,13 @@ namespace ParcelHub
 
             services.AddRazorPages().AddRazorRuntimeCompilation();
 
+            services.AddScoped<IUserSerivce, UserSerivce>();
+
             services.AddScoped<IEmailService, EmailService>();
 
             services.AddScoped<IAccountRepository, AccountRepository>();
+
+            
 
             services.Configure<SMTPConfig>(Configuration.GetSection("SMTPConfig"));
 
@@ -100,6 +106,7 @@ namespace ParcelHub
                 app.UseHsts();
             }
             app.UseHttpsRedirection();
+
             app.UseStaticFiles();
 
             app.UseRouting();

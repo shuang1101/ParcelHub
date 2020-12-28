@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿
+using Microsoft.AspNetCore.Identity;
 using ParcelHub.Models;
 using System;
 using System.Collections.Generic;
@@ -21,7 +22,7 @@ namespace ParcelHub.Controllers
 
         public string PostCode { get; set; }
 
-   
+
 
     }
 }

@@ -3,8 +3,22 @@
 }
 
 <h1>@ViewBag.Key</h1>
-<h3>YOYOYO</h3>
+
+
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
+
+
+
+
+    <a asp-controller="ConsumerAddresses" asp-action="index">user can CURD their own shipping address</a>
+    <hr>
+
+    <a  asp-area="" asp-controller="HomePageNews" asp-action="Index">This is for the news and image for home page</a>
+
+<hr>
+    <a  asp-area="" asp-controller="Parcels" asp-action="Index">user can CURD their own Parcel</a>
+    <hr>
+    <a asp-area="" asp-controller="Consumers" asp-action="Index">user can CURD their own Profile</a>

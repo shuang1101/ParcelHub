@@ -12,6 +12,12 @@
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ShippmentId)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ShippmentId)
+        </dd>
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.OriginTrackingNumber)
         </dt>
         <dd class = "col-sm-10">
@@ -64,6 +70,24 @@
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Inbound)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ArriveInDestination)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ArriveInDestination)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.TransitStatus)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.TransitStatus)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.DestinationDeliverMethod)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DestinationDeliverMethod)
         </dd>
     </dl>
     
