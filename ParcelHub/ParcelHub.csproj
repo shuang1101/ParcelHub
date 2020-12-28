@@ -5,6 +5,20 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="EmailTemplates\templateForConsumerFirstTimeVerified.html" />
+    <None Remove="EmailTemplates\templateForNewRegistationVerification.html" />
+    <None Remove="EmailTemplates\templateForParcelStatusChange.html" />
+    <None Remove="EmailTemplates\templateForShippmentConfirmation.html" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="EmailTemplates\templateForNewRegistationVerification.html" />
+    <Content Include="EmailTemplates\templateForShippmentConfirmation.html" />
+    <Content Include="EmailTemplates\templateForParcelStatusChange.html" />
+    <Content Include="EmailTemplates\templateForConsumerFirstTimeVerified.html" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="log4net" Version="2.0.12" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="5.0.1" />

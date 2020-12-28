@@ -30,17 +30,25 @@ namespace ParcelHub
                 options => options.UseSqlServer(Configuration.
                 GetConnectionString("DefaultConnection"))
                 );
+            // Add identitfy service Dbcontext also need to be changed to IdetityDbContxt
+            services.AddDefaultIdentity<IdentityUser>
+                (options => options.SignIn.RequireConfirmedEmail = true)
+        .AddEntityFrameworkStores<ApplicationDbContext>()
+        .AddDefaultTokenProviders();
 
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
-        .AddEntityFrameworkStores<ApplicationDbContext>();
+           
             services.AddRazorPages();
 
-
+            // Basic MVC Frame
             services.AddControllersWithViews();
+
             services.AddRazorPages().AddRazorRuntimeCompilation();
 
+            services.AddScoped<IEmailService, EmailService>();
 
             services.AddScoped<IAccountRepository, AccountRepository>();
+
+            services.Configure<SMTPConfig>(Configuration.GetSection("SMTPConfig"));
 
             services.Configure<IdentityOptions>(options =>
             {
