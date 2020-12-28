@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using ParcelHub.DatabaseConnection;
 using ParcelHub.Models;
+using ParcelHub.ServiceRepository;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -14,11 +15,13 @@ namespace ParcelHub.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly ApplicationDbContext _dbContext;
+        private readonly IEmailService _emailService;
 
-        public HomeController(ILogger<HomeController> logger,ApplicationDbContext dbContext)
+        public HomeController(IEmailService emailService, ILogger<HomeController> logger,ApplicationDbContext dbContext)
         {
             _logger = logger;
             _dbContext = dbContext;
+            _emailService = emailService;
         }
 
         public IActionResult Index()
@@ -39,5 +42,22 @@ namespace ParcelHub.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        public async Task<IActionResult> Test()
+        {
+            UserEmailOption option = new UserEmailOption
+            {
+                Receiver = new List<string> { "lb87@hotmail.com"}
+               
+            };
+            await  _emailService.SendtestEmail(option);
+           
+
+
+
+            return View();
+        }
+
+
     }
 }

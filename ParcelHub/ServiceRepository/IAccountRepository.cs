@@ -8,6 +8,7 @@ namespace ParcelHub.ServiceRepository
     {
         Task<IdentityResult> CreateUserAsync(InValidUser invalidUser);
         Task<SignInResult> PasswordSignInAsync(LoginUser loginUser);
+        Task<IdentityResult> ConfirmVarification(string uid, string token);
         Task SignOutAsync();
     }
 }
