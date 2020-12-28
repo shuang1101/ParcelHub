@@ -11,7 +11,6 @@ namespace ParcelHub.Models
     {
         // Each Shippment contains many Parcels
         // Each parcel can only be in one and only one Shippment
-        public ICollection<Parcel> Parcels { get; set; }
         [Key]
         public int Id { get; set; }
 
@@ -28,31 +27,18 @@ namespace ParcelHub.Models
         //[ForeignKey("Id")]
         //public Parcel Parcel { get; set; }
 
-        [ForeignKey("Id")]
-        public ServiceProviderUser ServiceProviderUser { get; set; }
+        
+        public string ServiceProviderUserId { get; set; }
 
 
         public string Origin { get; set; }
 
         public string Destination { get; set; }
-       public enum TrackingStatus
-        {
-            AwaitingInbound,
-            ReceivedAtOrigin,
-            InTransit,
-            ArrivedAtOrigin,
-            Released
-        }
+      
 
-        [ForeignKey("Id")]
-        public ShippingContainer ShippingContainer { get; set; }
+        public int ShippingContainerId { get; set; }
 
-        public enum DeliverMethods
-        {
-            ClientWillPickUp,
-            RequireDeliver,
-            Others
-        }
+       
         public bool RequiredInsurance { get; set; }
        
 }

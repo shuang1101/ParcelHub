@@ -10,8 +10,8 @@ using ParcelHub.DatabaseConnection;
 namespace ParcelHub.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201227090826_add identitydbcntext")]
-    partial class addidentitydbcntext
+    [Migration("20201228063921_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -237,6 +237,9 @@ namespace ParcelHub.Migrations
                     b.Property<string>("Country")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("IdentityUserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("PostCode")
                         .HasColumnType("nvarchar(max)");
 
@@ -249,6 +252,8 @@ namespace ParcelHub.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ConsumerEmail");
+
+                    b.HasIndex("IdentityUserId");
 
                     b.ToTable("ConsumerAddress");
                 });
@@ -349,6 +354,29 @@ namespace ParcelHub.Migrations
                     b.ToTable("Invoice");
                 });
 
+            modelBuilder.Entity("ParcelHub.Models.LoginUser", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("RememberMe")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("LoginUser");
+                });
+
             modelBuilder.Entity("ParcelHub.Models.Parcel", b =>
                 {
                     b.Property<int>("Id")
@@ -362,7 +390,13 @@ namespace ParcelHub.Migrations
                     b.Property<float>("ActualWeight")
                         .HasColumnType("real");
 
+                    b.Property<DateTime>("ArriveInDestination")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DestinationDeliverMethod")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<float>("EstimateVolume")
@@ -386,9 +420,10 @@ namespace ParcelHub.Migrations
                     b.Property<int>("ShippmentId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.Property<string>("TransitStatus")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasIndex("ShippmentId");
+                    b.HasKey("Id");
 
                     b.ToTable("Parcel");
                 });
@@ -459,7 +494,9 @@ namespace ParcelHub.Migrations
             modelBuilder.Entity("ParcelHub.Models.Shippment", b =>
                 {
                     b.Property<int>("Id")
-                        .HasColumnType("int");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
 
                     b.Property<string>("Destination")
                         .HasColumnType("nvarchar(max)");
@@ -475,6 +512,12 @@ namespace ParcelHub.Migrations
 
                     b.Property<string>("SPTackingNumber")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ServiceProviderUserId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ShippingContainerId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -539,6 +582,12 @@ namespace ParcelHub.Migrations
                     b.HasOne("ParcelHub.Models.Consumer", null)
                         .WithMany("ConsumerAddresses")
                         .HasForeignKey("ConsumerEmail");
+
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "IdentityUser")
+                        .WithMany()
+                        .HasForeignKey("IdentityUserId");
+
+                    b.Navigation("IdentityUser");
                 });
 
             modelBuilder.Entity("ParcelHub.Models.Invoice", b =>
@@ -552,48 +601,18 @@ namespace ParcelHub.Migrations
                     b.Navigation("Shippment");
                 });
 
-            modelBuilder.Entity("ParcelHub.Models.Parcel", b =>
-                {
-                    b.HasOne("ParcelHub.Models.Shippment", null)
-                        .WithMany("Parcels")
-                        .HasForeignKey("ShippmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("ParcelHub.Models.Shippment", b =>
                 {
                     b.HasOne("ParcelHub.Models.Consumer", "Consumer")
                         .WithMany()
                         .HasForeignKey("Email");
 
-                    b.HasOne("ParcelHub.Models.ServiceProviderUser", "ServiceProviderUser")
-                        .WithMany()
-                        .HasForeignKey("Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ParcelHub.Models.ShippingContainer", "ShippingContainer")
-                        .WithMany()
-                        .HasForeignKey("Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Consumer");
-
-                    b.Navigation("ServiceProviderUser");
-
-                    b.Navigation("ShippingContainer");
                 });
 
             modelBuilder.Entity("ParcelHub.Models.Consumer", b =>
                 {
                     b.Navigation("ConsumerAddresses");
-                });
-
-            modelBuilder.Entity("ParcelHub.Models.Shippment", b =>
-                {
-                    b.Navigation("Parcels");
                 });
 #pragma warning restore 612, 618
         }

@@ -26,15 +26,39 @@ namespace ParcelHub.Models
 
 
         public string OriginTrackingNumber { get; set; }
+
+        [Required]
+        [MaxLength(150)]
         public string Description { get; set; }
+
+        [Required]
+        
         public float EstimateWeight { get; set; }
-        public float ActualWeight { get; set; }
+
+       
+        [Required]
+        
         public float EstimateVolume { get; set; }
+
+       
         public float ActualVolume { get; set; }
+        
+        public float ActualWeight { get; set; }
+
+        [Required]
+     
         public float ItemValue { get; set; }
+       
         public string Reference { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime Inbound { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public DateTime ArriveInDestination { get; set; }
+        public string TransitStatus { get; set; }
+        public string DestinationDeliverMethod { get; set; }
+
+
     }
 }

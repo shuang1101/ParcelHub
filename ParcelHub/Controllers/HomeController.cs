@@ -43,21 +43,7 @@ namespace ParcelHub.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        public async Task<IActionResult> Test()
-        {
-            UserEmailOption option = new UserEmailOption
-            {
-                Receiver = new List<string> { "lb87@hotmail.com"}
-               
-            };
-            await  _emailService.SendtestEmail(option);
-           
-
-
-
-            return View();
-        }
-
+    
 
     }
 }

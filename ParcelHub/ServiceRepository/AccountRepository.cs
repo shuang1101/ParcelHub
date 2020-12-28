@@ -14,14 +14,18 @@ namespace ParcelHub.ServiceRepository
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly IEmailService _emailService;
         private readonly IConfiguration _configuration;
+        private readonly IUserSerivce _userService;
+
         public AccountRepository(
             IEmailService emailService,
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
-            IConfiguration configuration
+            IConfiguration configuration,
+            IUserSerivce userService
             )
         {
             _configuration = configuration;
+            _userService = userService;
             _userManager = userManager;
             _signInManager = signInManager;
             _emailService = emailService;
@@ -37,7 +41,7 @@ namespace ParcelHub.ServiceRepository
             };
             // pass userModel + password => save in DB
             var result = await _userManager.CreateAsync(user, invalidUser.Password);
-            
+
             // If Succeed, send client email ask for varificaiton email address
             if (result.Succeeded)
             {
@@ -45,14 +49,14 @@ namespace ParcelHub.ServiceRepository
                 if (!string.IsNullOrEmpty(token))
                 {
                     // replace actual token and username with placeholders
-                   UserEmailOption userEmailOption = CompleteReturnString(user, token);
+                    UserEmailOption userEmailOption = CompleteReturnString(user, token);
                     //send Verification Email
-                  await _emailService.SendConsumerAccountVerification(userEmailOption);
+                    await _emailService.SendConsumerAccountVerification(userEmailOption);
                 }
             }
             return result;
         }
-        
+
 
         public async Task<SignInResult> PasswordSignInAsync(LoginUser loginUser)
         {
@@ -64,7 +68,7 @@ namespace ParcelHub.ServiceRepository
         // confirm if uid and token matches 
         public async Task<IdentityResult> ConfirmVarification(string uid, string token)
         {
-           var result = await _userManager.ConfirmEmailAsync(await _userManager.FindByNameAsync(uid), token);
+            var result = await _userManager.ConfirmEmailAsync(await _userManager.FindByNameAsync(uid), token);
             return result;
         }
 
@@ -80,7 +84,7 @@ namespace ParcelHub.ServiceRepository
 
         // complete the content in Varification email
 
-        private UserEmailOption CompleteReturnString(IdentityUser user,string token)
+        private UserEmailOption CompleteReturnString(IdentityUser user, string token)
         {
             string appDomain = _configuration
                        .GetSection("EmailVerification:AppDomain").Value;
@@ -105,6 +109,17 @@ namespace ParcelHub.ServiceRepository
             return userEmailOption;
         }
 
+        public async Task<IdentityResult> ChangePasswordAsync(ChangePasswordUserModel model)
+        {
+
+            string Id = _userService.GetUserId();
+         
+                var user = await _userManager.FindByIdAsync(Id);
+               var result = await _userManager.ChangePasswordAsync(user, model.CurrentPassword, model.ConfirmNewPassword);
+            
+
+            return result;
+        }
 
 
 
