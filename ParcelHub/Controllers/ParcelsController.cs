@@ -7,22 +7,29 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ParcelHub.DatabaseConnection;
 using ParcelHub.Models;
+using ParcelHub.ServiceRepository;
+
 
 namespace ParcelHub.Controllers
 {
     public class ParcelsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IUserSerivce _userService;
 
-        public ParcelsController(ApplicationDbContext context)
+        public ParcelsController(ApplicationDbContext context,IUserSerivce userService)
         {
             _context = context;
+            _userService = userService;
         }
 
         // GET: Parcels
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Parcel.ToListAsync());
+            var result = _context.Parcel
+                .Where(parcel=>parcel.IdentityUserId==_userService.GetUserId());
+
+            return View(await result.ToListAsync());
         }
 
         // GET: Parcels/Details/5
@@ -58,6 +65,9 @@ namespace ParcelHub.Controllers
         {
             if (ModelState.IsValid)
             {
+                parcel.IdentityUserId = _userService.GetUserId();
+                parcel.JobCreated = DateTime.Now;
+                parcel.JobLastEdit = DateTime.Now;
                 _context.Add(parcel);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -86,7 +96,7 @@ namespace ParcelHub.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,ShippmentId,OriginTrackingNumber,Description,EstimateWeight,ActualWeight,EstimateVolume,ActualVolume,ItemValue,Reference,Inbound,ArriveInDestination,TransitStatus,DestinationDeliverMethod")] Parcel parcel)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,ShippmentId,JobCreated,OriginTrackingNumber,Description,EstimateWeight,ActualWeight,EstimateVolume,ActualVolume,ItemValue,Reference,TransitStatus,DestinationDeliverMethod")] Parcel parcel)
         {
             if (id != parcel.Id)
             {
@@ -97,6 +107,8 @@ namespace ParcelHub.Controllers
             {
                 try
                 {
+                    parcel.JobLastEdit = DateTime.Now;
+                    parcel.IdentityUserId = _userService.GetUserId();
                     _context.Update(parcel);
                     await _context.SaveChangesAsync();
                 }

@@ -10,12 +10,7 @@
     <h4>Consumer</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Id)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Id)
-        </dd>
+        
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.LastName)
         </dt>
@@ -34,12 +29,7 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.MobileNumber)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Password)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Password)
-        </dd>
+      
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.IsValid)
         </dt>
@@ -49,6 +39,6 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Email">Edit</a> |
+    <a asp-action="Edit" asp-route-id="@Model.IdentityUserId">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>

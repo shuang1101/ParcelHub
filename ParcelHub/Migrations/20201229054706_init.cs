@@ -47,20 +47,18 @@ namespace ParcelHub.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Consumer",
+                name: "ChangePasswordUserModel",
                 columns: table => new
                 {
-                    Email = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Id = table.Column<int>(type: "int", nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    MobileNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Password = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    IsValid = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CurrentPassword = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    NewPassword = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ConfirmNewPassword = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Consumer", x => x.Email);
+                    table.PrimaryKey("PK_ChangePasswordUserModel", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -107,31 +105,6 @@ namespace ParcelHub.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_LoginUser", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Parcel",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ShippmentId = table.Column<int>(type: "int", nullable: false),
-                    OriginTrackingNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    EstimateWeight = table.Column<float>(type: "real", nullable: false),
-                    ActualWeight = table.Column<float>(type: "real", nullable: false),
-                    EstimateVolume = table.Column<float>(type: "real", nullable: false),
-                    ActualVolume = table.Column<float>(type: "real", nullable: false),
-                    ItemValue = table.Column<float>(type: "real", nullable: false),
-                    Reference = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Inbound = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ArriveInDestination = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    TransitStatus = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DestinationDeliverMethod = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Parcel", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -278,6 +251,33 @@ namespace ParcelHub.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Consumer",
+                columns: table => new
+                {
+                    IdentityUserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    MobileNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IdentityUserId1 = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Password = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsValid = table.Column<bool>(type: "bit", nullable: false),
+                    DateRegisterd = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateTimeLastLogin = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Consumer", x => x.IdentityUserId);
+                    table.ForeignKey(
+                        name: "FK_Consumer_AspNetUsers_IdentityUserId1",
+                        column: x => x.IdentityUserId1,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ConsumerAddress",
                 columns: table => new
                 {
@@ -288,8 +288,7 @@ namespace ParcelHub.Migrations
                     State = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     City = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     StreetAddress = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PostCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ConsumerEmail = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    PostCode = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -300,11 +299,39 @@ namespace ParcelHub.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Parcel",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ShippmentId = table.Column<int>(type: "int", nullable: false),
+                    IdentityUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    OriginTrackingNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
+                    EstimateWeight = table.Column<float>(type: "real", nullable: false),
+                    EstimateVolume = table.Column<float>(type: "real", nullable: false),
+                    ActualVolume = table.Column<float>(type: "real", nullable: false),
+                    ActualWeight = table.Column<float>(type: "real", nullable: false),
+                    ItemValue = table.Column<float>(type: "real", nullable: false),
+                    Reference = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TransitStatus = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DestinationDeliverMethod = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Inbound = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ArriveInDestination = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    JobCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    JobLastEdit = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Parcel", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ConsumerAddress_Consumer_ConsumerEmail",
-                        column: x => x.ConsumerEmail,
-                        principalTable: "Consumer",
-                        principalColumn: "Email",
+                        name: "FK_Parcel_AspNetUsers_IdentityUserId",
+                        column: x => x.IdentityUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -315,7 +342,7 @@ namespace ParcelHub.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     SPTackingNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    IdentityUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     ServiceProviderUserId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Origin = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Destination = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -326,10 +353,10 @@ namespace ParcelHub.Migrations
                 {
                     table.PrimaryKey("PK_Shippment", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Shippment_Consumer_Email",
-                        column: x => x.Email,
-                        principalTable: "Consumer",
-                        principalColumn: "Email",
+                        name: "FK_Shippment_AspNetUsers_IdentityUserId",
+                        column: x => x.IdentityUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -392,9 +419,9 @@ namespace ParcelHub.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ConsumerAddress_ConsumerEmail",
-                table: "ConsumerAddress",
-                column: "ConsumerEmail");
+                name: "IX_Consumer_IdentityUserId1",
+                table: "Consumer",
+                column: "IdentityUserId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ConsumerAddress_IdentityUserId",
@@ -402,9 +429,14 @@ namespace ParcelHub.Migrations
                 column: "IdentityUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Shippment_Email",
+                name: "IX_Parcel_IdentityUserId",
+                table: "Parcel",
+                column: "IdentityUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Shippment_IdentityUserId",
                 table: "Shippment",
-                column: "Email");
+                column: "IdentityUserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -423,6 +455,12 @@ namespace ParcelHub.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "ChangePasswordUserModel");
+
+            migrationBuilder.DropTable(
+                name: "Consumer");
 
             migrationBuilder.DropTable(
                 name: "ConsumerAddress");
@@ -452,13 +490,10 @@ namespace ParcelHub.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
                 name: "Shippment");
 
             migrationBuilder.DropTable(
-                name: "Consumer");
+                name: "AspNetUsers");
         }
     }
 }

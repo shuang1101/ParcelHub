@@ -11,7 +11,7 @@ namespace ParcelHub.Models
     public class Consumer
     {
         //Each Consumer might have >=0 addresses
-        public List<ConsumerAddress> ConsumerAddresses { get; set; }
+       
         public int Id { get; set; }
 
         [Required]
@@ -21,9 +21,16 @@ namespace ParcelHub.Models
         [MaxLength(50)]
         public string FirstName { get; set; }
         public string MobileNumber { get; set; }
-        [Key]
+       
         public string Email { get; set; }
+         [Key]
+        public string IdentityUserId { get; set; }
+
         public string Password { get; set; }
         public bool IsValid { get; set; }
+
+        public DateTime DateRegisterd { get; set; }
+
+        public DateTime DateTimeLastLogin { get; set; }
     }
 }

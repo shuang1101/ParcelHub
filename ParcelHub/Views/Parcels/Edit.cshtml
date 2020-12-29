@@ -13,11 +13,7 @@
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="ShippmentId" class="control-label"></label>
-                <input asp-for="ShippmentId" class="form-control" />
-                <span asp-validation-for="ShippmentId" class="text-danger"></span>
-            </div>
+            <input type="hidden" asp-for="JobCreated" />
             <div class="form-group">
                 <label asp-for="OriginTrackingNumber" class="control-label"></label>
                 <input asp-for="OriginTrackingNumber" class="form-control" />
@@ -58,16 +54,7 @@
                 <input asp-for="Reference" class="form-control" />
                 <span asp-validation-for="Reference" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Inbound" class="control-label"></label>
-                <input asp-for="Inbound" class="form-control" />
-                <span asp-validation-for="Inbound" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ArriveInDestination" class="control-label"></label>
-                <input asp-for="ArriveInDestination" class="form-control" />
-                <span asp-validation-for="ArriveInDestination" class="text-danger"></span>
-            </div>
+            
             <div class="form-group">
                 <label asp-for="TransitStatus" class="control-label"></label>
                 <input asp-for="TransitStatus" class="form-control" />
