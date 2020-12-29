@@ -89,7 +89,6 @@ namespace ParcelHub.Models
             {
                 return NotFound();
             }
-            ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", consumerAddress.IdentityUserId);
             return View(consumerAddress);
         }
 
@@ -98,7 +97,7 @@ namespace ParcelHub.Models
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdentityUserId,Id,Country,State,City,StreetAddress,PostCode")] ConsumerAddress consumerAddress)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Country,State,City,StreetAddress,PostCode")] ConsumerAddress consumerAddress)
         {
             if (id != consumerAddress.Id)
             {
@@ -109,6 +108,7 @@ namespace ParcelHub.Models
             {
                 try
                 {
+                    consumerAddress.IdentityUserId = _userService.GetUserId();
                     _context.Update(consumerAddress);
                     await _context.SaveChangesAsync();
                 }
@@ -125,7 +125,6 @@ namespace ParcelHub.Models
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", consumerAddress.IdentityUserId);
             return View(consumerAddress);
         }
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -16,8 +17,8 @@ namespace ParcelHub.Models
 
         public string SPTackingNumber { get; set; }
 
-        [ForeignKey("Email")]
-        public Consumer Consumer { get; set; }
+        public string IdentityUserId { get; set; }
+        public IdentityUser IdentityUser { get; set; }
         //BROWN
         // Introducing FOREIGN KEY constraint 'FK_Shippment_parcel_Id' 
         //on table 'Shippment' may cause cycles or multiple cascade paths.
@@ -27,7 +28,7 @@ namespace ParcelHub.Models
         //[ForeignKey("Id")]
         //public Parcel Parcel { get; set; }
 
-        
+
         public string ServiceProviderUserId { get; set; }
 
 

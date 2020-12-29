@@ -36,7 +36,6 @@ namespace ParcelHub.DatabaseConnection
        
         public DbSet<ParcelHub.Models.ChangePasswordUserModel> ChangePasswordUserModel { get; set; }
        
-        public DbSet<ParcelHub.Models.PackagePerClient> PackagePerClient { get; set; }
         
     }
 }

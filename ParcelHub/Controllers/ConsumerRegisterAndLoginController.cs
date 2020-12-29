@@ -143,12 +143,14 @@ namespace ParcelHub.Controllers
 
             if (user != null)
             {
-               Consumer consumer = new Consumer()
-            {
-                Email = user.Email,
-                Password = user.PasswordHash,
-               LastName="Please update Last Name",
-               FirstName ="Please update First Name"
+                Consumer consumer = new Consumer()
+                {
+                    IdentityUserId = user.Id,
+                    Email = user.Email,
+                    Password = user.PasswordHash,
+                    LastName = "Please update Last Name",
+                    FirstName = "Please update First Name",
+                    DateRegisterd = DateTime.Now 
                };
 
 
