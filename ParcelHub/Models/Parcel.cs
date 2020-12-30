@@ -49,6 +49,7 @@ namespace ParcelHub.Models
         public string TransitStatus { get; set; }
         public string DestinationDeliverMethod { get; set; }
 
+        public int Amount { get; set; }
 
         //Record the time when origin scanned the parcel
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd H:mm}", ApplyFormatInEditMode = true)]

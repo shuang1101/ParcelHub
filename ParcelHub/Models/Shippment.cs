@@ -10,6 +10,8 @@ namespace ParcelHub.Models
 {
     public class Shippment
     {
+
+
         // Each Shippment contains many Parcels
         // Each parcel can only be in one and only one Shippment
         [Key]

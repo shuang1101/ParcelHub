@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -9,30 +10,30 @@ using ParcelHub.DatabaseConnection;
 using ParcelHub.Models;
 using ParcelHub.ServiceRepository;
 
-
 namespace ParcelHub.Controllers
 {
-    public class ParcelsController : Controller
+    public class ConsumerShippmentsController : Controller
     {
         private readonly ApplicationDbContext _context;
         private readonly IUserSerivce _userService;
+        private readonly UserManager<IdentityUser> _userManger;
 
-        public ParcelsController(ApplicationDbContext context,IUserSerivce userService)
+        public ConsumerShippmentsController(ApplicationDbContext context,
+            IUserSerivce userService)
         {
             _context = context;
             _userService = userService;
+
         }
 
-        // GET: Parcels
+        // GET: ConsumerShippments
         public async Task<IActionResult> Index()
         {
-            var result = _context.Parcel
-                .Where(parcel=>parcel.IdentityUserId==_userService.GetUserId());
-
-            return View(await result.ToListAsync());
+            var applicationDbContext = _context.Shippment.Include(s => s.IdentityUser);
+            return View(await applicationDbContext.ToListAsync());
         }
 
-        // GET: Parcels/Details/5
+        // GET: ConsumerShippments/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -40,42 +41,43 @@ namespace ParcelHub.Controllers
                 return NotFound();
             }
 
-            var parcel = await _context.Parcel
+            var shippment = await _context.Shippment
+                .Include(s => s.IdentityUser)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (parcel == null)
+            if (shippment == null)
             {
                 return NotFound();
             }
 
-            return View(parcel);
+            return View(shippment);
         }
 
-        // GET: Parcels/Create
+        // GET: ConsumerShippments/Create
         public IActionResult Create()
         {
+            ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id");
             return View();
         }
 
-        // POST: Parcels/Create
+        // POST: ConsumerShippments/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,ShippmentId,OriginTrackingNumber,Description,EstimateWeight,EstimateVolume,ItemValue,Reference,DestinationDeliverMethod")] Parcel parcel)
+        public async Task<IActionResult> Create([Bind("Id,ServiceProviderUserId,Origin,Destination,RequiredInsurance")] Shippment shippment)
         {
             if (ModelState.IsValid)
             {
-                parcel.IdentityUserId = _userService.GetUserId();
-                parcel.JobCreated = DateTime.Now;
-                parcel.JobLastEdit = DateTime.Now;
-                _context.Add(parcel);
+                
+                shippment.IdentityUserId = _userService.GetUserId();
+                _context.Add(shippment);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(parcel);
+            return View(shippment);
         }
 
-        // GET: Parcels/Edit/5
+        // GET: ConsumerShippments/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -83,22 +85,22 @@ namespace ParcelHub.Controllers
                 return NotFound();
             }
 
-            var parcel = await _context.Parcel.FindAsync(id);
-            if (parcel == null)
+            var shippment = await _context.Shippment.FindAsync(id);
+            if (shippment == null)
             {
                 return NotFound();
             }
-            return View(parcel);
+            return View(shippment);
         }
 
-        // POST: Parcels/Edit/5
+        // POST: ConsumerShippments/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,ShippmentId,JobCreated,OriginTrackingNumber,Description,EstimateWeight,ActualWeight,EstimateVolume,ActualVolume,ItemValue,Reference,TransitStatus,DestinationDeliverMethod")] Parcel parcel)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,SPTackingNumber,IdentityUserId,ServiceProviderUserId,Origin,Destination,ShippingContainerId,RequiredInsurance")] Shippment shippment)
         {
-            if (id != parcel.Id)
+            if (id != shippment.Id)
             {
                 return NotFound();
             }
@@ -107,14 +109,12 @@ namespace ParcelHub.Controllers
             {
                 try
                 {
-                    parcel.JobLastEdit = DateTime.Now;
-                    parcel.IdentityUserId = _userService.GetUserId();
-                    _context.Update(parcel);
+                    _context.Update(shippment);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ParcelExists(parcel.Id))
+                    if (!ShippmentExists(shippment.Id))
                     {
                         return NotFound();
                     }
@@ -125,10 +125,11 @@ namespace ParcelHub.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(parcel);
+            ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", shippment.IdentityUserId);
+            return View(shippment);
         }
 
-        // GET: Parcels/Delete/5
+        // GET: ConsumerShippments/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -136,36 +137,31 @@ namespace ParcelHub.Controllers
                 return NotFound();
             }
 
-            var parcel = await _context.Parcel
+            var shippment = await _context.Shippment
+                .Include(s => s.IdentityUser)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (parcel == null)
+            if (shippment == null)
             {
                 return NotFound();
             }
 
-            return View(parcel);
+            return View(shippment);
         }
 
-        // POST: Parcels/Delete/5
+        // POST: ConsumerShippments/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var parcel = await _context.Parcel.FindAsync(id);
-            _context.Parcel.Remove(parcel);
+            var shippment = await _context.Shippment.FindAsync(id);
+            _context.Shippment.Remove(shippment);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ParcelExists(int id)
+        private bool ShippmentExists(int id)
         {
-            return _context.Parcel.Any(e => e.Id == id);
+            return _context.Shippment.Any(e => e.Id == id);
         }
-
-        public  IActionResult ParcelInformationForm()
-        {
-            return View();            
-        }
-
     }
 }

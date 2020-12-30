@@ -1,24 +1,16 @@
 ﻿@model IEnumerable<ParcelHub.Models.Parcel>
 
-@{
-    ViewData["Title"] = "Index";
-}
-
-<h1>Index</h1>
-
 <p>
     <a asp-action="Create">Create New</a>
-    <a asp-controller="ConsumerShippments" asp-action="Create">Create Shippment</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Id)
-            </th>
-
-            <th>
                 @Html.DisplayNameFor(model => model.ShippmentId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdentityUser)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.OriginTrackingNumber)
@@ -27,28 +19,40 @@
                 @Html.DisplayNameFor(model => model.Description)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Amount)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.EstimateWeight)
             </th>
-
             <th>
                 @Html.DisplayNameFor(model => model.EstimateVolume)
             </th>
-
+            <th>
+                @Html.DisplayNameFor(model => model.ActualVolume)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ActualWeight)
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.ItemValue)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Reference)
             </th>
-
             <th>
                 @Html.DisplayNameFor(model => model.TransitStatus)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.DestinationDeliverMethod)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Inbound)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ArriveInDestination)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.JobCreated)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.JobLastEdit)
             </th>
             <th></th>
         </tr>
@@ -57,11 +61,10 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-
-            <td>
                 @Html.DisplayFor(modelItem => item.ShippmentId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdentityUserId)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.OriginTrackingNumber)
@@ -70,28 +73,40 @@
                 @Html.DisplayFor(modelItem => item.Description)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Amount)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.EstimateWeight)
             </td>
-
             <td>
                 @Html.DisplayFor(modelItem => item.EstimateVolume)
             </td>
-
+            <td>
+                @Html.DisplayFor(modelItem => item.ActualVolume)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ActualWeight)
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.ItemValue)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Reference)
             </td>
-
             <td>
                 @Html.DisplayFor(modelItem => item.TransitStatus)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.DestinationDeliverMethod)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Inbound)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ArriveInDestination)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.JobCreated)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.JobLastEdit)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
