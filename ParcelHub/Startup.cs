@@ -56,6 +56,8 @@ namespace ParcelHub
 
             services.Configure<SMTPConfig>(Configuration.GetSection("SMTPConfig"));
 
+        
+
             services.Configure<IdentityOptions>(options =>
             {
                 // Password settings.
@@ -74,7 +76,7 @@ namespace ParcelHub
                 // User settings.
                 options.User.AllowedUserNameCharacters =
                 "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
-                options.User.RequireUniqueEmail = false;
+                options.User.RequireUniqueEmail = Configuration.GetValue<bool>("EmailVerification:RequireVerficationBeforeLogin");
             });
 
             services.ConfigureApplicationCookie(options =>

@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@inject ParcelHub.ServiceRepository.IUserSerivce userService
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -43,7 +44,7 @@
 
                     <div class="col-11 col-xl-2 site-logo">
 
-                        <h1 class="mb-0"><a href="" class="text-white h2 mb-0">KIWIPAECEL</a></h1>
+                        <h1 class="mb-0"><a href="index.html" class="text-white h2 mb-0">KIWIPAECEL</a></h1>
                     </div>
                     <div class="col-12 col-md-10 d-none d-xl-block">
                         <nav class="site-navigation position-relative text-right" role="navigation">
@@ -51,24 +52,41 @@
                                 <li><a class="nav-link" asp-controller="Home" asp-action="Index">Home</a></li>
                                 <li><a class="nav-link" asp-controller="Home" asp-action="Privacy">Privacy</a></li>
                                 <li class="has-children">
-                                    <a class="nav-link" asp-controller="ConsumerRegisterAndLogin" asp-action="ConsumerLogOut">Service</a>
+                                    <a class="nav-link" asp-controller="ConsumerRegisterAndLogin" asp-action="ConsumerLogOut"> LogOut</a>
                                     <ul class="dropdown">
                                         <li><a href="#section-how-it-works" class="nav-link">Customer Services</a></li>
                                         <li><a href="#section-our-team" class="nav-link">Our Team</a></li>
                                     </ul>
                                 </li>
-                                <li><a class="nav-link" asp-controller="Parcels" asp-action="Index">Controller</a></li>
-                                <li><a class="nav-link" asp-controller="HomePageNews" asp-action="Index">News</a></li>
 
-                                <li><a class="nav-link" asp-controller="ConsumerRegisterAndLogin" asp-action="ConsumerLogIn">Login</a></li>
-                                <li><a class="nav-link" asp-area="" asp-controller="ConsumerRegisterAndLogin" asp-action="ConsumerSignUp">SignUp</a></li>
-                                <li><a class="logo" asp-area="" asp-controller="" asp-action="">Ch<img src="~/images/logo.png" alt="mylogo"/></a></li>
+                                <li><a class="nav-link" asp-controller="" asp-action="">News</a></li>
+
+
+                                @{if (!userService.IsAuthenticated())
+                                    {
+                                        <li><a class="nav-link" asp-controller="ConsumerRegisterAndLogin" asp-action="ConsumerLogIn">Login</a></li>
+                                        <li><a class="nav-link" asp-area="" asp-controller="ConsumerRegisterAndLogin" asp-action="ConsumerSignUp">SignUp</a></li>
+                                    }
+                                }
+                           
+
+
+                                <li><a class="logo" asp-area="" asp-controller="" asp-action="">Ch<img src="~/images/logo.png" alt="mylogo" /></a></li>
+
+                                @{  if (userService.IsAuthenticated())
+                                    {
+
+                                        <li><p>welcome @userService.GetUserName() ! </p></li>
+                                    }
+                                }
+
+
                             </ul>
                         </nav>
                     </div>
 
 
-                    <div class="d-inline-block d-xl-none ml-md-0 mr-auto py-3" style="position: relative; top: 3px;"><a href="#" class="site-menu-toggle js-menu-toggle"><span class="icon-menu h3"></span></a></div>
+                   @*<div class="d-inline-block d-xl-none ml-md-0 mr-auto py-3" style="position: relative; top: 3px;"><a href="#" class="site-menu-toggle js-menu-toggle"><span class="icon-menu h3"></span></a></div>*@
 
                 </div>
 

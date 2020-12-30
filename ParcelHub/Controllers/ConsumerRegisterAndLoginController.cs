@@ -106,11 +106,12 @@ namespace ParcelHub.Controllers
         [HttpGet("confirm-email")]
         public async Task<IActionResult> ConfirmEmailVarification(string uid, string token)
         {
-            
 
+            ViewBag.IsLogIn = false;
 
             if (!string.IsNullOrEmpty(uid) && !string.IsNullOrEmpty(token))
             {
+
                 var user = await _userManager.FindByEmailAsync(uid);
                 if (user.EmailConfirmed == true)
                 {
@@ -124,8 +125,9 @@ namespace ParcelHub.Controllers
                 if (result.Succeeded)
                 {
                     //if successfully varifed =>1
-                    await CopyIdentityAsConsumer(user,uid);
+                    await CopyIdentityAsConsumer(user, uid);
                     ViewBag.Flag = 1;
+
                     return View(); ;
                 }
             }
@@ -135,10 +137,10 @@ namespace ParcelHub.Controllers
         }
 
         // copy this to consumerTable
-        private async Task<IActionResult> CopyIdentityAsConsumer(IdentityUser user,string uid)
+        private async Task<IActionResult> CopyIdentityAsConsumer(IdentityUser user, string uid)
         {
-           
-            var Exist =  _dbcontect.Consumer
+
+            var Exist = _dbcontect.Consumer
                 .Where(user => user.Email == uid);
 
             if (user != null)
@@ -148,16 +150,16 @@ namespace ParcelHub.Controllers
                     IdentityUserId = user.Id,
                     Email = user.Email,
                     Password = user.PasswordHash,
-                    LastName = "Please update Last Name",
-                    FirstName = "Please update First Name",
-                    DateRegisterd = DateTime.Now 
-               };
+                    LastName = "Please update",
+                    FirstName = "name",
+                    DateRegisterd = DateTime.Now
+                };
 
 
-            _dbcontect.Add(consumer);
-            await _dbcontect.SaveChangesAsync();  
+                _dbcontect.Add(consumer);
+                await _dbcontect.SaveChangesAsync();
             }
-           
+
             return null;
 
         }

@@ -15,18 +15,22 @@ namespace ParcelHub.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly ApplicationDbContext _dbContext;
+        private readonly IUserSerivce _userSerivce;
         private readonly IEmailService _emailService;
 
-        public HomeController(IEmailService emailService, ILogger<HomeController> logger,ApplicationDbContext dbContext)
+        public HomeController(IUserSerivce userSerivce, IEmailService emailService, ILogger<HomeController> logger,ApplicationDbContext dbContext)
         {
             _logger = logger;
             _dbContext = dbContext;
+            _userSerivce = userSerivce;
             _emailService = emailService;
         }
 
         public IActionResult Index()
         {
-            ViewBag.Key = "Hello world";
+           // ViewBag.IsLogIn = _userSerivce.IsAuthenticated();
+    
+          //  ViewBag.ConsumerName = _userSerivce.GetUserName();
             _logger.LogInformation("home page visit");
             
             return View();
