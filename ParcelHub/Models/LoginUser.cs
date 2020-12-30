@@ -20,9 +20,11 @@ namespace ParcelHub.Models
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
-
+       
         [Display(Name = "Remeber Me")]
    
         public bool RememberMe { get; set; }
+
+        
     }
 }

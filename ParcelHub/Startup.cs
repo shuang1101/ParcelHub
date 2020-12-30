@@ -11,7 +11,7 @@ using ParcelHub.DatabaseConnection;
 using ParcelHub.Models;
 using ParcelHub.ServiceRepository;
 using System;
-
+using System.IO;
 
 namespace ParcelHub
 {
@@ -109,7 +109,14 @@ namespace ParcelHub
             }
             app.UseHttpsRedirection();
 
-            app.UseStaticFiles();
+            
+            app.UseFileServer(new FileServerOptions
+            {
+                FileProvider = new PhysicalFileProvider(
+        Path.Combine(Directory.GetCurrentDirectory(), "StaticFile")),
+                RequestPath = "/StaticFile"
+            });
+           app.UseStaticFiles();
 
             app.UseRouting();
 

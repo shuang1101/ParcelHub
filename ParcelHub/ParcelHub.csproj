@@ -9,6 +9,29 @@
     <None Remove="EmailTemplates\templateForNewRegistationVerification.html" />
     <None Remove="EmailTemplates\templateForParcelStatusChange.html" />
     <None Remove="EmailTemplates\templateForShippmentConfirmation.html" />
+    <None Remove="StaticFile\images\.DS_Store" />
+    <None Remove="StaticFile\images\blog_1.jpg" />
+    <None Remove="StaticFile\images\blog_2.jpg" />
+    <None Remove="StaticFile\images\blog_34.jpg" />
+    <None Remove="StaticFile\images\cat.jpg" />
+    <None Remove="StaticFile\images\hero_bg_1.jpg" />
+    <None Remove="StaticFile\images\hero_bg_2.jpg" />
+    <None Remove="StaticFile\images\hero_bg_22.jpg" />
+    <None Remove="StaticFile\images\hero_bg_3.jpg" />
+    <None Remove="StaticFile\images\hero_bg_4.jpg" />
+    <None Remove="StaticFile\images\img_1.jpg" />
+    <None Remove="StaticFile\images\img_2.jpg" />
+    <None Remove="StaticFile\images\img_3.jpg" />
+    <None Remove="StaticFile\images\img_4.jpg" />
+    <None Remove="StaticFile\images\img_5.jpg" />
+    <None Remove="StaticFile\images\logo.jpg" />
+    <None Remove="StaticFile\images\logo.png" />
+    <None Remove="StaticFile\images\person_1.jpg" />
+    <None Remove="StaticFile\images\person_2.jpg" />
+    <None Remove="StaticFile\images\person_3.jpg" />
+    <None Remove="StaticFile\images\person_4.jpg" />
+    <None Remove="StaticFile\images\person_5.jpg" />
+    <None Remove="StaticFile\images\person_6.jpg" />
   </ItemGroup>
 
   <ItemGroup>
@@ -16,6 +39,99 @@
     <Content Include="EmailTemplates\templateForShippmentConfirmation.html" />
     <Content Include="EmailTemplates\templateForParcelStatusChange.html" />
     <Content Include="EmailTemplates\templateForConsumerFirstTimeVerified.html" />
+    <Content Include="StaticFile\images\.DS_Store">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="StaticFile\images\blog_1.jpg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="StaticFile\images\blog_2.jpg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="StaticFile\images\blog_34.jpg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="StaticFile\images\cat.jpg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="StaticFile\images\hero_bg_1.jpg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="StaticFile\images\hero_bg_2.jpg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="StaticFile\images\hero_bg_22.jpg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="StaticFile\images\hero_bg_3.jpg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="StaticFile\images\hero_bg_4.jpg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="StaticFile\images\img_1.jpg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="StaticFile\images\img_2.jpg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="StaticFile\images\img_3.jpg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="StaticFile\images\img_4.jpg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="StaticFile\images\img_5.jpg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="StaticFile\images\logo.jpg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="StaticFile\images\logo.png">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="StaticFile\images\person_1.jpg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="StaticFile\images\person_2.jpg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="StaticFile\images\person_3.jpg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="StaticFile\images\person_4.jpg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="StaticFile\images\person_5.jpg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="StaticFile\images\person_6.jpg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
@@ -38,7 +154,6 @@
 
   <ItemGroup>
     <Folder Include="Configurations\" />
-    <Folder Include="Data\" />
     <Folder Include="Models\" />
     <Folder Include="wwwroot\clientSide\css\" />
     <Folder Include="wwwroot\clientSide\images\" />
