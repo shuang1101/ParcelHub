@@ -1,0 +1,81 @@
+﻿@model ParcelHub.Models.Parcel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Parcel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="JobCreated" />
+            <div class="form-group">
+                <label asp-for="OriginTrackingNumber" class="control-label"></label>
+                <input asp-for="OriginTrackingNumber" class="form-control" />
+                <span asp-validation-for="OriginTrackingNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EstimateWeight" class="control-label"></label>
+                <input asp-for="EstimateWeight" class="form-control" />
+                <span asp-validation-for="EstimateWeight" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ActualWeight" class="control-label"></label>
+                <input asp-for="ActualWeight" class="form-control" />
+                <span asp-validation-for="ActualWeight" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EstimateVolume" class="control-label"></label>
+                <input asp-for="EstimateVolume" class="form-control" />
+                <span asp-validation-for="EstimateVolume" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ActualVolume" class="control-label"></label>
+                <input asp-for="ActualVolume" class="form-control" />
+                <span asp-validation-for="ActualVolume" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ItemValue" class="control-label"></label>
+                <input asp-for="ItemValue" class="form-control" />
+                <span asp-validation-for="ItemValue" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Reference" class="control-label"></label>
+                <input asp-for="Reference" class="form-control" />
+                <span asp-validation-for="Reference" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group">
+                <label asp-for="TransitStatus" class="control-label"></label>
+                <input asp-for="TransitStatus" class="form-control" />
+                <span asp-validation-for="TransitStatus" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DestinationDeliverMethod" class="control-label"></label>
+                <input asp-for="DestinationDeliverMethod" class="form-control" />
+                <span asp-validation-for="DestinationDeliverMethod" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
