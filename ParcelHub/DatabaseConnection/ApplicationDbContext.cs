@@ -30,7 +30,6 @@ namespace ParcelHub.DatabaseConnection
 
         public DbSet<ParcelHub.Models.HomePageNews> HomePageNews { get; set; }
         
-        public DbSet<ParcelHub.Models.ChangePasswordUserModel> ChangePasswordUserModel { get; set; }
        
         
     }

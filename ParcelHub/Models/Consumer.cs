@@ -32,5 +32,7 @@ namespace ParcelHub.Models
         public DateTime DateRegisterd { get; set; }
 
         public DateTime DateTimeLastLogin { get; set; }
+
+        public string WechatId { get; set; }
     }
 }

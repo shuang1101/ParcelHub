@@ -18,7 +18,10 @@ namespace ParcelHub.Models
 
         public int ShippmentId { get; set; }
 
-       // each parcel has a consumerID
+        public string SPTackingNumber { get; set; }
+        public string PackageLabelBarCode { get; set; } // = Tracking + box number if have multi box in one shippment
+
+        // each parcel has a consumerID
         public string IdentityUserId { get; set; }
         public IdentityUser IdentityUser { get; set; }
         public string OriginTrackingNumber { get; set; }
@@ -66,6 +69,8 @@ namespace ParcelHub.Models
         //Recrod the time when client last edit the job
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd H:mm}", ApplyFormatInEditMode = true)]
         public DateTime JobLastEdit { get; set; }
+
+
 
     }
 }

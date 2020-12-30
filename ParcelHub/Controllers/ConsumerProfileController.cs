@@ -55,5 +55,10 @@ namespace ParcelHub.Controllers
             ViewBag.Flag = false;
             return View(model);
         }
+
+        public IActionResult Index_LoggedIn()
+        {
+            return View();
+        }
     }
 }
