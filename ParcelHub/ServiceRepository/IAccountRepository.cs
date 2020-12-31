@@ -6,7 +6,7 @@ namespace ParcelHub.ServiceRepository
 {
     public interface IAccountRepository
     {
-        Task<IdentityResult> CreateUserAsync(InValidUser invalidUser);
+        Task<IdentityResult> CreateUserAsync(SignUpUser signUpUser);
         Task<SignInResult> PasswordSignInAsync(LoginUser loginUser);
         Task<IdentityResult> ConfirmVarification(string uid, string token);
         Task SignOutAsync();

@@ -38,7 +38,7 @@ namespace ParcelHub
         .AddEntityFrameworkStores<ApplicationDbContext>()
         .AddDefaultTokenProviders();
 
-           
+
             services.AddRazorPages();
 
             // Basic MVC Frame
@@ -52,11 +52,11 @@ namespace ParcelHub
 
             services.AddScoped<IAccountRepository, AccountRepository>();
 
-            
+
 
             services.Configure<SMTPConfig>(Configuration.GetSection("SMTPConfig"));
 
-        
+
 
             services.Configure<IdentityOptions>(options =>
             {
@@ -109,20 +109,20 @@ namespace ParcelHub
             }
             app.UseHttpsRedirection();
 
-            
-            app.UseFileServer(new FileServerOptions
-            {
-                FileProvider = new PhysicalFileProvider(
-        Path.Combine(Directory.GetCurrentDirectory(), "StaticFile")),
-                RequestPath = "/StaticFile"
-            });
-           app.UseStaticFiles();
+
+
+            app.UseStaticFiles();
 
             app.UseRouting();
 
             app.UseAuthentication();
             app.UseAuthorization();
-
+            app.UseFileServer(new FileServerOptions
+            {
+                FileProvider = new PhysicalFileProvider(
+                    Path.Combine(Directory.GetCurrentDirectory(), "StaticFile")),
+                RequestPath = "/StaticFile"
+            });
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

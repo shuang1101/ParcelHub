@@ -30,27 +30,57 @@ namespace ParcelHub.Controllers
             _emailService = emailService;
         }
 
-        [Route("signup")]
-        public IActionResult ConsumerSignUp()
+        [Route("signup-email")]
+        public IActionResult ConsumerSignUpByEmail()
         {
             return View();
         }
 
-
-        [Route("signup")]
-        [HttpPost]
-        public async Task<IActionResult> ConsumerSignUp(InValidUser invalidUser)
+        [Route("signup-number")]
+        public IActionResult ConsumerSignUpByNumber()
         {
+            return View();
+        }
+
+        [Route("signup-email")]
+        [HttpPost]
+        public async Task<IActionResult> ConsumerSignUpByEmail(SignUpUser User)
+        {
+            
             if (ModelState.IsValid)
             {
-                var result = await _accountRepo.CreateUserAsync(invalidUser);
+                var result = await _accountRepo.CreateUserAsync(User);
                 if (!result.Succeeded)
                 {
                     foreach (var errorMessage in result.Errors)
                     {
                         ModelState.AddModelError("", errorMessage.Description);
                     }
-                    return View(invalidUser);
+                    return View(User);
+                }
+
+                ModelState.Clear();
+            }
+            return View();
+        }
+
+
+        [Route("signup-number")]
+        [HttpPost]
+
+        public async Task<IActionResult> ConsumerSignUpByNumber(SignUpUser User)
+        {
+            
+            if (ModelState.IsValid)
+            {
+                var result = await _accountRepo.CreateUserAsync(User);
+                if (!result.Succeeded)
+                {
+                    foreach (var errorMessage in result.Errors)
+                    {
+                        ModelState.AddModelError("", errorMessage.Description);
+                    }
+                    return View(User);
                 }
 
                 ModelState.Clear();
@@ -161,6 +191,22 @@ namespace ParcelHub.Controllers
 
             return null;
 
+        }
+
+        public IActionResult NeedHelpPage()
+        {
+            return View();
+        }
+
+
+        public IActionResult ReSendEmail()
+        {
+            return View();
+        }
+
+        public IActionResult ForgetPassword()
+        {
+            return View();
         }
     }
 }

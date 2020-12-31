@@ -32,27 +32,36 @@ namespace ParcelHub.ServiceRepository
         }
 
         // Create User + send varification email
-        public async Task<IdentityResult> CreateUserAsync(InValidUser invalidUser)
+        public async Task<IdentityResult> CreateUserAsync(SignUpUser signUpUser)
         {
             var user = new IdentityUser()
             {
-                Email = invalidUser.Email,
-                UserName = invalidUser.Email
+                Email = signUpUser.Email,
+                UserName = signUpUser.Email,
+                PhoneNumber = signUpUser.MobileNumber
             };
             // pass userModel + password => save in DB
-            var result = await _userManager.CreateAsync(user, invalidUser.Password);
+            var result = await _userManager.CreateAsync(user, signUpUser.Password);
 
             // If Succeed, send client email ask for varificaiton email address
             if (result.Succeeded)
             {
+                if (user.PhoneNumberConfirmed == true)
+                {
+                    return result;
+                }
+
                 var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                 if (!string.IsNullOrEmpty(token))
                 {
                     // replace actual token and username with placeholders
                     UserEmailOption userEmailOption = CompleteReturnString(user, token);
                     //send Verification Email
-                    await _emailService.SendConsumerAccountVerification(userEmailOption);
+                    _ = _emailService.SendConsumerAccountVerification(userEmailOption);
                 }
+
+
+
             }
             return result;
         }
@@ -113,10 +122,10 @@ namespace ParcelHub.ServiceRepository
         {
 
             string Id = _userService.GetUserId();
-         
-                var user = await _userManager.FindByIdAsync(Id);
-               var result = await _userManager.ChangePasswordAsync(user, model.CurrentPassword, model.ConfirmNewPassword);
-            
+
+            var user = await _userManager.FindByIdAsync(Id);
+            var result = await _userManager.ChangePasswordAsync(user, model.CurrentPassword, model.ConfirmNewPassword);
+
 
             return result;
         }

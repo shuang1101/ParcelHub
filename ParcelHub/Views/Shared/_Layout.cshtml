@@ -1,127 +1,220 @@
 ﻿@inject ParcelHub.ServiceRepository.IUserSerivce userService
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - ParcelHub</title>
-    <link rel="stylesheet" href="~/clientSide/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/clientSide/lib/bootstrap/dist/css/bootstrap.css" />
-    <link rel="stylesheet" href="~/clientSide/lib/bootstrap/dist/css/bootstrap-grid.css" />
-    <link rel="stylesheet" href="~/clientSide/lib/bootstrap/dist/css/bootstrap-grid.min.css" />
-    <link rel="stylesheet" href="~/clientSide/lib/bootstrap/dist/css/bootstrap-reboot.css" />
-    <link rel="stylesheet" href="~/clientSide/lib/bootstrap/dist/css/bootstrap-reboot.min.css" />
-   
-    <link rel="stylesheet" href="~/clientSide/css/site.css" />
-    <link rel="stylesheet" href="~/clientSide/css/magnific-popup.css">
-    <link rel="stylesheet" href="~/clientSide/css/jquery-ui.css">
-    <link rel="stylesheet" href="~/clientSide/css/owl.carousel.min.css">
-    <link rel="stylesheet" href="~/clientSide/css/owl.theme.default.min.css">
-    <link rel="stylesheet" href="~/clientSide/css/bootstrap-datepicker.css">
-    <link rel="stylesheet" href="~/clientSide/fonts/flaticon/font/flaticon.css">
-    <link rel="stylesheet" href="~/clientSide/css/aos.css">
-    <link rel="stylesheet" href="~/clientSide/css/style.css">
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title>@ViewData["Title"] - KiwiParcel</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+
+    <!-- Favicons -->
+    <link href="assets/img/favicon.png" rel="icon">
+    <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/vendor/icofont/icofont.min.css" rel="stylesheet">
+    <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+    <link href="assets/vendor/animate.css/animate.min.css" rel="stylesheet">
+    <link href="assets/vendor/owl.carousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="assets/vendor/venobox/venobox.css" rel="stylesheet">
+
+    <!-- Template Main CSS File -->
+    <link href="assets/css/style.css" rel="stylesheet">
+
 </head>
+
 <body>
 
-    <header>
-        <!-- Navigation -->
-        <div class="site-mobile-menu site-navbar-target">
-            <div class="site-mobile-menu-header">
-                <div class="site-mobile-menu-close mt-3">
-                    <span class="icon-close2 js-menu-toggle"></span>
-                </div>
+    <!-- ======= Top Bar ======= -->
+    <section id="topbar" class="d-none d-lg-block">
+        <div class="container d-flex">
+            <div class="contact-info mr-auto">
+                <i class="icofont-envelope"></i><a href="mailto:KiwiParcel@example.com">KiwiParcel@example.com</a>
+                <i class="icofont-phone"></i> +64 9 333 6666
             </div>
-            <div class="site-mobile-menu-body"></div>
+            @*<div class="social-links">
+                <a href="#" class="twitter"><i class="icofont-twitter"></i></a>
+                <a href="#" class="facebook"><i class="icofont-facebook"></i></a>
+                <a href="#" class="instagram"><i class="icofont-instagram"></i></a>
+                <a href="#" class="skype"><i class="icofont-skype"></i></a>
+                <a href="#" class="linkedin"><i class="icofont-linkedin"></i></i></a>
+            </div>*@
         </div>
+    </section>
 
-        <div class="site-navbar py-3 js-site-navbar site-navbar-target" role="banner" id="site-navbar">
+    <!-- ======= Header ======= -->
+    <header id="header">
+        <div class="container d-flex">
 
-            <div class="container">
-
-                <div class="row align-items-center">
-
-                    <div class="col-11 col-xl-2 site-logo">
-
-                        <h1 class="mb-0"><a href="index.html" class="text-white h2 mb-0">KIWIPAECEL</a></h1>
-                    </div>
-                    <div class="col-12 col-md-10 d-none d-xl-block">
-                        <nav class="site-navigation position-relative text-right" role="navigation">
-                            <ul class="site-menu js-clone-nav mx-auto d-none d-lg-block">
-                                <li><a class="nav-link" asp-controller="Home" asp-action="Index">Home</a></li>
-                                <li><a class="nav-link" asp-controller="Home" asp-action="Privacy">Privacy</a></li>
-                                <li class="has-children">
-                                    <a class="nav-link" asp-controller="ConsumerRegisterAndLogin" asp-action="ConsumerLogOut"> LogOut</a>
-                                    <ul class="dropdown">
-                                        <li><a href="#section-how-it-works" class="nav-link">Customer Services</a></li>
-                                        <li><a href="#section-our-team" class="nav-link">Our Team</a></li>
-                                    </ul>
-                                </li>
-
-                                <li><a class="nav-link" asp-controller="" asp-action="">News</a></li>
-
-
-                                @{if (!userService.IsAuthenticated())
-                                    {
-                                        <li><a class="nav-link" asp-controller="ConsumerRegisterAndLogin" asp-action="ConsumerLogIn">Login</a></li>
-                                        <li><a class="nav-link" asp-area="" asp-controller="ConsumerRegisterAndLogin" asp-action="ConsumerSignUp">SignUp</a></li>
-                                    }
-                                }
-
-
-
-                                @*<li><a class="logo" asp-area="" asp-controller="" asp-action="">Ch<img src="~/images/logo.png" alt="mylogo" /></a></li>*@
-
-                                @{ if (userService.IsAuthenticated())
-                                    {
-
-                                        <li><p>welcome @userService.GetUserName() ! </p></li>
-                                    }
-                                }
-
-
-                            </ul>
-                        </nav>
-                    </div>
-
-
-                    <div class="d-inline-block d-xl-none ml-md-0 mr-auto py-3" style="position: relative; top: 3px;"><a href="#" class="site-menu-toggle js-menu-toggle"><span class="icon-menu h3"></span></a></div>
-
-                </div>
-
+            <div class="logo mr-auto">
+                <h1 class="text-light"><a href="index.html"><span>Kiwi Parcel</span></a></h1>
+                <!-- Uncomment below if you prefer to use an image logo -->
+                <!-- <a href="index.html"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
             </div>
 
+            <nav class="nav-menu d-none d-lg-block">
+                <ul>
+                    <li class="active"><a href="index.html">Home</a></li>
+
+                    <li class="drop-down">
+                        <a href="#">About</a>
+                        <ul>
+                            <li><a href="about.html">About Us</a></li>
+                            <li><a href="team.html">Team</a></li>
+
+                            <li class="drop-down">
+                                <a href="#">Drop Down 2</a>
+                                <ul>
+                                    <li><a href="#">Deep Drop Down 1</a></li>
+                                    <li><a href="#">Deep Drop Down 2</a></li>
+                                    <li><a href="#">Deep Drop Down 3</a></li>
+                                    <li><a href="#">Deep Drop Down 4</a></li>
+                                    <li><a href="#">Deep Drop Down 5</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li><a href="services.html">Services</a></li>
+
+                    
+                    @{if (!userService.IsAuthenticated())
+                        {
+                            <li><a asp-area="" asp-controller="ConsumerRegisterAndLogin" asp-action="ConsumerSignUpByEmail">Register</a></li>
+                            <li><a asp-controller="ConsumerRegisterAndLogin" asp-action="ConsumerLogIn">Login</a></li>
+
+                        }
+                        else
+                        {
+                            <li><a asp-controller="ConsumerRegisterAndLogin" asp-action="ConsumerLogOut"> Log Out</a></li>
+                        }
+                    }
+                </ul>
+            </nav><!-- .nav-menu -->
+
         </div>
+    </header><!-- End Header -->
 
-
-    </header>
-    <div class="container">
+    <div class="container-fluid">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2020 - ParcelHub - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
-    <script src="~/clientSide/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/clientSide/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/clientSide/js/site.js" asp-append-version="true"></script>
-    <script src="~/clientSide/js/jquery-migrate-3.0.1.min.js"></script>
-    <script src="~/clientSide/js/jquery-ui.js"></script>
-    <script src="~/clientSide/js/jquery.easing.1.3.js"></script>
-    <script src="~/clientSide/js/popper.min.js"></script>
-    <script src="~/clientSide/js/bootstrap.min.js"></script>
-    <script src="~/clientSide/js/owl.carousel.min.js"></script>
-    <script src="~/clientSide/js/jquery.stellar.min.js"></script>
-    <script src="~/clientSide/js/jquery.countdown.min.js"></script>
-    <script src="~/clientSide/js/jquery.magnific-popup.min.js"></script>
-    <script src="~/clientSide/js/bootstrap-datepicker.min.js"></script>
-    <script src="~/clientSide/js/aos.js"></script>
 
-    <script src="js/main.js"></script>
+
+
+    <!-- ======= Footer ======= -->
+    <footer id="footer">
+
+        <div class="footer-newsletter">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <h4>Our Newsletter</h4>
+                        <p>Tamen quem nulla quae legam multos aute sint culpa legam noster magna</p>
+                    </div>
+                    <div class="col-lg-6">
+                        <form action="" method="post">
+                            <input type="email" name="email"><input type="submit" value="Subscribe">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-top">
+            <div class="container">
+                <div class="row">
+
+                    <div class="col-lg-3 col-md-6 footer-links">
+                        <h4>Useful Links</h4>
+                        <ul>
+                            <li><i class="bx bx-chevron-right"></i> <a href="#">Home</a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a href="#">About us</a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a href="#">Services</a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a href="#">Terms of service</a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a href="#">Privacy policy</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="col-lg-3 col-md-6 footer-links">
+                        <h4>Our Services</h4>
+                        <ul>
+                            <li><i class="bx bx-chevron-right"></i> <a href="#">Web Design</a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a href="#">Web Development</a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a href="#">Product Management</a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a href="#">Marketing</a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a href="#">Graphic Design</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="col-lg-3 col-md-6 footer-contact">
+                        <h4>Contact Us</h4>
+                        <p>
+                            A108 Adam Street <br>
+                            New York, NY 535022<br>
+                            United States <br><br>
+                            <strong>Phone:</strong> +1 5589 55488 55<br>
+                            <strong>Email:</strong> info@example.com<br>
+                        </p>
+
+                    </div>
+
+                    <div class="col-lg-3 col-md-6 footer-info">
+                        <h3>About Eterna</h3>
+                        <p>Cras fermentum odio eu feugiat lide par naso tierra. Justo eget nada terra videa magna derita valies darta donna mare fermentum iaculis eu non diam phasellus.</p>
+                        <div class="social-links mt-3">
+                            <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
+                            <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
+                            <a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>
+                            <a href="#" class="google-plus"><i class="bx bxl-skype"></i></a>
+                            <a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="copyright">
+                &copy; Copyright <strong><span>Eterna</span></strong>. All Rights Reserved
+            </div>
+            <div class="credits">
+                <!-- All the links in the footer should remain intact. -->
+                <!-- You can delete the links only if you purchased the pro version. -->
+                <!-- Licensing information: https://bootstrapmade.com/license/ -->
+                <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/eterna-free-multipurpose-bootstrap-template/ -->
+                Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+            </div>
+        </div>
+    </footer><!-- End Footer -->
+
+    <a href="#" class="back-to-top"><i class="icofont-simple-up"></i></a>
+
+    <!-- Vendor JS Files -->
+    <script src="assets/vendor/jquery/jquery.min.js"></script>
+    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/vendor/jquery.easing/jquery.easing.min.js"></script>
+    <script src="assets/vendor/php-email-form/validate.js"></script>
+    <script src="assets/vendor/jquery-sticky/jquery.sticky.js"></script>
+    <script src="assets/vendor/owl.carousel/owl.carousel.min.js"></script>
+    <script src="assets/vendor/waypoints/jquery.waypoints.min.js"></script>
+    <script src="assets/vendor/counterup/counterup.min.js"></script>
+    <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+    <script src="assets/vendor/venobox/venobox.min.js"></script>
+
+    <!-- Template Main JS File -->
+    <script src="assets/js/main.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
+
 </html>
