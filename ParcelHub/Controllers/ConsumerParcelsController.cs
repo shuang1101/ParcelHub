@@ -64,14 +64,22 @@ namespace ParcelHub.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(AddMoreParcelModel addMoreParcelModel)
         {
-            if (true)//ModelState.IsValid
+            if (addMoreParcelModel == null)
+            {
+                return NotFound();
+            }
+
+            if (true)      //ModelState.IsValid
             {
                 string userId = _userService.GetUserId();
+
             foreach (AddMoreParcelModel parcel in addMoreParcelModel.AddMoreParcel)
             {
+
+                    
                 Parcel eachParcel = new Parcel()
                 {
-                    ShippmentId = parcel.ShippmentId,
+                    ShippmentId = 0,
                     IdentityUserId = userId,
                     OriginTrackingNumber = parcel.OriginTrackingNumber,
                     Description = parcel.Description,
@@ -79,15 +87,20 @@ namespace ParcelHub.Controllers
                     EstimateVolume = parcel.EstimateVolume,
                     TotalValue = parcel.TotalValue,
                     Reference = parcel.Reference,
-                    DestinationDeliverMethod = parcel.DestinationDeliverMethod,
-                    NumberOfUnits = parcel.NumberOfUnits
+                    DestinationDeliverMethod = addMoreParcelModel.DestinationDeliverMethod,
+                    NumberOfUnits = parcel.NumberOfUnits,
+                    DateTimeJobCreated=DateTime.Now
+
                 };
                 _context.Add(eachParcel);
+                await _context.SaveChangesAsync();
+                  
             }
-            await _context.SaveChangesAsync();
+           
                 ViewBag.Name = _userService.GetUserName();
                 return RedirectToAction(nameof(Index));
             }
+         
             
 
            ViewBag.Name = _userService.GetUserName();

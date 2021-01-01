@@ -12,7 +12,7 @@
                 <label>Follow address is where you need the seller oversea send to</label>
                 <div class="form-group">
                     <label class="control-label"> Country</label>   @*country of origin*@
-                    <select class="form-control" asp-for="CountryOfOrigin" >
+                    <select class="form-control" asp-for="CountryOfOrigin">
                         <option value="China">China  </option>
                         <option value="Korean">Korean  </option>
                         <option>Japan  </option>
@@ -35,6 +35,7 @@
                     <label class="control-label">Receiver Name</label>
                     <input class="form-control" disabled placeholder="罗凯文 / Kevin Luo" />
                 </div>
+               
 
             </div>
         </div>
@@ -85,7 +86,17 @@
                     <label class="control-label">Post Code</label>
                     <input class="form-control" asp-for="consumerAddress.PostCode" />
                 </div>
-             
+                <div class="form-group">
+                    <label>Destination deliver options</label>
+                    <select class="form-control" asp-for="AddMoreParcel[0].DestinationDeliverMethod" value="">
+                        <option value="Deliver to Door">Deliver to Door</option>
+                        <option value="Pickup">Pickup from depot</option>
+
+                    </select>
+
+
+                </div>
+
             </div>
         </div>
     </div>
@@ -96,20 +107,20 @@
                 <table class="table table-bordered table-striped table-highlight">
                     <thead>
                         <tr>
-                    <th>Shipping Company @@ origin</th>
-                    <th>Tracking Number @@ origin</th>
-                    <th>Goods Description</th>
-                    <th>Weight</th>
-                    <th>Volume</th> 
-                    <th>NumberOfUnits</th>
-                    <th>Total Value</th>
-                    <th>Special Cargo</th>
-                    </tr>
+                            <th>Shipping Company @@ origin</th>
+                            <th>Tracking Number @@ origin</th>
+                            <th>Goods Description</th>
+                            <th>Weight</th>
+                            <th>Volume</th>
+                            <th>NumberOfUnits</th>
+                            <th>Total Value</th>
+                            <th>Special Cargo</th>
+                        </tr>
                     </thead>
-
+                    
                     <tbody id="firstdiv">
+                       
                         <tr>
-                          
                             <td><input type="text" class="form-control" asp-for="AddMoreParcel[0].ShippingCompanyAtOrigin" /></td>
                             <td><input type="text" class="form-control" asp-for="AddMoreParcel[0].OriginTrackingNumber" /></td>
                             <td><input type="text" class="form-control" asp-for="AddMoreParcel[0].Description" /></td>
@@ -117,28 +128,31 @@
                             <td><input type="text" class="form-control" asp-for="AddMoreParcel[0].EstimateVolume" /></td>
                             <td><input type="number" class="form-control" asp-for="AddMoreParcel[0].NumberOfUnits" /></td>
                             <td><input type="number" class="form-control" asp-for="AddMoreParcel[0].TotalValue" /></td>
-                            <td><input  type="text" class="form-control" asp-for="AddMoreParcel[0].Reference" value="" /></td>
-                            <td> <input type="button" onclick="DynamicText()" value="Add line" /></td>
+                            <td><input type="text" class="form-control" asp-for="AddMoreParcel[0].Reference"  /></td>
+
+                            <td> <input type="button" onclick="DynamicText()" value="Add line" /> </td>
 
                         </tr>
+                        
                     </tbody>
+
 
                 </table>
 
+                
             </div>
 
 
         </div>
-
+       
+       
 
 
 
         <div class="form-group">
             <input type="submit" value="Confirm Shippment" class="btn btn-primary" />
         </div>
-        <div class="form-group">
-            <input value="Save" class="btn btn-primary" />
-        </div>
+       
 
 
 

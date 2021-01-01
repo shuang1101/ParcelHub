@@ -18,7 +18,7 @@ namespace ParcelHub.Models
             // Each parcel can only be in one and only one Shippment
 
             public int ShippmentId { get; set; }
-
+        
         public string ShippingCompanyAtOrigin { get; set; }
             public string SPTackingNumber { get; set; }
             public string PackageLabelBarCode { get; set; } // = Tracking + box number if have multi box in one shippment
@@ -31,7 +31,7 @@ namespace ParcelHub.Models
             public ConsumerAddress consumerAddress { get;set; }
         public string CountryOfOrigin { get; set; }
             [Required]
-            [MaxLength(150)]
+           
             public string Description { get; set; }
 
             [Required]
