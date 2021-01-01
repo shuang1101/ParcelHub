@@ -43,6 +43,8 @@ namespace ParcelHub.Models
 
        
         public bool RequiredInsurance { get; set; }
+
+        public float TotalValue { get; set; }
        
 }
 }

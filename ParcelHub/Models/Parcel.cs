@@ -24,6 +24,7 @@ namespace ParcelHub.Models
         // each parcel has a consumerID
         public string IdentityUserId { get; set; }
         public IdentityUser IdentityUser { get; set; }
+        public string OriginCourierCompany { get; set; }
         public string OriginTrackingNumber { get; set; }
 
         [Required]
@@ -46,29 +47,29 @@ namespace ParcelHub.Models
 
         [Required]
 
-        public float ItemValue { get; set; }
+        public float TotalValue { get; set; }
 
         public string Reference { get; set; }
         public string TransitStatus { get; set; }
         public string DestinationDeliverMethod { get; set; }
 
-        public int Amount { get; set; }
+        public int NumberOfUnits { get; set; }
 
         //Record the time when origin scanned the parcel
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd H:mm}", ApplyFormatInEditMode = true)]
-        public DateTime Inbound { get; set; }
+        public DateTime DateTimeInboundOrigin { get; set; }
 
         //Recrod the time when destination scanned the parcel
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd H:mm}", ApplyFormatInEditMode = true)]
-        public DateTime ArriveInDestination { get; set; }
+        public DateTime DateTimeArriveInDestination { get; set; }
 
         //Recrod the time when client created the job
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd H:mm}", ApplyFormatInEditMode = true)]
-        public DateTime JobCreated { get; set; }
+        public DateTime DateTimeJobCreated { get; set; }
 
         //Recrod the time when client last edit the job
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd H:mm}", ApplyFormatInEditMode = true)]
-        public DateTime JobLastEdit { get; set; }
+        public DateTime DateTimeJobLastEdit { get; set; }
 
 
 

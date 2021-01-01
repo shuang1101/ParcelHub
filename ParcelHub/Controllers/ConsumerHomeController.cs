@@ -6,34 +6,33 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ParcelHub.DatabaseConnection;
-using ParcelHub.ServiceRepository;
 using ParcelHub.Models;
+using ParcelHub.ServiceRepository;
+
 
 namespace ParcelHub.Controllers
 {
-    public class ConsumerAddressesController : Controller
+    public class ConsumerHomeController : Controller
     {
         private readonly ApplicationDbContext _context;
         private readonly IUserSerivce _userService;
 
-        public ConsumerAddressesController(ApplicationDbContext context,IUserSerivce userService)
+        public ConsumerHomeController(ApplicationDbContext context, IUserSerivce userService)
         {
             _context = context;
             _userService = userService;
         }
 
-        // GET: ConsumerAddresses
+        // GET: Parcels
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.ConsumerAddress.
-                Where(address=>address.IdentityUserId==_userService.GetUserId());
-           
-            
+            var result = _context.Parcel
+                .Where(parcel => parcel.IdentityUserId == _userService.GetUserId());
 
-            return View(await applicationDbContext.ToListAsync());
+            return View(await result.ToListAsync());
         }
 
-        // GET: ConsumerAddresses/Details/5
+        // GET: Parcels/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -41,42 +40,44 @@ namespace ParcelHub.Controllers
                 return NotFound();
             }
 
-            var consumerAddress = await _context.ConsumerAddress
-                .Include(c => c.IdentityUser)
+            var parcel = await _context.Parcel
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (consumerAddress == null)
+            if (parcel == null)
             {
                 return NotFound();
             }
 
-            return View(consumerAddress);
+            return View(parcel);
         }
 
-        // GET: ConsumerAddresses/Create
+        // GET: Parcels/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: ConsumerAddresses/Create
+        // POST: Parcels/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Country,State,City,StreetAddress,PostCode")] ConsumerAddress consumerAddress)
+        public async Task<IActionResult> Create([Bind("Id,OriginTrackingNumber,Description,EstimateWeight,EstimateVolume,ItemValue,Reference,DestinationDeliverMethod")] Parcel parcel)
         {
+            parcel.IdentityUserId = _userService.GetUserId();
+            parcel.DateTimeJobCreated = DateTime.Now;
+            parcel.DateTimeJobLastEdit = DateTime.Now;
+
             if (ModelState.IsValid)
             {
-                consumerAddress.IdentityUserId = _userService.GetUserId();
-                
-                _context.Add(consumerAddress);
+
+                _context.Add(parcel);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(consumerAddress);
+            return View(parcel);
         }
 
-        // GET: ConsumerAddresses/Edit/5
+        // GET: Parcels/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -84,22 +85,22 @@ namespace ParcelHub.Controllers
                 return NotFound();
             }
 
-            var consumerAddress = await _context.ConsumerAddress.FindAsync(id);
-            if (consumerAddress == null)
+            var parcel = await _context.Parcel.FindAsync(id);
+            if (parcel == null)
             {
                 return NotFound();
             }
-            return View(consumerAddress);
+            return View(parcel);
         }
 
-        // POST: ConsumerAddresses/Edit/5
+        // POST: Parcels/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Country,State,City,StreetAddress,PostCode")] ConsumerAddress consumerAddress)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,ShippmentId,JobCreated,OriginTrackingNumber,Description,EstimateWeight,ActualWeight,EstimateVolume,ActualVolume,ItemValue,Reference,TransitStatus,DestinationDeliverMethod")] Parcel parcel)
         {
-            if (id != consumerAddress.Id)
+            if (id != parcel.Id)
             {
                 return NotFound();
             }
@@ -108,13 +109,14 @@ namespace ParcelHub.Controllers
             {
                 try
                 {
-                    consumerAddress.IdentityUserId = _userService.GetUserId();
-                    _context.Update(consumerAddress);
+                    parcel.DateTimeJobLastEdit = DateTime.Now;
+                    parcel.IdentityUserId = _userService.GetUserId();
+                    _context.Update(parcel);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ConsumerAddressExists(consumerAddress.Id))
+                    if (!ParcelExists(parcel.Id))
                     {
                         return NotFound();
                     }
@@ -125,10 +127,10 @@ namespace ParcelHub.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(consumerAddress);
+            return View(parcel);
         }
 
-        // GET: ConsumerAddresses/Delete/5
+        // GET: Parcels/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -136,31 +138,36 @@ namespace ParcelHub.Controllers
                 return NotFound();
             }
 
-            var consumerAddress = await _context.ConsumerAddress
-                .Include(c => c.IdentityUser)
+            var parcel = await _context.Parcel
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (consumerAddress == null)
+            if (parcel == null)
             {
                 return NotFound();
             }
 
-            return View(consumerAddress);
+            return View(parcel);
         }
 
-        // POST: ConsumerAddresses/Delete/5
+        // POST: Parcels/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var consumerAddress = await _context.ConsumerAddress.FindAsync(id);
-            _context.ConsumerAddress.Remove(consumerAddress);
+            var parcel = await _context.Parcel.FindAsync(id);
+            _context.Parcel.Remove(parcel);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ConsumerAddressExists(int id)
+        private bool ParcelExists(int id)
         {
-            return _context.ConsumerAddress.Any(e => e.Id == id);
+            return _context.Parcel.Any(e => e.Id == id);
         }
+
+        public IActionResult ParcelInformationForm()
+        {
+            return View();
+        }
+
     }
 }

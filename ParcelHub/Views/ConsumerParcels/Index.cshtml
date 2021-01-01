@@ -1,5 +1,17 @@
 ﻿@*@model IEnumerable<ParcelHub.Models.Parcel>
-@{Layout = "_SPLayout";}
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
 <p>
     <a asp-action="Create">Create New</a>
 </p>
@@ -8,6 +20,12 @@
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.ShippmentId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SPTackingNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PackageLabelBarCode)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.IdentityUser)
@@ -43,7 +61,10 @@
                 @Html.DisplayNameFor(model => model.DestinationDeliverMethod)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Inbound)
+                @Html.DisplayNameFor(model => model.Amount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateYInbound)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.ArriveInDestination)
@@ -64,7 +85,13 @@
                 @Html.DisplayFor(modelItem => item.ShippmentId)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.IdentityUserId)
+                @Html.DisplayFor(modelItem => item.SPTackingNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PackageLabelBarCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdentityUser.Id)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.OriginTrackingNumber)
@@ -97,6 +124,9 @@
                 @Html.DisplayFor(modelItem => item.DestinationDeliverMethod)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.Amount)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.Inbound)
             </td>
             <td>
@@ -116,4 +146,6 @@
         </tr>
 }
     </tbody>
-</table>*@
+</table>
+</body>
+</html>*@

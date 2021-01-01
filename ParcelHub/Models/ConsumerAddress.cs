@@ -8,16 +8,19 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ParcelHub.Controllers
+namespace ParcelHub.Models
 {
     public class ConsumerAddress
     {
+        public string NameOfMyAddress { get; set; }
         public string IdentityUserId { get; set; }
         public IdentityUser IdentityUser { get; set; }
         public int Id { get; init; }
         public string Country { get; set; }
         public string State { get; set; }
         public string City { get; set; }
+
+        public string Suburb { get; set; }
         public string StreetAddress { get; set; }
 
         public string PostCode { get; set; }

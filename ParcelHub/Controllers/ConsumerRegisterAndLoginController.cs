@@ -30,17 +30,28 @@ namespace ParcelHub.Controllers
             _emailService = emailService;
         }
 
+
+
+
         [Route("signup-email")]
         public IActionResult ConsumerSignUpByEmail()
         {
             return View();
         }
 
+
+
+
+
         [Route("signup-number")]
         public IActionResult ConsumerSignUpByNumber()
         {
             return View();
         }
+
+
+
+
 
         [Route("signup-email")]
         [HttpPost]
@@ -63,6 +74,10 @@ namespace ParcelHub.Controllers
             }
             return View();
         }
+
+
+
+
 
 
         [Route("signup-number")]
@@ -89,12 +104,20 @@ namespace ParcelHub.Controllers
         }
 
 
+
+
+
+
         // login GET
         [Route("login")]
         public IActionResult ConsumerLogIn()
         {
             return View();
         }
+
+
+
+
 
 
         // Log in POST
@@ -109,7 +132,7 @@ namespace ParcelHub.Controllers
 
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "ConsumerHome");
                 }
                 if (result.IsNotAllowed)
                 {
@@ -129,8 +152,12 @@ namespace ParcelHub.Controllers
         public async Task<IActionResult> ConsumerLogOut()
         {
             await _accountRepo.SignOutAsync();
-            return RedirectToAction("ConsumerSignUp", "ConsumerRegisterAndLogin");
+            return RedirectToAction("Index", "Home");
         }
+
+
+
+
 
         [HttpGet("confirm-email")]
         public async Task<IActionResult> ConfirmEmailVarification(string uid, string token)

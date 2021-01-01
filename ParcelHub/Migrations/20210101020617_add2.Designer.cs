@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ParcelHub.DatabaseConnection;
 
 namespace ParcelHub.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210101020617_add2")]
+    partial class add2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -219,6 +221,41 @@ namespace ParcelHub.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("ParcelHub.Controllers.ConsumerAddress", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("City")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Country")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("IdentityUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("NameOfMyAddress")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PostCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("State")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StreetAddress")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IdentityUserId");
+
+                    b.ToTable("ConsumerAddress");
+                });
+
             modelBuilder.Entity("ParcelHub.Models.Consumer", b =>
                 {
                     b.Property<string>("IdentityUserId")
@@ -261,44 +298,6 @@ namespace ParcelHub.Migrations
                     b.HasKey("IdentityUserId");
 
                     b.ToTable("Consumer");
-                });
-
-            modelBuilder.Entity("ParcelHub.Models.ConsumerAddress", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<string>("City")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Country")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("IdentityUserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("NameOfMyAddress")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PostCode")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("State")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("StreetAddress")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Suburb")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("IdentityUserId");
-
-                    b.ToTable("ConsumerAddress");
                 });
 
             modelBuilder.Entity("ParcelHub.Models.HomePageNews", b =>
@@ -354,6 +353,9 @@ namespace ParcelHub.Migrations
                     b.Property<float>("ActualWeight")
                         .HasColumnType("real");
 
+                    b.Property<int>("Amount")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("DateTimeArriveInDestination")
                         .HasColumnType("datetime2");
 
@@ -383,11 +385,8 @@ namespace ParcelHub.Migrations
                     b.Property<string>("IdentityUserId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("NumberOfUnits")
-                        .HasColumnType("int");
-
-                    b.Property<string>("OriginCourierCompany")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<float>("ItemValue")
+                        .HasColumnType("real");
 
                     b.Property<string>("OriginTrackingNumber")
                         .HasColumnType("nvarchar(max)");
@@ -403,9 +402,6 @@ namespace ParcelHub.Migrations
 
                     b.Property<int>("ShippmentId")
                         .HasColumnType("int");
-
-                    b.Property<float>("TotalValue")
-                        .HasColumnType("real");
 
                     b.Property<string>("TransitStatus")
                         .HasColumnType("nvarchar(max)");
@@ -508,9 +504,6 @@ namespace ParcelHub.Migrations
                     b.Property<int>("ShippingContainerId")
                         .HasColumnType("int");
 
-                    b.Property<float>("TotalValue")
-                        .HasColumnType("real");
-
                     b.HasKey("Id");
 
                     b.HasIndex("IdentityUserId");
@@ -569,7 +562,7 @@ namespace ParcelHub.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ParcelHub.Models.ConsumerAddress", b =>
+            modelBuilder.Entity("ParcelHub.Controllers.ConsumerAddress", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "IdentityUser")
                         .WithMany()

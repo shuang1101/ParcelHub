@@ -46,7 +46,7 @@ namespace ParcelHub
 
             services.AddRazorPages().AddRazorRuntimeCompilation();
 
-            services.AddScoped<IUserSerivce, UserSerivce>();
+            services.AddTransient<IUserSerivce, UserSerivce>();
 
             services.AddScoped<IEmailService, EmailService>();
 

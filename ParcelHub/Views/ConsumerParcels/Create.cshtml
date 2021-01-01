@@ -1,0 +1,148 @@
+﻿@model ParcelHub.Models.AddMoreParcelModel
+@{
+    ViewData["title"] = "Creat New Shippment";
+}
+
+<form asp-controller="ConsumerParcels" asp-action="Create" method="post">
+    <div class="row" style="border:1px dotted red">
+        <div class="col-md-4" style="border:1px dotted red">
+            <div class="col">
+                <label>Origin</label>
+                <br />
+                <label>Follow address is where you need the seller oversea send to</label>
+                <div class="form-group">
+                    <label class="control-label"> Country</label>   @*country of origin*@
+                    <select class="form-control" asp-for="CountryOfOrigin" >
+                        <option value="China">China  </option>
+                        <option value="Korean">Korean  </option>
+                        <option>Japan  </option>
+                    </select>
+
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Address</label>
+                    <input class="form-control" disabled placeholder="广东省东莞市万江街道蚬涌社区兴隆街7号125-126" />
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Post Code</label>
+                    <input class="form-control" disabled placeholder="510435" />
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Mobile</label>
+                    <input class="form-control" disabled placeholder="13266850075" />
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Receiver Name</label>
+                    <input class="form-control" disabled placeholder="罗凯文 / Kevin Luo" />
+                </div>
+
+            </div>
+        </div>
+        <div class="col-md-1">
+            <p class="glyphicon-arrow-right"></p>
+
+        </div>
+        <div class="col-md-4" style="border:1px dotted red">
+            <div class="col">
+                <label>Destination</label>
+                <br />
+                <label>Follow address is you want to package sent to in Destination Country</label>
+                <div class="form-group">
+                    <label>Use my saved address</label>
+                    <select>
+
+
+                        <option> Previously Saved address  </option>
+
+                    </select>
+                    <div class="form-group">
+                        <label class="control-label"> Name</label>
+                        <input class="form-control" value=@ViewBag.Name disabled />
+                    </div>
+                    <label class="control-label"> Country</label>
+                    <select class="form-control" asp-for="consumerAddress.Country">
+                        <option>New Zealand  </option>
+                        <option>Austrilia  </option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="control-label ">Street Name</label>
+                    <input class="form-control" asp-for="consumerAddress.StreetAddress" />
+                </div>
+                <div class="form-group">
+                    <label class="control-label ">State</label>
+                    <input class="form-control" asp-for="consumerAddress.State" />
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Suburb</label>
+                    <input class="form-control" asp-for="consumerAddress.Suburb" />
+                </div>
+                <div class="form-group">
+                    <label class="control-label">City</label>
+                    <input class="form-control" asp-for="consumerAddress.City" />
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Post Code</label>
+                    <input class="form-control" asp-for="consumerAddress.PostCode" />
+                </div>
+             
+            </div>
+        </div>
+    </div>
+
+    <div class="row" style="border:1px dotted red">
+        <div class="form-horizontal">
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped table-highlight">
+                    <thead>
+                        <tr>
+                    <th>Shipping Company @@ origin</th>
+                    <th>Tracking Number @@ origin</th>
+                    <th>Goods Description</th>
+                    <th>Weight</th>
+                    <th>Volume</th> 
+                    <th>NumberOfUnits</th>
+                    <th>Total Value</th>
+                    <th>Special Cargo</th>
+                    </tr>
+                    </thead>
+
+                    <tbody id="firstdiv">
+                        <tr>
+                          
+                            <td><input type="text" class="form-control" asp-for="AddMoreParcel[0].ShippingCompanyAtOrigin" /></td>
+                            <td><input type="text" class="form-control" asp-for="AddMoreParcel[0].OriginTrackingNumber" /></td>
+                            <td><input type="text" class="form-control" asp-for="AddMoreParcel[0].Description" /></td>
+                            <td><input type="text" class="form-control" asp-for="AddMoreParcel[0].EstimateWeight" /></td>
+                            <td><input type="text" class="form-control" asp-for="AddMoreParcel[0].EstimateVolume" /></td>
+                            <td><input type="number" class="form-control" asp-for="AddMoreParcel[0].NumberOfUnits" /></td>
+                            <td><input type="number" class="form-control" asp-for="AddMoreParcel[0].TotalValue" /></td>
+                            <td><input  type="text" class="form-control" asp-for="AddMoreParcel[0].Reference" value="" /></td>
+                            <td> <input type="button" onclick="DynamicText()" value="Add line" /></td>
+
+                        </tr>
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+        </div>
+
+
+
+
+        <div class="form-group">
+            <input type="submit" value="Confirm Shippment" class="btn btn-primary" />
+        </div>
+        <div class="form-group">
+            <input value="Save" class="btn btn-primary" />
+        </div>
+
+
+
+
+    </div>
+
+</form>

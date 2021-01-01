@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -9,15 +10,14 @@ using ParcelHub.DatabaseConnection;
 using ParcelHub.Models;
 using ParcelHub.ServiceRepository;
 
-
 namespace ParcelHub.Controllers
 {
-    public class ParcelsController : Controller
+    public class ConsumerParcelsController : Controller
     {
         private readonly ApplicationDbContext _context;
         private readonly IUserSerivce _userService;
 
-        public ParcelsController(ApplicationDbContext context,IUserSerivce userService)
+        public ConsumerParcelsController(ApplicationDbContext context,  IUserSerivce userService)//
         {
             _context = context;
             _userService = userService;
@@ -26,10 +26,8 @@ namespace ParcelHub.Controllers
         // GET: Parcels
         public async Task<IActionResult> Index()
         {
-            var result = _context.Parcel
-                .Where(parcel=>parcel.IdentityUserId==_userService.GetUserId());
-
-            return View(await result.ToListAsync());
+            var applicationDbContext = _context.Parcel.Include(p => p.IdentityUser);
+            return View(await applicationDbContext.ToListAsync());
         }
 
         // GET: Parcels/Details/5
@@ -41,6 +39,7 @@ namespace ParcelHub.Controllers
             }
 
             var parcel = await _context.Parcel
+                .Include(p => p.IdentityUser)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (parcel == null)
             {
@@ -53,6 +52,8 @@ namespace ParcelHub.Controllers
         // GET: Parcels/Create
         public IActionResult Create()
         {
+            // ViewBag.Name = _userService.GetUserName();
+            ViewBag.Name = _userService.GetUserName();
             return View();
         }
 
@@ -61,18 +62,36 @@ namespace ParcelHub.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,ShippmentId,OriginTrackingNumber,Description,EstimateWeight,EstimateVolume,ItemValue,Reference,DestinationDeliverMethod")] Parcel parcel)
+        public async Task<IActionResult> Create(AddMoreParcelModel addMoreParcelModel)
         {
-            if (ModelState.IsValid)
+            if (true)//ModelState.IsValid
             {
-                parcel.IdentityUserId = _userService.GetUserId();
-                parcel.JobCreated = DateTime.Now;
-                parcel.JobLastEdit = DateTime.Now;
-                _context.Add(parcel);
-                await _context.SaveChangesAsync();
+                string userId = _userService.GetUserId();
+            foreach (AddMoreParcelModel parcel in addMoreParcelModel.AddMoreParcel)
+            {
+                Parcel eachParcel = new Parcel()
+                {
+                    ShippmentId = parcel.ShippmentId,
+                    IdentityUserId = userId,
+                    OriginTrackingNumber = parcel.OriginTrackingNumber,
+                    Description = parcel.Description,
+                    EstimateWeight = parcel.EstimateWeight,
+                    EstimateVolume = parcel.EstimateVolume,
+                    TotalValue = parcel.TotalValue,
+                    Reference = parcel.Reference,
+                    DestinationDeliverMethod = parcel.DestinationDeliverMethod,
+                    NumberOfUnits = parcel.NumberOfUnits
+                };
+                _context.Add(eachParcel);
+            }
+            await _context.SaveChangesAsync();
+                ViewBag.Name = _userService.GetUserName();
                 return RedirectToAction(nameof(Index));
             }
-            return View(parcel);
+            
+
+           ViewBag.Name = _userService.GetUserName();
+            return  View();
         }
 
         // GET: Parcels/Edit/5
@@ -88,6 +107,7 @@ namespace ParcelHub.Controllers
             {
                 return NotFound();
             }
+            ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", parcel.IdentityUserId);
             return View(parcel);
         }
 
@@ -96,7 +116,7 @@ namespace ParcelHub.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,ShippmentId,JobCreated,OriginTrackingNumber,Description,EstimateWeight,ActualWeight,EstimateVolume,ActualVolume,ItemValue,Reference,TransitStatus,DestinationDeliverMethod")] Parcel parcel)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,ShippmentId,SPTackingNumber,PackageLabelBarCode,IdentityUserId,OriginTrackingNumber,Description,EstimateWeight,EstimateVolume,ActualVolume,ActualWeight,ItemValue,Reference,TransitStatus,DestinationDeliverMethod,Amount,Inbound,ArriveInDestination,JobCreated,JobLastEdit")] Parcel parcel)
         {
             if (id != parcel.Id)
             {
@@ -107,8 +127,6 @@ namespace ParcelHub.Controllers
             {
                 try
                 {
-                    parcel.JobLastEdit = DateTime.Now;
-                    parcel.IdentityUserId = _userService.GetUserId();
                     _context.Update(parcel);
                     await _context.SaveChangesAsync();
                 }
@@ -125,6 +143,7 @@ namespace ParcelHub.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", parcel.IdentityUserId);
             return View(parcel);
         }
 
@@ -137,6 +156,7 @@ namespace ParcelHub.Controllers
             }
 
             var parcel = await _context.Parcel
+                .Include(p => p.IdentityUser)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (parcel == null)
             {
@@ -161,11 +181,5 @@ namespace ParcelHub.Controllers
         {
             return _context.Parcel.Any(e => e.Id == id);
         }
-
-        public  IActionResult ParcelInformationForm()
-        {
-            return View();            
-        }
-
     }
 }

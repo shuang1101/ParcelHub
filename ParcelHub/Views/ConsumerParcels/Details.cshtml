@@ -1,10 +1,17 @@
-﻿@model ParcelHub.Models.Parcel
+﻿@*@model ParcelHub.Models.Parcel
 
 @{
-    ViewData["Title"] = "Details";
+    Layout = null;
 }
 
-<h1>Details</h1>
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Details</title>
+</head>
+<body>
 
 <div>
     <h4>Parcel</h4>
@@ -15,6 +22,24 @@
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.ShippmentId)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.SPTackingNumber)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.SPTackingNumber)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PackageLabelBarCode)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PackageLabelBarCode)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.IdentityUser)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.IdentityUser.Id)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.OriginTrackingNumber)
@@ -35,12 +60,6 @@
             @Html.DisplayFor(model => model.EstimateWeight)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ActualWeight)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ActualWeight)
-        </dd>
-        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.EstimateVolume)
         </dt>
         <dd class = "col-sm-10">
@@ -51,6 +70,12 @@
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.ActualVolume)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ActualWeight)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ActualWeight)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.ItemValue)
@@ -65,6 +90,24 @@
             @Html.DisplayFor(model => model.Reference)
         </dd>
         <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.TransitStatus)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.TransitStatus)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.DestinationDeliverMethod)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DestinationDeliverMethod)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Amount)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Amount)
+        </dd>
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Inbound)
         </dt>
         <dd class = "col-sm-10">
@@ -77,16 +120,16 @@
             @Html.DisplayFor(model => model.ArriveInDestination)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.TransitStatus)
+            @Html.DisplayNameFor(model => model.JobCreated)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.TransitStatus)
+            @Html.DisplayFor(model => model.JobCreated)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DestinationDeliverMethod)
+            @Html.DisplayNameFor(model => model.JobLastEdit)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DestinationDeliverMethod)
+            @Html.DisplayFor(model => model.JobLastEdit)
         </dd>
     </dl>
 </div>
@@ -94,3 +137,5 @@
     <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>
+</body>
+</html>*@

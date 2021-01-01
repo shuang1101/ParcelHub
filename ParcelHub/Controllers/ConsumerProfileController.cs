@@ -56,7 +56,7 @@ namespace ParcelHub.Controllers
             return View(model);
         }
 
-        public IActionResult Index_LoggedIn()
+        public IActionResult ProfileMain()
         {
             return View();
         }

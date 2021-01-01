@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ParcelHub.DatabaseConnection;
 
 namespace ParcelHub.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210101052934_addxxx")]
+    partial class addxxx
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -291,9 +293,6 @@ namespace ParcelHub.Migrations
                     b.Property<string>("StreetAddress")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Suburb")
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("IdentityUserId");
@@ -354,6 +353,9 @@ namespace ParcelHub.Migrations
                     b.Property<float>("ActualWeight")
                         .HasColumnType("real");
 
+                    b.Property<int>("Amount")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("DateTimeArriveInDestination")
                         .HasColumnType("datetime2");
 
@@ -383,8 +385,8 @@ namespace ParcelHub.Migrations
                     b.Property<string>("IdentityUserId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("NumberOfUnits")
-                        .HasColumnType("int");
+                    b.Property<float>("ItemValue")
+                        .HasColumnType("real");
 
                     b.Property<string>("OriginCourierCompany")
                         .HasColumnType("nvarchar(max)");
@@ -403,9 +405,6 @@ namespace ParcelHub.Migrations
 
                     b.Property<int>("ShippmentId")
                         .HasColumnType("int");
-
-                    b.Property<float>("TotalValue")
-                        .HasColumnType("real");
 
                     b.Property<string>("TransitStatus")
                         .HasColumnType("nvarchar(max)");
