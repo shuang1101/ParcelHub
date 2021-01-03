@@ -15,6 +15,7 @@ namespace ParcelHub.Models
         public string NameOfMyAddress { get; set; }
         public string IdentityUserId { get; set; }
         public IdentityUser IdentityUser { get; set; }
+        [Key]
         public int Id { get; init; }
         public string Country { get; set; }
         public string State { get; set; }
@@ -24,7 +25,7 @@ namespace ParcelHub.Models
         public string StreetAddress { get; set; }
 
         public string PostCode { get; set; }
-
+        public bool ModelIsvalid { get; set; } = true;
 
 
     }

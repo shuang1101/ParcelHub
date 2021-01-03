@@ -12,6 +12,7 @@ namespace ParcelHub.Models
     // Each Shippment can be only back traced to one Invoice
     public class Invoice
     {
+        public bool ModelIsvalid { get; set; }
         public int Id { get; set; }
 
         [ForeignKey("Id")]
@@ -36,7 +37,7 @@ namespace ParcelHub.Models
             BankTransfer,
 
         }
-      public   bool IsInvoicePaid { get; set; }
+        public bool IsInvoicePaid { get; set; } = true;
 
     }
 }

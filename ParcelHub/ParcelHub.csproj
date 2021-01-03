@@ -674,7 +674,6 @@
   <ItemGroup>
     <Folder Include="Configurations\" />
     <Folder Include="HTMLTemplate\" />
-    <Folder Include="StaticFile\" />
   </ItemGroup>
 
   <ItemGroup>

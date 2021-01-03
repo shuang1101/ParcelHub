@@ -45,6 +45,11 @@ namespace ParcelHub.Models
         public bool RequiredInsurance { get; set; }
 
         public float TotalValue { get; set; }
-       
-}
+
+
+        public bool ModelIsvalid { get; set; } = true;
+
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd H:mm}", ApplyFormatInEditMode = true)]
+        public DateTime DateTimeJobCreated { get; init; } = DateTime.Now;
+    }
 }

@@ -11,7 +11,7 @@ namespace ParcelHub.Models
     public class Consumer
     {
         //Each Consumer might have >=0 addresses
-       
+        public bool ModelIsvalid { get; set; } = true;
         public int Id { get; set; }
 
         [Required]

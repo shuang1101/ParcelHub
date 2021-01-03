@@ -27,18 +27,21 @@ namespace ParcelHub.Models
         public string OriginCourierCompany { get; set; }
         public string OriginTrackingNumber { get; set; }
 
+        public string CountryOfOrigin { get; set; }
+        public int DestinationAddressId { get; set; }
+
         [Required]
         [MaxLength(150)]
         public string Description { get; set; }
 
         [Required]
 
-        public float EstimateWeight { get; set; }
+        public string EstimateWeight { get; set; }
 
 
         [Required]
 
-        public float EstimateVolume { get; set; }
+        public string EstimateVolume { get; set; }
 
 
         public float ActualVolume { get; set; }
@@ -47,13 +50,13 @@ namespace ParcelHub.Models
 
         [Required]
 
-        public float TotalValue { get; set; }
+        public string TotalValue { get; set; }
 
         public string Reference { get; set; }
-        public string TransitStatus { get; set; }
+        public string TransitStatus { get; set; } = "Awaiting inbound";
         public string DestinationDeliverMethod { get; set; }
 
-        public int NumberOfUnits { get; set; }
+        public string NumberOfUnits { get; set; }
 
         //Record the time when origin scanned the parcel
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd H:mm}", ApplyFormatInEditMode = true)]
@@ -65,13 +68,13 @@ namespace ParcelHub.Models
 
         //Recrod the time when client created the job
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd H:mm}", ApplyFormatInEditMode = true)]
-        public DateTime DateTimeJobCreated { get; set; }
+        public DateTime DateTimeJobCreated { get; init; } = DateTime.Now;
 
         //Recrod the time when client last edit the job
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd H:mm}", ApplyFormatInEditMode = true)]
         public DateTime DateTimeJobLastEdit { get; set; }
 
-
+        public bool ModelIsvalid { get; set; } = true;
 
     }
 }
