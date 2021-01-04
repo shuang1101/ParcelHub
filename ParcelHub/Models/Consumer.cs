@@ -27,8 +27,6 @@ namespace ParcelHub.Models
          [Key]
         public string IdentityUserId { get; set; }
 
-        public string Password { get; set; }
-
         public DateTime DateRegisterd { get; set; }
 
         public DateTime DateTimeLastLogin { get; set; }

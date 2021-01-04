@@ -3,166 +3,78 @@
 <!doctype html>
 <html class="no-js" lang="">
 
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
     <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Login Register | Parcel Hub - Back End</title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- favicon
-        ============================================ -->
-    <link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico">
-    <!-- Google Fonts
-        ============================================ -->
-    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,700,900" rel="stylesheet">
-    <!-- Bootstrap CSS
-        ============================================ -->
-    <link rel="stylesheet" href="~/serviceProviderSide/css/bootstrap.min.css">
-    <!-- font awesome CSS
-        ============================================ -->
-    <link rel="stylesheet" href="~/serviceProviderSide/css/font-awesome.min.css">
-    <!-- owl.carousel CSS
-        ============================================ -->
-    <link rel="stylesheet" href="~/serviceProviderSide/css/owl.carousel.css">
-    <link rel="stylesheet" href="~/serviceProviderSide/css/owl.theme.css">
-    <link rel="stylesheet" href="~/serviceProviderSide/css/owl.transitions.css">
-    <!-- animate CSS
-        ============================================ -->
-    <link rel="stylesheet" href="~/serviceProviderSide/css/animate.css">
-    <!-- normalize CSS
-        ============================================ -->
-    <link rel="stylesheet" href="~/serviceProviderSide/css/normalize.css">
-    <!-- mCustomScrollbar CSS
-        ============================================ -->
-    <link rel="stylesheet" href="~/serviceProviderSide/css/scrollbar/jquery.mCustomScrollbar.min.css">
-    <!-- wave CSS
-        ============================================ -->
-    <link rel="stylesheet" href="~/serviceProviderSide/css/wave/waves.min.css">
-    <!-- Notika icon CSS
-        ============================================ -->
-    <link rel="stylesheet" href="~/serviceProviderSide/css/notika-custom-icon.css">
-    <!-- main CSS
-        ============================================ -->
-    <link rel="stylesheet" href="~/serviceProviderSide/css/main.css">
-    <!-- style CSS
-        ============================================ -->
-    <link rel="stylesheet" href="~/serviceProviderSide/style.css">
-    <!-- responsive CSS
-        ============================================ -->
-    <link rel="stylesheet" href="~/serviceProviderSide/css/responsive.css">
-    <!-- modernizr JS
-        ============================================ -->
-    <script src="js/vendor/modernizr-2.8.3.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Creative - Bootstrap 3 Responsive Admin Template">
+    <meta name="author" content="GeeksLabs">
+    <meta name="keyword" content="Creative, Dashboard, Admin, Template, Theme, Bootstrap, Responsive, Retina, Minimal">
+    <link rel="shortcut icon" href="~/img/favicon.png">
+
+    <title>Login Page </title>
+
+    <!-- Bootstrap CSS -->
+    <link href="~/css/bootstrap.min.css" rel="stylesheet">
+    <!-- bootstrap theme -->
+    <link href="~/css/bootstrap-theme.css" rel="stylesheet">
+    <!--external css-->
+    <!-- font icon -->
+    <link href="~/css/elegant-icons-style.css" rel="stylesheet" />
+    <link href="~/css/font-awesome.css" rel="stylesheet" />
+    <!-- Custom styles -->
+    <link href="~/css/style.css" rel="stylesheet">
+    <link href="~/css/style-responsive.css" rel="stylesheet" />
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 -->
+    <!--[if lt IE 9]>
+      <script src="js/html5shiv.js"></script>
+      <script src="js/respond.min.js"></script>
+      <![endif]-->
 </head>
 
-<body>
-    <!--[if lt IE 8]>
-            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-        <![endif]-->
+<body class="login-img3-body">
+  
     <!-- Login Register area Start-->
-    <div class="login-content">
+    <div class="container">
         <!-- Login -->
-        <div class="nk-block toggled" id="l-login">
-            <form asp-action="SPLogin">
 
-                <div class="nk-form">
-                    <h4>Login</h4>
-                    <div class="input-group">
+        <form asp-action="SPLogin" class="login-form">
 
-                        <span class="input-group-addon nk-ic-st-pro"><i class="notika-icon notika-support"></i></span>
-                        <div class="nk-int-st">
-                            <input type="text" class="form-control" placeholder="Email" asp-for="Email">
-                            <span asp-validation-for="Email" class="text-danger"></span>
-                        </div>
-                    </div>
-                    <div class="input-group mg-t-15">
-                        <span class="input-group-addon nk-ic-st-pro"><i class="notika-icon notika-edit"></i></span>
-                        <div class="nk-int-st">
-                            <input type="password" class="form-control" placeholder="Password" asp-for="Password">
-                            <span asp-validation-for="Password" class="text-danger"></span>
-                        </div>
-                    </div>
-                    <div class="fm-checkbox">
-                        <label><input type="checkbox" class="i-checks" asp-for="RememberMe"> <i></i> Keep me signed in</label>
-                    </div>
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <div>
-                        <button type="submit" class=" btn btn-success notika-btn-success waves-effect">  Login  </button>
+            <div class="login-wrap">
+                <p class="login-img"><i class="icon_lock_alt"></i></p>
+                <div class="input-group">
 
+                    <span class="input-group-addon"><i class="icon_profile"></i></span>
+                    <div class="nk-int-st">
+                        <input type="text" class="form-control" placeholder="Email" asp-for="Email">
+                        <span asp-validation-for="Email" class="text-danger"></span>
                     </div>
                 </div>
-            </form>
-           
+                <div class="input-group ">
+                    <span class="input-group-addon"><i class="icon_key_alt"></i></span>
+                    <div class="nk-int-st">
+                        <input type="password" class="form-control" placeholder="Password" asp-for="Password">
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="fm-checkbox">
+                    <input type="checkbox" value="remember-me"> Remember me
+                </div>
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div>
+                    <button class="btn btn-primary btn-lg btn-block" type="submit">Login</button>
+                </div>
+            </div>
+        </form>
+
         </div>
 
+
+        <!-- Login Register area End-->
        
-    <!-- Login Register area End-->
-    <!-- jquery
-        ============================================ -->
-    <script src="~/serviceProviderSide/js/vendor/jquery-1.12.4.min.js"></script>
-    <!-- bootstrap JS
-        ============================================ -->
-    <script src="~/serviceProviderSide/js/bootstrap.min.js"></script>
-    <!-- wow JS
-        ============================================ -->
-    <script src="~/serviceProviderSide/js/wow.min.js"></script>
-    <!-- price-slider JS
-        ============================================ -->
-    <script src="~/serviceProviderSide/js/jquery-price-slider.js"></script>
-    <!-- owl.carousel JS
-        ============================================ -->
-    <script src="~/serviceProviderSide/js/owl.carousel.min.js"></script>
-    <!-- scrollUp JS
-        ============================================ -->
-    <script src="~/serviceProviderSide/js/jquery.scrollUp.min.js"></script>
-    <!-- meanmenu JS
-        ============================================ -->
-    <script src="~/serviceProviderSide/js/meanmenu/jquery.meanmenu.js"></script>
-    <!-- counterup JS
-        ============================================ -->
-    <script src="~/serviceProviderSide/js/counterup/jquery.counterup.min.js"></script>
-    <script src="~/serviceProviderSide/js/counterup/waypoints.min.js"></script>
-    <script src="~/serviceProviderSide/js/counterup/counterup-active.js"></script>
-    <!-- mCustomScrollbar JS
-        ============================================ -->
-    <script src="~/serviceProviderSide/js/scrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
-    <!-- sparkline JS
-        ============================================ -->
-    <script src="~/serviceProviderSide/js/sparkline/jquery.sparkline.min.js"></script>
-    <script src="~/serviceProviderSide/js/sparkline/sparkline-active.js"></script>
-    <!-- flot JS
-        ============================================ -->
-    <script src="~/serviceProviderSide/js/flot/jquery.flot.js"></script>
-    <script src="~/serviceProviderSide/js/flot/jquery.flot.resize.js"></script>
-    <script src="~/serviceProviderSide/js/flot/flot-active.js"></script>
-    <!-- knob JS
-        ============================================ -->
-    <script src="~/serviceProviderSide/js/knob/jquery.knob.js"></script>
-    <script src="~/serviceProviderSide/js/knob/jquery.appear.js"></script>
-    <script src="~/serviceProviderSide/js/knob/knob-active.js"></script>
-    <!--  Chat JS
-        ============================================ -->
-    <script src="~/serviceProviderSide/js/chat/jquery.chat.js"></script>
-    <!--  wave JS
-        ============================================ -->
-    <script src="~/serviceProviderSide/js/wave/waves.min.js"></script>
-    <script src="~/serviceProviderSide/js/wave/wave-active.js"></script>
-    <!-- icheck JS
-        ============================================ -->
-    <script src="~/serviceProviderSide/js/icheck/icheck.min.js"></script>
-    <script src="~/serviceProviderSide/js/icheck/icheck-active.js"></script>
-    <!--  todo JS
-        ============================================ -->
-    <script src="~/serviceProviderSide/js/todo/jquery.todo.js"></script>
-    <!-- Login JS
-        ============================================ -->
-    <script src="~/serviceProviderSide/js/login/login-action.js"></script>
-    <!-- plugins JS
-        ============================================ -->
-    <script src="~/serviceProviderSide/js/plugins.js"></script>
-    <!-- main JS
-        ============================================ -->
-    <script src="~/serviceProviderSide/js/main.js"></script>
 </body>
 
 </html>

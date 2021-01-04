@@ -28,9 +28,9 @@ namespace ParcelHub.DatabaseConnection
 
         public DbSet<Shippment> Shippment { get;set;}
 
-        public DbSet<ParcelHub.Models.HomePageNews> HomePageNews { get; set; }
-        
-       
-        
+        public DbSet<HomePageNews> HomePageNews { get; set; }
+
+      
+
     }
 }

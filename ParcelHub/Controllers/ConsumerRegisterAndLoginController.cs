@@ -223,7 +223,6 @@ namespace ParcelHub.Controllers
                 {
                     IdentityUserId = user.Id,
                     Email = user.Email,
-                    Password = user.PasswordHash,
                     LastName = "Please update",
                     FirstName = "name",
                     DateRegisterd = DateTime.Now,

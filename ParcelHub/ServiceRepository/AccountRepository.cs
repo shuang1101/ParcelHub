@@ -15,20 +15,25 @@ namespace ParcelHub.ServiceRepository
         private readonly IEmailService _emailService;
         private readonly IConfiguration _configuration;
         private readonly IUserSerivce _userService;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
         public AccountRepository(
             IEmailService emailService,
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
             IConfiguration configuration,
-            IUserSerivce userService
+            IUserSerivce userService,
+            RoleManager<IdentityRole> roleManager
+            
             )
         {
             _configuration = configuration;
             _userService = userService;
-            _userManager = userManager;
+                        _userManager = userManager;
             _signInManager = signInManager;
             _emailService = emailService;
+            _roleManager = roleManager;
+           
         }
 
         // Create User + send varification email
@@ -130,7 +135,6 @@ namespace ParcelHub.ServiceRepository
             return result;
         }
 
-
-
+       
     }
 }

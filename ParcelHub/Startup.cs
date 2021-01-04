@@ -30,11 +30,12 @@ namespace ParcelHub
         {
             services.AddDbContext<ApplicationDbContext>(
                 options => options.UseSqlServer(Configuration.
-                GetConnectionString("DefaultConnection"))
-                );
+                GetConnectionString("DefaultConnection")),(ServiceLifetime.Transient)
+                );//
             // Add identitfy service Dbcontext also need to be changed to IdetityDbContxt
-            services.AddDefaultIdentity<IdentityUser>
-                (options => options.SignIn.RequireConfirmedEmail = true)
+            services.AddIdentity<IdentityUser,IdentityRole>
+                (options => options.SignIn.RequireConfirmedEmail = Configuration.GetValue<bool>("EmailVerification:RequireVerficationBeforeLogin"))
+                .AddRoles<IdentityRole>()
         .AddEntityFrameworkStores<ApplicationDbContext>()
         .AddDefaultTokenProviders();
 
@@ -56,7 +57,7 @@ namespace ParcelHub
 
             services.Configure<SMTPConfig>(Configuration.GetSection("SMTPConfig"));
 
-
+            
 
             services.Configure<IdentityOptions>(options =>
             {
@@ -76,7 +77,7 @@ namespace ParcelHub
                 // User settings.
                 options.User.AllowedUserNameCharacters =
                 "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
-                options.User.RequireUniqueEmail = Configuration.GetValue<bool>("EmailVerification:RequireVerficationBeforeLogin");
+                options.User.RequireUniqueEmail = true;
             });
 
             services.ConfigureApplicationCookie(options =>
@@ -89,10 +90,11 @@ namespace ParcelHub
                 options.AccessDeniedPath = "/Identity/Account/AccessDenied";
                 options.SlidingExpiration = true;
             });
+            services.AddScoped<IDbInitializer, DbInitializer>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(ILoggerFactory loggerFactory, IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(ILoggerFactory loggerFactory, IApplicationBuilder app, IWebHostEnvironment env,IDbInitializer dbInitializer)
         {
             // add service for logging
             loggerFactory.AddLog4Net("Configurations/log4net.config");
@@ -116,7 +118,11 @@ namespace ParcelHub
             app.UseRouting();
 
             app.UseAuthentication();
+
             app.UseAuthorization();
+
+            dbInitializer.InitializeDB();
+
             app.UseFileServer(new FileServerOptions
             {
                 FileProvider = new PhysicalFileProvider(

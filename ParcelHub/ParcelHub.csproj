@@ -549,7 +549,6 @@
     <Content Remove="wwwroot\img\avatar-mini4.jpg" />
     <Content Remove="wwwroot\img\avatar1.jpg" />
     <Content Remove="wwwroot\img\avatar1_small.jpg" />
-    <Content Remove="wwwroot\img\bg-1.jpg" />
     <Content Remove="wwwroot\img\chart-texture.jpg" />
     <Content Remove="wwwroot\img\chat-avatar.jpg" />
     <Content Remove="wwwroot\img\chat-avatar2.jpg" />
@@ -1221,7 +1220,6 @@
     <None Include="wwwroot\img\avatar-mini4.jpg" />
     <None Include="wwwroot\img\avatar1.jpg" />
     <None Include="wwwroot\img\avatar1_small.jpg" />
-    <None Include="wwwroot\img\bg-1.jpg" />
     <None Include="wwwroot\img\chart-texture.jpg" />
     <None Include="wwwroot\img\chat-avatar.jpg" />
     <None Include="wwwroot\img\chat-avatar2.jpg" />
