@@ -31,31 +31,6 @@ namespace ParcelHub.Controllers
         }
 
 
-        // GET: Parcels
-        //public async Task<IActionResult> Index()
-        //{
-        //    var applicationDbContext = _context.Parcel.Include(p => p.IdentityUser);
-        //    return View(await applicationDbContext.ToListAsync());
-        //}
-
-        //// GET: Parcels/Details/5
-        //public async Task<IActionResult> Details(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var parcel = await _context.Parcel
-        //        .Include(p => p.IdentityUser)
-        //        .FirstOrDefaultAsync(m => m.Id == id);
-        //    if (parcel == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return View(parcel);
-        //}
 
         // GET: Parcels/Create
         public IActionResult Create()
@@ -119,7 +94,8 @@ namespace ParcelHub.Controllers
                 Origin = form["CountryOfOrigin"].ToString(),
                 
             };
-            
+            var memebershipId = _userService.GetUserMemberId();
+            currentShippment.MemberShipId = memebershipId;
             var result = _context.Shippment.Add(currentShippment);
 
             await _context.SaveChangesAsync();
@@ -153,6 +129,7 @@ namespace ParcelHub.Controllers
                         NumberOfUnits = form[$"NumberOfUnits[{i}]"].ToString(),
 
                     };
+                    eachParcel.MemberShipId = memebershipId;
                     _context.Parcel.Add(eachParcel);
                     await _context.SaveChangesAsync();
                 }
@@ -167,92 +144,6 @@ namespace ParcelHub.Controllers
             return View();
         }
 
-        // GET: Parcels/Edit/5
-        //public async Task<IActionResult> Edit(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var parcel = await _context.Parcel.FindAsync(id);
-        //    if (parcel == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", parcel.IdentityUserId);
-        //    return View(parcel);
-        //}
-
-        //// POST: Parcels/Edit/5
-        //// To protect from overposting attacks, enable the specific properties you want to bind to.
-        //// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Edit(int id, [Bind("Id,ShippmentId,SPTackingNumber,PackageLabelBarCode,IdentityUserId,OriginTrackingNumber,Description,EstimateWeight,EstimateVolume,ActualVolume,ActualWeight,ItemValue,Reference,TransitStatus,DestinationDeliverMethod,Amount,Inbound,ArriveInDestination,JobCreated,JobLastEdit")] Parcel parcel)
-        //{
-        //    if (id != parcel.Id)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            _context.Update(parcel);
-        //            await _context.SaveChangesAsync();
-        //        }
-        //        catch (DbUpdateConcurrencyException)
-        //        {
-        //            if (!ParcelExists(parcel.Id))
-        //            {
-        //                return NotFound();
-        //            }
-        //            else
-        //            {
-        //                throw;
-        //            }
-        //        }
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", parcel.IdentityUserId);
-        //    return View(parcel);
-        //}
-
-        //// GET: Parcels/Delete/5
-        //public async Task<IActionResult> Delete(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var parcel = await _context.Parcel
-        //        .Include(p => p.IdentityUser)
-        //        .FirstOrDefaultAsync(m => m.Id == id);
-        //    if (parcel == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return View(parcel);
-        //}
-
-        //// POST: Parcels/Delete/5
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> DeleteConfirmed(int id)
-        //{
-        //    var parcel = await _context.Parcel.FindAsync(id);
-        //    _context.Parcel.Remove(parcel);
-        //    await _context.SaveChangesAsync();
-        //    return RedirectToAction(nameof(Index));
-        //}
-
-        //private bool ParcelExists(int id)
-        //{
-        //    return _context.Parcel.Any(e => e.Id == id);
-        //}
+     
     }
 }

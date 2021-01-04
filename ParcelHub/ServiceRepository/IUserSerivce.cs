@@ -6,5 +6,6 @@
         bool IsAuthenticated();
         public string GetUserEmail();
         public string GetUserName();
+        public string GetUserMemberId();
     }
 }

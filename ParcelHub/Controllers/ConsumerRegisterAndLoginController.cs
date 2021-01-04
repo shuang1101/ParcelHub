@@ -50,7 +50,10 @@ namespace ParcelHub.Controllers
         }
 
 
-
+        public IActionResult termAndConditions()
+        {
+            return View();
+        }
 
 
         [Route("signup-email")]
@@ -60,6 +63,12 @@ namespace ParcelHub.Controllers
             
             if (ModelState.IsValid)
             {
+                if (User.ConfirmTAndC == false)
+                {
+                    ModelState.AddModelError("", "Please read and accept Kiwi parcel term and conditions");
+                    return View(User);
+                }
+
                 var result = await _accountRepo.CreateUserAsync(User);
                 if (!result.Succeeded)
                 {
@@ -72,10 +81,13 @@ namespace ParcelHub.Controllers
 
                 ModelState.Clear();
             }
-            return View();
+            return RedirectToAction("AfterRegister");
         }
 
-
+        public IActionResult AfterRegister()
+        {
+            return View();
+        }
 
 
 
@@ -88,6 +100,12 @@ namespace ParcelHub.Controllers
             
             if (ModelState.IsValid)
             {
+                if (User.ConfirmTAndC == false)
+                {
+                    ModelState.AddModelError("", "Please read and accept Kiwi parcel term and conditions");
+                    return View(User);
+                }
+
                 var result = await _accountRepo.CreateUserAsync(User);
                 if (!result.Succeeded)
                 {
@@ -208,12 +226,17 @@ namespace ParcelHub.Controllers
                     Password = user.PasswordHash,
                     LastName = "Please update",
                     FirstName = "name",
-                    DateRegisterd = DateTime.Now
+                    DateRegisterd = DateTime.Now,
+                    
                 };
 
 
-                _dbcontect.Add(consumer);
+               var result =   _dbcontect.Add(consumer);
+              await _dbcontect.SaveChangesAsync();
+                result.Entity.MemeberShipId = (1000 + result.Entity.Id).ToString();
                 await _dbcontect.SaveChangesAsync();
+
+
             }
 
             return null;

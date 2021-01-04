@@ -53,9 +53,9 @@ namespace ParcelHub.Controllers
                 return NotFound();
             }
             string SPtracking = targetShippment.SPTackingNumber;
-            List<Parcel> parcels = _context.Parcel.Where(parcel => parcel.SPTackingNumber == SPtracking).ToList();
+            List<Parcel> parcels =  _context.Parcel.Where(parcel => parcel.SPTackingNumber == SPtracking).ToList();
             int AddressId = parcels[0].DestinationAddressId;
-            ConsumerAddress address = _context.ConsumerAddress.FirstOrDefault(add => add.Id == AddressId);
+            ConsumerAddress address = await _context.ConsumerAddress.FirstOrDefaultAsync(add => add.Id == AddressId);
             ViewBag.shippment = targetShippment;
             ViewBag.Parcels = parcels;
             ViewBag.Address = address;
@@ -115,6 +115,7 @@ namespace ParcelHub.Controllers
 
             if (true)      //ModelState.IsValid
             {
+                var memebershipId = _userService.GetUserMemberId();
                 for (int i = 0; i < form["OriginTrackingNumber"].Count; i++)
                 {
                     var parcelCheckExisting = form["parcelId"].Count>i? form["parcelId"][i].ToString():null;
@@ -143,6 +144,7 @@ namespace ParcelHub.Controllers
                             NumberOfUnits = form["NumberOfUnits"][i].ToString(),
 
                         };
+                        eachParcel.MemberShipId = memebershipId;
                     }
                     else
                     {
@@ -165,6 +167,7 @@ namespace ParcelHub.Controllers
                             NumberOfUnits = form["NumberOfUnits"][i].ToString(),
 
                         };
+                        eachParcel.MemberShipId = memebershipId;
                     }
 
 

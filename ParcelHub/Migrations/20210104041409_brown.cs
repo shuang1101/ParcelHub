@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ParcelHub.Migrations
 {
-    public partial class init : Migration
+    public partial class brown : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -47,18 +47,26 @@ namespace ParcelHub.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ChangePasswordUserModel",
+                name: "Consumer",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    CurrentPassword = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    NewPassword = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ConfirmNewPassword = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    IdentityUserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ModelIsvalid = table.Column<bool>(type: "bit", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    MobileNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Password = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsValid = table.Column<bool>(type: "bit", nullable: false),
+                    DateRegisterd = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateTimeLastLogin = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    WechatId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    MemeberShipId = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ChangePasswordUserModel", x => x.Id);
+                    table.PrimaryKey("PK_Consumer", x => x.IdentityUserId);
                 });
 
             migrationBuilder.CreateTable(
@@ -78,36 +86,6 @@ namespace ParcelHub.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "InValidUser",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ConfirmPassword = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_InValidUser", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "LoginUser",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    RememberMe = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_LoginUser", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "ServiceProviderUser",
                 columns: table => new
                 {
@@ -121,7 +99,8 @@ namespace ParcelHub.Migrations
                     City = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Suburb = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     StreeAddress = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PostCode = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    PostCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ModelIsvalid = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -251,44 +230,20 @@ namespace ParcelHub.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Consumer",
-                columns: table => new
-                {
-                    IdentityUserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Id = table.Column<int>(type: "int", nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    MobileNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    IdentityUserId1 = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    IsValid = table.Column<bool>(type: "bit", nullable: false),
-                    DateRegisterd = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DateTimeLastLogin = table.Column<DateTime>(type: "datetime2", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Consumer", x => x.IdentityUserId);
-                    table.ForeignKey(
-                        name: "FK_Consumer_AspNetUsers_IdentityUserId1",
-                        column: x => x.IdentityUserId1,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "ConsumerAddress",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    NameOfMyAddress = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IdentityUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     Country = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     State = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     City = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Suburb = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     StreetAddress = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PostCode = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    PostCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ModelIsvalid = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -308,21 +263,28 @@ namespace ParcelHub.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ShippmentId = table.Column<int>(type: "int", nullable: false),
+                    SPTackingNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PackageLabelBarCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IdentityUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    OriginCourierCompany = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     OriginTrackingNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CountryOfOrigin = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DestinationAddressId = table.Column<int>(type: "int", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
-                    EstimateWeight = table.Column<float>(type: "real", nullable: false),
-                    EstimateVolume = table.Column<float>(type: "real", nullable: false),
+                    EstimateWeight = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    EstimateVolume = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ActualVolume = table.Column<float>(type: "real", nullable: false),
                     ActualWeight = table.Column<float>(type: "real", nullable: false),
-                    ItemValue = table.Column<float>(type: "real", nullable: false),
+                    TotalValue = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Reference = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     TransitStatus = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DestinationDeliverMethod = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Inbound = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ArriveInDestination = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    JobCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    JobLastEdit = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    NumberOfUnits = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DateTimeInboundOrigin = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateTimeArriveInDestination = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateTimeJobCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateTimeJobLastEdit = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModelIsvalid = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -347,7 +309,10 @@ namespace ParcelHub.Migrations
                     Origin = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Destination = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ShippingContainerId = table.Column<int>(type: "int", nullable: false),
-                    RequiredInsurance = table.Column<bool>(type: "bit", nullable: false)
+                    RequiredInsurance = table.Column<bool>(type: "bit", nullable: false),
+                    TotalValue = table.Column<float>(type: "real", nullable: false),
+                    ModelIsvalid = table.Column<bool>(type: "bit", nullable: false),
+                    DateTimeJobCreated = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -365,6 +330,7 @@ namespace ParcelHub.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false),
+                    ModelIsvalid = table.Column<bool>(type: "bit", nullable: false),
                     TotalCharge = table.Column<decimal>(type: "money", nullable: false),
                     IsInvoicePaid = table.Column<bool>(type: "bit", nullable: false)
                 },
@@ -419,11 +385,6 @@ namespace ParcelHub.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Consumer_IdentityUserId1",
-                table: "Consumer",
-                column: "IdentityUserId1");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_ConsumerAddress_IdentityUserId",
                 table: "ConsumerAddress",
                 column: "IdentityUserId");
@@ -457,9 +418,6 @@ namespace ParcelHub.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "ChangePasswordUserModel");
-
-            migrationBuilder.DropTable(
                 name: "Consumer");
 
             migrationBuilder.DropTable(
@@ -469,13 +427,7 @@ namespace ParcelHub.Migrations
                 name: "HomePageNews");
 
             migrationBuilder.DropTable(
-                name: "InValidUser");
-
-            migrationBuilder.DropTable(
                 name: "Invoice");
-
-            migrationBuilder.DropTable(
-                name: "LoginUser");
 
             migrationBuilder.DropTable(
                 name: "Parcel");

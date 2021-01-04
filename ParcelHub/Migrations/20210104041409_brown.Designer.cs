@@ -10,8 +10,8 @@ using ParcelHub.DatabaseConnection;
 namespace ParcelHub.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210101052934_addxxx")]
-    partial class addxxx
+    [Migration("20210104041409_brown")]
+    partial class brown
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -251,8 +251,15 @@ namespace ParcelHub.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<string>("MemeberShipId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("MobileNumber")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("ModelIsvalid")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Password")
                         .HasColumnType("nvarchar(max)");
@@ -281,6 +288,9 @@ namespace ParcelHub.Migrations
                     b.Property<string>("IdentityUserId")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<bool>("ModelIsvalid")
+                        .HasColumnType("bit");
+
                     b.Property<string>("NameOfMyAddress")
                         .HasColumnType("nvarchar(max)");
 
@@ -291,6 +301,9 @@ namespace ParcelHub.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("StreetAddress")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Suburb")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -332,6 +345,9 @@ namespace ParcelHub.Migrations
                     b.Property<bool>("IsInvoicePaid")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("ModelIsvalid")
+                        .HasColumnType("bit");
+
                     b.Property<decimal>("TotalCharge")
                         .HasColumnType("money");
 
@@ -353,8 +369,8 @@ namespace ParcelHub.Migrations
                     b.Property<float>("ActualWeight")
                         .HasColumnType("real");
 
-                    b.Property<int>("Amount")
-                        .HasColumnType("int");
+                    b.Property<string>("CountryOfOrigin")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("DateTimeArriveInDestination")
                         .HasColumnType("datetime2");
@@ -373,20 +389,28 @@ namespace ParcelHub.Migrations
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
 
+                    b.Property<int>("DestinationAddressId")
+                        .HasColumnType("int");
+
                     b.Property<string>("DestinationDeliverMethod")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<float>("EstimateVolume")
-                        .HasColumnType("real");
+                    b.Property<string>("EstimateVolume")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<float>("EstimateWeight")
-                        .HasColumnType("real");
+                    b.Property<string>("EstimateWeight")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("IdentityUserId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<float>("ItemValue")
-                        .HasColumnType("real");
+                    b.Property<bool>("ModelIsvalid")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("NumberOfUnits")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("OriginCourierCompany")
                         .HasColumnType("nvarchar(max)");
@@ -405,6 +429,10 @@ namespace ParcelHub.Migrations
 
                     b.Property<int>("ShippmentId")
                         .HasColumnType("int");
+
+                    b.Property<string>("TotalValue")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TransitStatus")
                         .HasColumnType("nvarchar(max)");
@@ -437,6 +465,9 @@ namespace ParcelHub.Migrations
 
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("ModelIsvalid")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Password")
                         .HasColumnType("nvarchar(max)");
@@ -486,11 +517,17 @@ namespace ParcelHub.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
+                    b.Property<DateTime>("DateTimeJobCreated")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Destination")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("IdentityUserId")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<bool>("ModelIsvalid")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Origin")
                         .HasColumnType("nvarchar(max)");

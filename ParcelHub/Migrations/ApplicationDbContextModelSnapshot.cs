@@ -241,13 +241,13 @@ namespace ParcelHub.Migrations
                     b.Property<int>("Id")
                         .HasColumnType("int");
 
-                    b.Property<bool>("IsValid")
-                        .HasColumnType("bit");
-
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("MemeberShipId")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("MobileNumber")
                         .HasColumnType("nvarchar(max)");
@@ -400,6 +400,9 @@ namespace ParcelHub.Migrations
                     b.Property<string>("IdentityUserId")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("MemberShipId")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("ModelIsvalid")
                         .HasColumnType("bit");
 
@@ -519,6 +522,9 @@ namespace ParcelHub.Migrations
 
                     b.Property<string>("IdentityUserId")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("MemberShipId")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("ModelIsvalid")
                         .HasColumnType("bit");

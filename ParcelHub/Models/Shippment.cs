@@ -20,6 +20,8 @@ namespace ParcelHub.Models
         public string SPTackingNumber { get; set; }
 
         public string IdentityUserId { get; set; }
+
+        public string MemberShipId { get; set; }
         public IdentityUser IdentityUser { get; set; }
         //BROWN
         // Introducing FOREIGN KEY constraint 'FK_Shippment_parcel_Id' 

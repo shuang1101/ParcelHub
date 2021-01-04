@@ -24,6 +24,8 @@ namespace ParcelHub.Models
         // each parcel has a consumerID
         public string IdentityUserId { get; set; }
         public IdentityUser IdentityUser { get; set; }
+
+        public string MemberShipId { get; set; }
         public string OriginCourierCompany { get; set; }
         public string OriginTrackingNumber { get; set; }
 

@@ -91,6 +91,7 @@
             <section id="topbar" class="d-block p-2 d-lg-block">
                 <div class="container d-flex">
                     <div class="contact-info mr-auto">
+                        <p>Hi, memeber @userService.GetUserMemberId()</p>
                         <i class="icofont-ship"></i><a asp-controller="ConsumerHome" asp-action="Index">My Kiwi Parcel</a>
                         <i class="icofont-ship"></i><a asp-controller="ConsumerParcels" asp-action="Create">New shippment</a>
                         <i class="icofont-console"></i><a asp-controller="ConsumerProfile" asp-action="ProfileMain">My profile</a>
@@ -214,6 +215,7 @@
     <script src="~/assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
     <script src="~/assets/vendor/venobox/venobox.min.js"></script>
     <script src="~/additionaljs/mysite.js"></script>
+
     <!-- Template Main JS File -->
     <script src="~/assets/js/main.js"></script>
     @await RenderSectionAsync("Scripts", required: false)

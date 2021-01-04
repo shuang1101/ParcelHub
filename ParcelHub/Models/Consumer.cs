@@ -3,6 +3,7 @@ using ParcelHub.Controllers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -27,7 +28,6 @@ namespace ParcelHub.Models
         public string IdentityUserId { get; set; }
 
         public string Password { get; set; }
-        public bool IsValid { get; set; }
 
         public DateTime DateRegisterd { get; set; }
 
@@ -35,6 +35,6 @@ namespace ParcelHub.Models
 
         public string WechatId { get; set; }
 
-        
+        public string MemeberShipId { get; set; }
     }
 }

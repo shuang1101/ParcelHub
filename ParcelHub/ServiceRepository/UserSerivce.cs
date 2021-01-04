@@ -41,5 +41,12 @@ namespace ParcelHub.ServiceRepository
             }
             return result.LastName + " "+result.FirstName;
         }
+
+        public string GetUserMemberId()
+        {
+          string id =  _httpContext.HttpContext.User?.FindFirstValue(ClaimTypes.NameIdentifier);
+            var consumer = _dbContext.Consumer.FirstOrDefault(consumer=>consumer.IdentityUserId==id);
+            return consumer.MemeberShipId;
+        }
     }
 }

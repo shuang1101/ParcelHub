@@ -11,20 +11,23 @@ namespace ParcelHub.Models
     {
         public int Id { get; set; }
 
-        [StringLength(14,MinimumLength =9,ErrorMessage = "Please enter a valid NZ mobile number")]
-       
+        [StringLength(14, MinimumLength = 9, ErrorMessage = "Please enter a valid NZ mobile number")]
+
         public string MobileNumber { get; set; }
-        
-        [EmailAddress(ErrorMessage ="Please enter a valid email")]
+
+        [EmailAddress(ErrorMessage = "Please enter a valid email")]
         public string Email { get; set; }
 
         [Required(ErrorMessage = "Please enter password")]
-        [Compare("ConfirmPassword",ErrorMessage ="Password does not match")]
+        [Compare("ConfirmPassword", ErrorMessage = "Password does not match")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
         [Required(ErrorMessage = "Please confirm password")]
         [DataType(DataType.Password)]
         public string ConfirmPassword { get; set; }
+
+        [Required]
+        public bool ConfirmTAndC {get;set;}
     }
 }

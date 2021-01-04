@@ -30,6 +30,8 @@
     <link href="css/style.css" rel="stylesheet">
     <link href="css/style-responsive.css" rel="stylesheet" />
 
+   
+
 </head>
 
 <body class="login-img3-body">
@@ -46,7 +48,7 @@
                 <br />
                 <div class="input-group">
                     <span class="input-group-addon"><i class="icon_mail"></i></span>
-                    <input asp-for="Email" class="form-control" placeholder="E-mail" type="email" autofocus required/>
+                    <input asp-for="Email" class="form-control" placeholder="E-mail" type="email" autofocus required />
                     <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
                 <div class="input-group">
@@ -58,18 +60,25 @@
                     <span class="input-group-addon"><i class="icon_key_alt"></i></span>
                     <input asp-for="ConfirmPassword" class="form-control" placeholder="Confirm Password" />
                     <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-
+                </div>
+                <div class="input-group">
+                    <input asp-for="ConfirmTAndC" class="form-check" />
+                    <label class="form-check-label"> I accept the service <a asp-action="termAndConditions" target="_blank">Term & Conditions</a> </label>
+                    <span asp-validation-for="ConfirmTAndC" class="text-danger"></span>
                 </div>
 
 
 
                 <button class="btn btn-primary btn-lg btn-block" type="submit">Submit</button>
+                <br />
+                <!-- Button trigger modal -->
 
                 <br />
                 <a asp-controller="ConsumerRegisterAndLogin" asp-action="ConsumerLogin"> Already registered?</a>
 
             </div>
         </form>
+        
         <div class="text-right">
             <div class="credits">
 
@@ -79,6 +88,8 @@
     @section Scripts {
         @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     }
+
+
 
 </body>
 

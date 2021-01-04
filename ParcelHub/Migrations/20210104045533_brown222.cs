@@ -2,12 +2,18 @@
 
 namespace ParcelHub.Migrations
 {
-    public partial class add222 : Migration
+    public partial class brown222 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<string>(
-                name: "OriginCourierCompany",
+                name: "MemberShipId",
+                table: "Shippment",
+                type: "nvarchar(max)",
+                nullable: true);
+
+            migrationBuilder.AddColumn<string>(
+                name: "MemberShipId",
                 table: "Parcel",
                 type: "nvarchar(max)",
                 nullable: true);
@@ -16,7 +22,11 @@ namespace ParcelHub.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "OriginCourierCompany",
+                name: "MemberShipId",
+                table: "Shippment");
+
+            migrationBuilder.DropColumn(
+                name: "MemberShipId",
                 table: "Parcel");
         }
     }

@@ -45,8 +45,8 @@
                 <br />
                 <br />
                 <div class="input-group">
-                    <span class="input-group-addon"><i class="icon_phone"></i></span>  
-                    <input asp-for="MobileNumber" class="form-control" placeholder="Mobile Number" type="text"  autofocus required />
+                    <span class="input-group-addon"><i class="icon_phone"></i></span>
+                    <input asp-for="MobileNumber" class="form-control" placeholder="Mobile Number" type="text" autofocus required />
                     <span asp-validation-for="MobileNumber" class="text-danger"></span>
                 </div>
                 <div class="input-group">
@@ -60,11 +60,16 @@
                     <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
 
                 </div>
-
+                <div class="input-group">
+                    <input asp-for="ConfirmTAndC" class="form-check" />
+                    <label class="form-check-label"> I accept the service <a asp-action="termAndConditions" target="_blank">Term & Conditions</a> </label>
+                    <span asp-validation-for="ConfirmTAndC" class="text-danger"></span>
+                </div>
 
 
                 <button class="btn btn-primary btn-lg btn-block" type="submit">Submit</button>
-
+                <br />
+                
                 <br />
                 <a asp-controller="ConsumerRegisterAndLogin" asp-action="ConsumerLogin"> Already registered?</a>
 
