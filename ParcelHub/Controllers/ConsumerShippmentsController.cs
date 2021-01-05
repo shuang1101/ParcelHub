@@ -31,7 +31,7 @@ namespace ParcelHub.Controllers
         {
             // 1. shippment under current consumer 2. shippment is markded valid
             var applicationDbContext = _context.Shippment
-                .Where(spmt => spmt.IdentityUserId == _currentUserId)
+                .Where(spmt => spmt.ApplicationUserId == _currentUserId)
                 .Where(spmt => spmt.ModelIsvalid == true);
 
             return View(await applicationDbContext.ToListAsync());
@@ -46,7 +46,7 @@ namespace ParcelHub.Controllers
             {
                 return NotFound();
             }
-            var shippments = _context.Shippment.Where(spmts => spmts.IdentityUserId == _currentUserId).Where(smpt => smpt.ModelIsvalid == true);
+            var shippments = _context.Shippment.Where(spmts => spmts.ApplicationUserId == _currentUserId).Where(smpt => smpt.ModelIsvalid == true);
             var targetShippment = shippments.FirstOrDefault(spmt => spmt.Id == id);
             if (targetShippment == null)
             {
@@ -54,7 +54,7 @@ namespace ParcelHub.Controllers
             }
             string SPtracking = targetShippment.SPTackingNumber;
             List<Parcel> parcels =  _context.Parcel.Where(parcel => parcel.SPTackingNumber == SPtracking).ToList();
-            int AddressId = parcels[0].DestinationAddressId;
+            int AddressId = parcels[0].ConsumerAddressId;
             ConsumerAddress address = await _context.ConsumerAddress.FirstOrDefaultAsync(add => add.Id == AddressId);
             ViewBag.shippment = targetShippment;
             ViewBag.Parcels = parcels;
@@ -89,20 +89,20 @@ namespace ParcelHub.Controllers
 
             if (lookForAddress == null)
             {
-                ConsumerAddress address = new ConsumerAddress()
-                {
-                    Country = form["consumerAddress.Country"].ToString(),
-                    StreetAddress = form["consumerAddress.StreetAddress"].ToString(),
-                    State = form["consumerAddress.State"].ToString(),
-                    Suburb = form["consumerAddress.Suburb"].ToString(),
-                    City = form["consumerAddress.City"].ToString(),
-                    PostCode = form["consumerAddress.PostCode"].ToString(),
-                    IdentityUserId = userId
-                };
+                //ConsumerAddress address = new ConsumerAddress()
+                //{
+                //    Country = form["consumerAddress.Country"].ToString(),
+                //    StreetAddress = form["consumerAddress.StreetAddress"].ToString(),
+                //    State = form["consumerAddress.State"].ToString(),
+                //    Suburb = form["consumerAddress.Suburb"].ToString(),
+                //    City = form["consumerAddress.City"].ToString(),
+                //    PostCode = form["consumerAddress.PostCode"].ToString(),
+                //    ApplicationUserId = userId
+                //};
 
-                var addressResult = _context.ConsumerAddress.Add(address);
-                await _context.SaveChangesAsync();
-                addressId = addressResult.Entity.Id;
+                //var addressResult = _context.ConsumerAddress.Add(address);
+                //await _context.SaveChangesAsync();
+                //addressId = addressResult.Entity.Id;
             }
             else
             {
@@ -124,78 +124,78 @@ namespace ParcelHub.Controllers
                     if (parcelCheckExisting!="")
                     {
 
-                        eachParcel = new Parcel()
-                        {
+                        //eachParcel = new Parcel()
+                        //{
 
-                            DestinationAddressId = addressId,
-                            ShippmentId = Int32.Parse(shippmentId),
-                            IdentityUserId = userId,
-                            DestinationDeliverMethod = form["DestinationDeliverMethod"].ToString(),
-                            CountryOfOrigin = form["CountryOfOrigin"].ToString(),
-                            SPTackingNumber = SPNumber,
-                            Id = Int32.Parse(parcelCheckExisting),
-                            OriginCourierCompany = form["OriginCourierCompany"][i].ToString(),
-                            OriginTrackingNumber = form["OriginTrackingNumber"][i].ToString(),
-                            Description = form["Description"][i].ToString(),
-                            EstimateWeight = form["EstimateWeight"][i].ToString(),
-                            EstimateVolume = form["EstimateVolume"][i].ToString(),
-                            TotalValue = form["TotalValue"][i].ToString(),
-                            Reference = form["Reference"][i].ToString(),
-                            NumberOfUnits = form["NumberOfUnits"][i].ToString(),
+                        //    DestinationAddressId = addressId,
+                        //    ShippmentId = Int32.Parse(shippmentId),
+                        //    ApplicationUserId = userId,
+                        //    DestinationDeliverMethod = form["DestinationDeliverMethod"].ToString(),
+                        //    CountryOfOrigin = form["CountryOfOrigin"].ToString(),
+                        //    SPTackingNumber = SPNumber,
+                        //    Id = Int32.Parse(parcelCheckExisting),
+                        //    OriginCourierCompany = form["OriginCourierCompany"][i].ToString(),
+                        //    OriginTrackingNumber = form["OriginTrackingNumber"][i].ToString(),
+                        //    Description = form["Description"][i].ToString(),
+                        //    EstimateWeight = form["EstimateWeight"][i].ToString(),
+                        //    EstimateVolume = form["EstimateVolume"][i].ToString(),
+                        //    TotalValue = form["TotalValue"][i].ToString(),
+                        //    Reference = form["Reference"][i].ToString(),
+                        //    NumberOfUnits = form["NumberOfUnits"][i].ToString(),
 
-                        };
-                        eachParcel.MemberShipId = memebershipId;
+                        //};
+                        //eachParcel.MemberShipId = memebershipId;
                     }
                     else
                     {
-                        eachParcel = new Parcel()
-                        {
+                        //eachParcel = new Parcel()
+                        //{
 
-                            DestinationAddressId = addressId,
-                            ShippmentId = Int32.Parse(shippmentId),
-                            IdentityUserId = userId,
-                            DestinationDeliverMethod = form["DestinationDeliverMethod"].ToString(),
-                            CountryOfOrigin = form["CountryOfOrigin"].ToString(),
-                            SPTackingNumber = SPNumber,
-                            OriginCourierCompany = form["OriginCourierCompany"][i].ToString(),
-                            OriginTrackingNumber = form["OriginTrackingNumber"][i].ToString(),
-                            Description = form["Description"][i].ToString(),
-                            EstimateWeight = form["EstimateWeight"][i].ToString(),
-                            EstimateVolume = form["EstimateVolume"][i].ToString(),
-                            TotalValue = form["TotalValue"][i].ToString(),
-                            Reference = form["Reference"].Count>i? form["Reference"][i].ToString():"",
-                            NumberOfUnits = form["NumberOfUnits"][i].ToString(),
+                        //    DestinationAddressId = addressId,
+                        //    ShippmentId = Int32.Parse(shippmentId),
+                        //    ApplicationUserId = userId,
+                        //    DestinationDeliverMethod = form["DestinationDeliverMethod"].ToString(),
+                        //    CountryOfOrigin = form["CountryOfOrigin"].ToString(),
+                        //    SPTackingNumber = SPNumber,
+                        //    OriginCourierCompany = form["OriginCourierCompany"][i].ToString(),
+                        //    OriginTrackingNumber = form["OriginTrackingNumber"][i].ToString(),
+                        //    Description = form["Description"][i].ToString(),
+                        //    EstimateWeight = form["EstimateWeight"][i].ToString(),
+                        //    EstimateVolume = form["EstimateVolume"][i].ToString(),
+                        //    TotalValue = form["TotalValue"][i].ToString(),
+                        //    Reference = form["Reference"].Count>i? form["Reference"][i].ToString():"",
+                        //    NumberOfUnits = form["NumberOfUnits"][i].ToString(),
 
-                        };
-                        eachParcel.MemberShipId = memebershipId;
+                        //};
+                        //eachParcel.MemberShipId = memebershipId;
                     }
 
 
 
-                    var findParcel = _context.Parcel.FirstOrDefault(parcel => parcel.Id == eachParcel.Id);
+                    //var findParcel = _context.Parcel.FirstOrDefault(parcel => parcel.Id == eachParcel.Id);
 
-                    if (findParcel == null)  //if new parcel => create
-                    {
-                        _context.Parcel.Add(eachParcel);
-                        await _context.SaveChangesAsync();
-                    }
-                    else if (CompareParcels(findParcel, eachParcel))
-                    {
-                        // if parcel unchanged. continue
-                    }
-                    else  // if existing parcel and changes are made => update
-                    {
-                        findParcel.OriginCourierCompany = form["OriginCourierCompany"][i].ToString();
-                        findParcel.OriginTrackingNumber = form["OriginTrackingNumber"][i].ToString();
-                        findParcel.Description = form["Description"][i].ToString();
-                        findParcel.EstimateWeight = form["EstimateWeight"][i].ToString();
-                        findParcel.EstimateVolume = form["EstimateVolume"][i].ToString();
-                        findParcel.TotalValue = form["TotalValue"][i].ToString();
-                        findParcel.Reference = form["Reference"][i].ToString();
-                        findParcel.NumberOfUnits = form["NumberOfUnits"][i].ToString();
-                        _context.Parcel.Update(findParcel);
-                        await _context.SaveChangesAsync();
-                    }
+                    //if (findParcel == null)  //if new parcel => create
+                    //{
+                    //    _context.Parcel.Add(eachParcel);
+                    //    await _context.SaveChangesAsync();
+                    //}
+                    //else if (CompareParcels(findParcel, eachParcel))
+                    //{
+                    //    // if parcel unchanged. continue
+                    //}
+                    //else  // if existing parcel and changes are made => update
+                    //{
+                    //    findParcel.OriginCourierCompany = form["OriginCourierCompany"][i].ToString();
+                    //    findParcel.OriginTrackingNumber = form["OriginTrackingNumber"][i].ToString();
+                    //    findParcel.Description = form["Description"][i].ToString();
+                    //    findParcel.EstimateWeight = form["EstimateWeight"][i].ToString();
+                    //    findParcel.EstimateVolume = form["EstimateVolume"][i].ToString();
+                    //    findParcel.TotalValue = form["TotalValue"][i].ToString();
+                    //    findParcel.Reference = form["Reference"][i].ToString();
+                    //    findParcel.NumberOfUnits = form["NumberOfUnits"][i].ToString();
+                    //    _context.Parcel.Update(findParcel);
+                    //    await _context.SaveChangesAsync();
+                    //}
 
                 }
 
@@ -219,7 +219,7 @@ namespace ParcelHub.Controllers
             }
 
             var shippment = await _context.Shippment.Where(spmt => spmt.ModelIsvalid == true)
-                .Include(s => s.IdentityUser)
+                .Include(s => s.ApplicationUserId)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (shippment == null)
             {

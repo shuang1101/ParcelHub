@@ -19,10 +19,10 @@ namespace ParcelHub.Controllers
     {
         private readonly IAccountRepository _accountRepo;
         private readonly ApplicationDbContext _dbcontect;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly IEmailService _emailService;
 
-        public ConsumerRegisterAndLoginController(ApplicationDbContext dbcontect, UserManager<IdentityUser> userManager, IEmailService emailService, IAccountRepository accountRepo)
+        public ConsumerRegisterAndLoginController(ApplicationDbContext dbcontect, UserManager<ApplicationUser> userManager, IEmailService emailService, IAccountRepository accountRepo)
         {
             _accountRepo = accountRepo;
             _dbcontect = dbcontect;
@@ -211,7 +211,7 @@ namespace ParcelHub.Controllers
         }
 
         // copy this to consumerTable
-        private async Task<IActionResult> CopyIdentityAsConsumer(IdentityUser user, string uid)
+        private async Task<IActionResult> CopyIdentityAsConsumer(ApplicationUser user, string uid)
         {
 
             var Exist = _dbcontect.Consumer
@@ -221,7 +221,7 @@ namespace ParcelHub.Controllers
             {
                 Consumer consumer = new Consumer()
                 {
-                    IdentityUserId = user.Id,
+                    ApplicationUserId = user.Id,
                     Email = user.Email,
                     LastName = "Please update",
                     FirstName = "name",

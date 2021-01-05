@@ -1,5 +1,37 @@
 
 
+
+function box () {
+       
+    var warehouseid = $("#chooseWarehouse").val();
+    var obj = { "warehouseId": warehouseid };
+        $.ajax({
+            url: '/data/getWarehouseDetails',//控制器活动,返回一个分部视图,并且给分部视图传递数据.
+            data: JSON.stringify(warehouseid),//传给服务器的数据(即后台AddUsers()方法的参数,参数类型要一致才可以)
+            type: 'POST',
+            contentType: 'application/json;charset=utf-8',//数据类型必须有
+            async: true,//异步
+            success: function (data) //成功后的回调方法
+            {
+                $("#address").val(data.addressLine1);//data--就是对应的分部视图页面内容.
+                $("#address1").val(data.addressLine2);
+                $("#postcode").val(data.postCode);
+                $("#mobile").val(data.mobile);
+                $("#receiver").val(data.receiverName);
+                //ale$("#myDiv").html(data);rt(data)//弹出框
+            },
+            error: function (data) {
+                alert("失败:" + data[0])//弹出框
+            }
+
+        });
+    }
+
+
+
+
+
+
 DynamicText.count = 0;
 function DynamicText() {
 

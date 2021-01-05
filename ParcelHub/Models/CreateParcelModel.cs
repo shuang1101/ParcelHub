@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace ParcelHub.Models
 {
-    public class AddMoreParcelModel
+    public class CreateParcelModel
     {
        
         
-            public List<AddMoreParcelModel> AddMoreParcel { get; set; }
+            public List<CreateParcelModel> AddMoreParcel { get; set; }
             public int Id { get; set; }
 
             // Each Shippment contains many Parcels
@@ -24,8 +24,8 @@ namespace ParcelHub.Models
             public string PackageLabelBarCode { get; set; } // = Tracking + box number if have multi box in one shippment
 
             // each parcel has a consumerID
-            public string IdentityUserId { get; set; }
-            public IdentityUser IdentityUser { get; set; }
+            public string ApplicationUserId { get; set; }
+            public ApplicationUser ApplicationUser { get; set; }
             public string OriginTrackingNumber { get; set; }
 
             public ConsumerAddress consumerAddress { get;set; }

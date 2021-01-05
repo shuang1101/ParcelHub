@@ -17,21 +17,17 @@ namespace ParcelHub.Models
         [Key]
         public int Id { get; set; }
 
+        public int SPWarehouseModelId { get; set; }
+
+        public SPWarehouseModel SPWarehouseModel { get; set; }
+
         public string SPTackingNumber { get; set; }
 
-        public string IdentityUserId { get; set; }
+        public string ApplicationUserId { get; set; }
 
         public string MemberShipId { get; set; }
-        public IdentityUser IdentityUser { get; set; }
-        //BROWN
-        // Introducing FOREIGN KEY constraint 'FK_Shippment_parcel_Id' 
-        //on table 'Shippment' may cause cycles or multiple cascade paths.
-        //    Specify ON DELETE NO ACTION or ON UPDATE NO ACTION, 
-        //    or modify other FOREIGN KEY constraints.
-        //    Could not create constraint or index.See previous errors.
-        //[ForeignKey("Id")]
-        //public Parcel Parcel { get; set; }
-
+        public ApplicationUser ApplicationUser { get; set; }
+        
 
         public string ServiceProviderUserId { get; set; }
 

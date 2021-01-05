@@ -12,11 +12,11 @@ namespace ParcelHub.DatabaseConnection
     public class DbInitializer : IDbInitializer
     {
         private readonly ApplicationDbContext _dbContext;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IConfiguration _configuration;
 
-        public DbInitializer(ApplicationDbContext dbContext, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration)
+        public DbInitializer(ApplicationDbContext dbContext, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration)
         {
             _dbContext = dbContext;
             _userManager = userManager;
@@ -41,14 +41,31 @@ namespace ParcelHub.DatabaseConnection
                 return;
             }
 
+            if (!_dbContext.CountryOfWarehouseModel.Any())
+            {
+                CountryOfWarehouseModel newZealand = new CountryOfWarehouseModel() {CountryName="New Zealand" };
+                CountryOfWarehouseModel Korea = new CountryOfWarehouseModel() { CountryName = "Korea" };
+                CountryOfWarehouseModel China = new CountryOfWarehouseModel() { CountryName = "China" };
+                CountryOfWarehouseModel USA = new CountryOfWarehouseModel() { CountryName = "USA" };
+
+                _dbContext.CountryOfWarehouseModel.Add(newZealand);
+                _dbContext.CountryOfWarehouseModel.Add(Korea);
+                _dbContext.CountryOfWarehouseModel.Add(China);
+                _dbContext.CountryOfWarehouseModel.Add(USA);
+                _dbContext.SaveChangesAsync().GetAwaiter().GetResult();
+
+            }
+
+
             var UserName = _configuration.GetValue<string>("SeedMasterInformation:UserName");
             var Password = _configuration.GetValue<string>("SeedMasterInformation:Password");
 
-            var master = new IdentityUser()
+            var master = new ApplicationUser()
             {
                 UserName = UserName,
                 EmailConfirmed = true,
                 Email = UserName,
+                SPWarehouseModelIdIfUserIsAdmin=999
             };
 
              _userManager.CreateAsync(master, Password).GetAwaiter().GetResult();
@@ -62,7 +79,7 @@ namespace ParcelHub.DatabaseConnection
                 LastName = "Master",
                 FirstName = "SuperUser",
                 Email = UserName,
-                IdentityUserId = masterRole.Id,
+                ApplicationUserId = masterRole.Id,
                 DateRegisterd=DateTime.Now,
                 MemeberShipId="Master"
             };

@@ -23,6 +23,25 @@ namespace ParcelHub.Controllers
             _context = context;
             _userService = userService;
         }
+        [Route("/data/getWarehouseDetails")]
+        [HttpPost]
+        public JsonResult GetWarehouseDetails([FromBody]string warehouseId)
+        {
+             int Id = Int32.Parse(warehouseId);
+            try
+            {
+                var warehouse = _context.SPWarehouseModel.FirstOrDefault(warehouse => warehouse.Id == Id);
+
+                return Json(warehouse);
+            }
+            catch
+            {
+                ArgumentNullException ex;
+                return null;
+            }  
+        }
+
+
 
 
         public IActionResult SucceedPage()
@@ -45,7 +64,15 @@ namespace ParcelHub.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Object obj)
+        public async Task<IActionResult> Create([Bind("Id,ShippmentId," +
+            "SPTackingNumber,PackageLabelBarCode,ApplicationUserId," +
+            "MemberShipId,OriginCourierCompany,OriginTrackingNumber," +
+            "OriginSPWarehouseModelId,DestinatioSPWarehouseModelnId," +
+            "ConsumerAddressId,Description,EstimateWeight,EstimateVolume," +
+            "ActualVolume,ActualWeight,TotalValue,Reference,TransitStatus," +
+            "DestinationDeliverMethod,NumberOfUnits,DateTimeInboundOrigin," +
+            "DateTimeArriveInDestination,DateTimeJobCreated,DateTimeJobLastEdit," +
+            "ModelIsvalid")] Parcel parcel)
         {
             var form = Request.Form;
 
@@ -64,20 +91,20 @@ namespace ParcelHub.Controllers
 
             if (lookForAddress == null)
             {
-                ConsumerAddress address = new ConsumerAddress()
-                {
-                    Country = form["consumerAddress.Country"].ToString(),
-                    StreetAddress = form["consumerAddress.StreetAddress"].ToString(),
-                    State = form["consumerAddress.State"].ToString(),
-                    Suburb = form["consumerAddress.Suburb"].ToString(),
-                    City = form["consumerAddress.City"].ToString(),
-                    PostCode = form["consumerAddress.PostCode"].ToString(),
-                    IdentityUserId = userId
-                };
+                //ConsumerAddress address = new ConsumerAddress()
+                //{
+                //    CountryId = form["consumerAddress.Country"].ToString(),
+                //    StreetAddress = form["consumerAddress.StreetAddress"].ToString(),
+                //    State = form["consumerAddress.State"].ToString(),
+                //    Suburb = form["consumerAddress.Suburb"].ToString(),
+                //    City = form["consumerAddress.City"].ToString(),
+                //    PostCode = form["consumerAddress.PostCode"].ToString(),
+                //    ApplicationUserId = userId
+                //};
 
-                var addressResult = _context.ConsumerAddress.Add(address);
-                await _context.SaveChangesAsync();
-                addressId = addressResult.Entity.Id;
+                //var addressResult = _context.ConsumerAddress.Add(address);
+                //await _context.SaveChangesAsync();
+                //addressId = addressResult.Entity.Id;
               
 
             }
@@ -89,7 +116,7 @@ namespace ParcelHub.Controllers
             // first generate a shippment so all parcels can go into that shippment
             Shippment currentShippment = new Shippment()
             {
-                IdentityUserId = userId,
+                ApplicationUserId = userId,
                 Destination = form["consumerAddress.Country"].ToString(),
                 Origin = form["CountryOfOrigin"].ToString(),
                 
@@ -111,27 +138,27 @@ namespace ParcelHub.Controllers
             {
                 for (int i = 0; i < (form.Count - 7) / 8; i++)
                 {
-                    Parcel eachParcel = new Parcel()
-                    {   
-                        DestinationAddressId = addressId,
-                        ShippmentId = shippmentId,
-                        IdentityUserId = userId,
-                        DestinationDeliverMethod = form[$"DestinationDeliverMethod"].ToString(),
-                        CountryOfOrigin = form["CountryOfOrigin"].ToString(),
-                        SPTackingNumber=    SPNumber,
-                        OriginCourierCompany = form[$"ShippingCompanyAtOrigin[{i}]"].ToString(),
-                        OriginTrackingNumber = form[$"OriginTrackingNumber[{i}]"].ToString(),
-                        Description = form[$"Description[{i}]"].ToString(),
-                        EstimateWeight = form[$"EstimateWeight[{i}]"].ToString(),
-                        EstimateVolume = form[$"EstimateVolume[{i}]"].ToString(),
-                        TotalValue = form[$"TotalValue[{i}]"].ToString(),
-                        Reference = form[$"Reference[{i}]"].ToString(),
-                        NumberOfUnits = form[$"NumberOfUnits[{i}]"].ToString(),
+                    //Parcel eachParcel = new Parcel()
+                    //{   
+                    //    DestinationAddressId = addressId,
+                    //    ShippmentId = shippmentId,
+                    //    ApplicationUserId = userId,
+                    //    DestinationDeliverMethod = form[$"DestinationDeliverMethod"].ToString(),
+                    //    CountryOfOrigin = form["CountryOfOrigin"].ToString(),
+                    //    SPTackingNumber=    SPNumber,
+                    //    OriginCourierCompany = form[$"ShippingCompanyAtOrigin[{i}]"].ToString(),
+                    //    OriginTrackingNumber = form[$"OriginTrackingNumber[{i}]"].ToString(),
+                    //    Description = form[$"Description[{i}]"].ToString(),
+                    //    EstimateWeight = form[$"EstimateWeight[{i}]"].ToString(),
+                    //    EstimateVolume = form[$"EstimateVolume[{i}]"].ToString(),
+                    //    TotalValue = form[$"TotalValue[{i}]"].ToString(),
+                    //    Reference = form[$"Reference[{i}]"].ToString(),
+                    //    NumberOfUnits = form[$"NumberOfUnits[{i}]"].ToString(),
 
-                    };
-                    eachParcel.MemberShipId = memebershipId;
-                    _context.Parcel.Add(eachParcel);
-                    await _context.SaveChangesAsync();
+                    //};
+                    //eachParcel.MemberShipId = memebershipId;
+                    //_context.Parcel.Add(eachParcel);
+                    //await _context.SaveChangesAsync();
                 }
 
                 ViewBag.Name = _userService.GetUserName();

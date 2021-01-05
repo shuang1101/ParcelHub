@@ -16,21 +16,33 @@ namespace ParcelHub.Models
         // Each Shippment contains many Parcels
         // Each parcel can only be in one and only one Shippment
 
+ 
         public int ShippmentId { get; set; }
 
         public string SPTackingNumber { get; set; }
         public string PackageLabelBarCode { get; set; } // = Tracking + box number if have multi box in one shippment
 
         // each parcel has a consumerID
-        public string IdentityUserId { get; set; }
-        public IdentityUser IdentityUser { get; set; }
+        public string ApplicationUserId { get; set; }
+        public ApplicationUser ApplicationUser { get; set; }
 
         public string MemberShipId { get; set; }
         public string OriginCourierCompany { get; set; }
         public string OriginTrackingNumber { get; set; }
 
-        public string CountryOfOrigin { get; set; }
-        public int DestinationAddressId { get; set; }
+
+
+      
+        public int OriginSPWarehouseModelId { get; set; }
+
+        
+        public int DestinatioSPWarehouseModelnId { get; set; }
+        
+        public int ConsumerAddressId { get; set; }
+        [ForeignKey("ConsumerAddressId")]
+        public virtual  ConsumerAddress ConsumerAddress { get; set; }
+
+
 
         [Required]
         [MaxLength(150)]

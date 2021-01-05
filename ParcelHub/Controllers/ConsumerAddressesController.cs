@@ -26,7 +26,7 @@ namespace ParcelHub.Controllers
         public async Task<IActionResult> Index()
         {
             var applicationDbContext = _context.ConsumerAddress.
-                Where(address=>address.IdentityUserId==_userService.GetUserId());
+                Where(address=>address.ApplicationUserId==_userService.GetUserId());
            
             
 
@@ -42,7 +42,7 @@ namespace ParcelHub.Controllers
             }
 
             var consumerAddress = await _context.ConsumerAddress
-                .Include(c => c.IdentityUser)
+                .Include(c => c.ApplicationUserId)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (consumerAddress == null)
             {
@@ -67,7 +67,7 @@ namespace ParcelHub.Controllers
         {
             if (ModelState.IsValid)
             {
-                consumerAddress.IdentityUserId = _userService.GetUserId();
+                consumerAddress.ApplicationUserId = _userService.GetUserId();
                 
                 _context.Add(consumerAddress);
                 await _context.SaveChangesAsync();
@@ -108,7 +108,7 @@ namespace ParcelHub.Controllers
             {
                 try
                 {
-                    consumerAddress.IdentityUserId = _userService.GetUserId();
+                    consumerAddress.ApplicationUserId = _userService.GetUserId();
                     _context.Update(consumerAddress);
                     await _context.SaveChangesAsync();
                 }
@@ -137,7 +137,7 @@ namespace ParcelHub.Controllers
             }
 
             var consumerAddress = await _context.ConsumerAddress
-                .Include(c => c.IdentityUser)
+                .Include(c => c.ApplicationUserId)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (consumerAddress == null)
             {

@@ -33,7 +33,7 @@ namespace ParcelHub
                 GetConnectionString("DefaultConnection")),(ServiceLifetime.Transient)
                 );//
             // Add identitfy service Dbcontext also need to be changed to IdetityDbContxt
-            services.AddIdentity<IdentityUser,IdentityRole>
+            services.AddIdentity<ApplicationUser,IdentityRole>
                 (options => options.SignIn.RequireConfirmedEmail = Configuration.GetValue<bool>("EmailVerification:RequireVerficationBeforeLogin"))
                 .AddRoles<IdentityRole>()
         .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -53,6 +53,7 @@ namespace ParcelHub
 
             services.AddScoped<IAccountRepository, AccountRepository>();
 
+            services.AddScoped<IAdminService, AdminService>();
 
 
             services.Configure<SMTPConfig>(Configuration.GetSection("SMTPConfig"));

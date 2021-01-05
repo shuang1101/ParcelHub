@@ -10,8 +10,8 @@ namespace ParcelHub.ServiceRepository
 {
     public class AccountRepository : IAccountRepository
     {
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailService _emailService;
         private readonly IConfiguration _configuration;
         private readonly IUserSerivce _userService;
@@ -19,8 +19,8 @@ namespace ParcelHub.ServiceRepository
 
         public AccountRepository(
             IEmailService emailService,
-            UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager,
+            UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager,
             IConfiguration configuration,
             IUserSerivce userService,
             RoleManager<IdentityRole> roleManager
@@ -39,7 +39,7 @@ namespace ParcelHub.ServiceRepository
         // Create User + send varification email
         public async Task<IdentityResult> CreateUserAsync(SignUpUser signUpUser)
         {
-            var user = new IdentityUser()
+            var user = new ApplicationUser()
             {
                 Email = signUpUser.Email,
                 UserName = signUpUser.Email,
@@ -98,7 +98,7 @@ namespace ParcelHub.ServiceRepository
 
         // complete the content in Varification email
 
-        private UserEmailOption CompleteReturnString(IdentityUser user, string token)
+        private UserEmailOption CompleteReturnString(ApplicationUser user, string token)
         {
             string appDomain = _configuration
                        .GetSection("EmailVerification:AppDomain").Value;
@@ -135,6 +135,7 @@ namespace ParcelHub.ServiceRepository
             return result;
         }
 
+       
        
     }
 }

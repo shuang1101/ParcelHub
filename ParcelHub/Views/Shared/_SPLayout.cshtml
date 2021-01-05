@@ -355,13 +355,13 @@
                     <li class="sub-menu">
                         <a href="javascript:;" class="">
                             <i class="icon_documents_alt"></i>
-                            <span>Pages</span>
+                            <span>Config & Admin</span>
                             <span class="menu-arrow arrow_carrot-right"></span>
                         </a>
                         <ul class="sub">
-                            <li><a class="" href="profile.html">Profile</a></li>
-                            <li><a class="" href="login.html"><span>Login Page</span></a></li>
-                            <li><a class="" href="contact.html"><span>Contact Page</span></a></li>
+                            <li><a class="" asp-controller="CountryOfWarehouseModels" asp-action="Index">Countries</a></li>
+                            <li><a class="" asp-controller="SPWarehouseModels" asp-action="Index"><span>Warehouses</span></a></li>
+                            <li><a class=""asp-controller="SPUserModels" asp-action="Index"><span>Admin Users</span></a></li>
                             <li><a class="" href="blank.html">Blank Page</a></li>
                             <li><a class="" href="404.html">404 Error</a></li>
                         </ul>
@@ -374,7 +374,11 @@
         <!--sidebar end-->
         <!--main content start-->
         <main>
-            @RenderBody()
+            <section id="main-content">
+                <section class="wrapper">
+                    @RenderBody()
+                </section>
+            </section>
 
         </main>
         <!--main content end-->
@@ -395,7 +399,7 @@
     <script src="~/assets/jquery-knob/js/jquery.knob.js"></script>
     <!--custome script for all page-->
     <script src="~/js/scripts.js"></script>
- 
+
 
     <!-- gritter -->
     <!-- custom gritter script for this page only-->
@@ -407,7 +411,7 @@
         //knob
         $(".knob").knob();
     </script>
-
+    @await RenderSectionAsync("Scripts", required: false)
 
 </body>
 

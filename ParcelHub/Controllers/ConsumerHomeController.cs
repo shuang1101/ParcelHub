@@ -27,7 +27,7 @@ namespace ParcelHub.Controllers
         public async Task<IActionResult> Index()
         {
             var result = _context.Parcel
-                .Where(parcel => parcel.IdentityUserId == _userService.GetUserId());
+                .Where(parcel => parcel.ApplicationUserId == _userService.GetUserId());
 
             return View(await result.ToListAsync());
         }
@@ -63,7 +63,7 @@ namespace ParcelHub.Controllers
         //[ValidateAntiForgeryToken]
         //public async Task<IActionResult> Create([Bind("Id,OriginTrackingNumber,Description,EstimateWeight,EstimateVolume,ItemValue,Reference,DestinationDeliverMethod")] Parcel parcel)
         //{
-        //    parcel.IdentityUserId = _userService.GetUserId();
+        //    parcel.ApplicationUserId = _userService.GetUserId();
 
         //    parcel.DateTimeJobLastEdit = DateTime.Now;
 
@@ -110,7 +110,7 @@ namespace ParcelHub.Controllers
         //        try
         //        {
         //            parcel.DateTimeJobLastEdit = DateTime.Now;
-        //            parcel.IdentityUserId = _userService.GetUserId();
+        //            parcel.ApplicationUserId = _userService.GetUserId();
         //            _context.Update(parcel);
         //            await _context.SaveChangesAsync();
         //        }

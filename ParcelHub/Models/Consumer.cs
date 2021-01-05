@@ -25,7 +25,7 @@ namespace ParcelHub.Models
        
         public string Email { get; set; }
          [Key]
-        public string IdentityUserId { get; set; }
+        public string ApplicationUserId { get; set; }
 
         public DateTime DateRegisterd { get; set; }
 
@@ -34,5 +34,8 @@ namespace ParcelHub.Models
         public string WechatId { get; set; }
 
         public string MemeberShipId { get; set; }
+
+       
+      
     }
 }

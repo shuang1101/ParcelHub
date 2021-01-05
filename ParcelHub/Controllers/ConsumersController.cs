@@ -29,7 +29,7 @@ namespace ParcelHub.Controllers
         public async Task<IActionResult> Index()
         {
             var consumer = _context.Consumer
-                .Where(consumer => consumer.IdentityUserId == _userservice.GetUserId());
+                .Where(consumer => consumer.ApplicationUserId == _userservice.GetUserId());
 
             return View(await consumer.ToListAsync());
         }
@@ -43,7 +43,7 @@ namespace ParcelHub.Controllers
             }
 
             var consumer = await _context.Consumer
-                .FirstOrDefaultAsync(m => m.IdentityUserId == id);
+                .FirstOrDefaultAsync(m => m.ApplicationUserId == id);
             if (consumer == null)
             {
                 return NotFound();
@@ -91,7 +91,7 @@ namespace ParcelHub.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ConsumerExists(consumerToUpdate.IdentityUserId))
+                    if (!ConsumerExists(consumerToUpdate.ApplicationUserId))
                     {
                         return NotFound();
                     }
