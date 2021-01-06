@@ -26,35 +26,19 @@ namespace ParcelHub.Controllers
         public async Task<IActionResult> Index()
         {
             var applicationDbContext = _context.ConsumerAddress.
-                Where(address=>address.ApplicationUserId==_userService.GetUserId());
+                Where(address=>address.ApplicationUserId==_userService.GetUserId())
+                .Where(add => add.ModelIsvalid == true);
            
             
 
             return View(await applicationDbContext.ToListAsync());
         }
 
-        // GET: ConsumerAddresses/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var consumerAddress = await _context.ConsumerAddress
-                .Include(c => c.ApplicationUserId)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (consumerAddress == null)
-            {
-                return NotFound();
-            }
-
-            return View(consumerAddress);
-        }
-
+       
         // GET: ConsumerAddresses/Create
         public IActionResult Create()
         {
+           
             return View();
         }
 
@@ -63,7 +47,7 @@ namespace ParcelHub.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Country,State,City,StreetAddress,PostCode")] ConsumerAddress consumerAddress)
+        public async Task<IActionResult> Create([Bind("Id,NameOfReceiver,NameOfMyAddress,Country,CountryOfWarehouseModelId,State,Suburb,City,StreetAddress,PostCode")] ConsumerAddress consumerAddress)
         {
             if (ModelState.IsValid)
             {
@@ -97,7 +81,7 @@ namespace ParcelHub.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Country,State,City,StreetAddress,PostCode")] ConsumerAddress consumerAddress)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Country,State,City,NameOfMyAddress,NameOfReceiver,CountryOfWarehouseModelId,Suburb,StreetAddress,PostCode")] ConsumerAddress consumerAddress)
         {
             if (id != consumerAddress.Id)
             {
@@ -137,7 +121,8 @@ namespace ParcelHub.Controllers
             }
 
             var consumerAddress = await _context.ConsumerAddress
-                .Include(c => c.ApplicationUserId)
+                .Where(address=>address.ApplicationUserId==_userService.GetUserId())
+                .Where(add=>add.ModelIsvalid==true)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (consumerAddress == null)
             {
@@ -153,7 +138,8 @@ namespace ParcelHub.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var consumerAddress = await _context.ConsumerAddress.FindAsync(id);
-            _context.ConsumerAddress.Remove(consumerAddress);
+            consumerAddress.ModelIsvalid = false;
+            _context.Update(consumerAddress);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }

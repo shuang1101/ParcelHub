@@ -10,8 +10,8 @@ using ParcelHub.DatabaseConnection;
 namespace ParcelHub.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210105111911_br22")]
-    partial class br22
+    [Migration("20210106092648_brown")]
+    partial class brown
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -280,13 +280,16 @@ namespace ParcelHub.Migrations
                     b.Property<string>("City")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("CountryId")
+                    b.Property<int>("CountryOfWarehouseModelId")
                         .HasColumnType("int");
 
                     b.Property<bool>("ModelIsvalid")
                         .HasColumnType("bit");
 
                     b.Property<string>("NameOfMyAddress")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NameOfReceiver")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PostCode")
@@ -304,8 +307,6 @@ namespace ParcelHub.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ApplicationUserId");
-
-                    b.HasIndex("CountryId");
 
                     b.ToTable("ConsumerAddress");
                 });
@@ -471,19 +472,30 @@ namespace ParcelHub.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<int>("Email")
-                        .HasColumnType("int");
+                    b.Property<string>("ConfirmPassword")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsValid")
                         .HasColumnType("bit");
 
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Role")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("SPWarehouseModelId")
                         .HasColumnType("int");
 
                     b.Property<string>("UserName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ApplicationUserId");
@@ -522,11 +534,8 @@ namespace ParcelHub.Migrations
                     b.Property<string>("ContactName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("CountryId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("CountryOfWarehouseModelId")
-                        .HasColumnType("int");
+                    b.Property<string>("CountryOfWarehouseModelCountryName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
@@ -550,8 +559,6 @@ namespace ParcelHub.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CountryOfWarehouseModelId");
 
                     b.ToTable("SPWarehouseModel");
                 });
@@ -689,15 +696,7 @@ namespace ParcelHub.Migrations
                         .WithMany()
                         .HasForeignKey("ApplicationUserId");
 
-                    b.HasOne("ParcelHub.Models.CountryOfWarehouseModel", "CountryOfWarehouseModel")
-                        .WithMany()
-                        .HasForeignKey("CountryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("ApplicationUser");
-
-                    b.Navigation("CountryOfWarehouseModel");
                 });
 
             modelBuilder.Entity("ParcelHub.Models.Invoice", b =>
@@ -737,15 +736,6 @@ namespace ParcelHub.Migrations
                         .IsRequired();
 
                     b.Navigation("SPWarehouseModel");
-                });
-
-            modelBuilder.Entity("ParcelHub.Models.SPWarehouseModel", b =>
-                {
-                    b.HasOne("ParcelHub.Models.CountryOfWarehouseModel", "CountryOfWarehouseModel")
-                        .WithMany()
-                        .HasForeignKey("CountryOfWarehouseModelId");
-
-                    b.Navigation("CountryOfWarehouseModel");
                 });
 
             modelBuilder.Entity("ParcelHub.Models.Shippment", b =>

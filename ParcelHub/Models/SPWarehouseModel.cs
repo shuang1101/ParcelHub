@@ -9,6 +9,7 @@ namespace ParcelHub.Models
 {
     public class SPWarehouseModel
     {
+       
         [Key]
         public int Id { get; set; }
 
@@ -24,8 +25,8 @@ namespace ParcelHub.Models
         public string AddressLine2 { get; set; }
         public string AddressLine3 { get; set; }
 
-        public int CountryId { get; set; }
-        public CountryOfWarehouseModel CountryOfWarehouseModel { get; set; }
+        public string CountryOfWarehouseModelCountryName { get; set; }
+
         public string City { get; set; }
 
         public string PostCode { get; set; }
@@ -33,9 +34,9 @@ namespace ParcelHub.Models
 
         public bool AirService { get; set; } = false;
         public bool LandService { get; set; } = false;
-        public bool OcreanFreightService { get; set; } = false;
+        public bool OceanFreightService { get; set; } = false;
 
-        
+      
 
     }
 }

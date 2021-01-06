@@ -54,7 +54,7 @@ namespace ParcelHub.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,CompanyName,ContactName,Email,ModelIsvalid,Mobile,AddressLine1,AddressLine2,AddressLine3,CountryId,City,PostCode,ReceiverName,AirService,LandService,OcreanFreightService")] SPWarehouseModel sPWarehouseModel)
+        public async Task<IActionResult> Create([Bind("Id,CountryOfWarehouseModelCountryName,CompanyName,ContactName,Email,ModelIsvalid,Mobile,AddressLine1,AddressLine2,AddressLine3,CountryId,City,PostCode,ReceiverName,AirService,LandService,OcreanFreightService")] SPWarehouseModel sPWarehouseModel)
         {
             if (ModelState.IsValid)
             {
@@ -86,7 +86,7 @@ namespace ParcelHub.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,CompanyName,ContactName,Email,ModelIsvalid,Mobile,AddressLine1,AddressLine2,AddressLine3,CountryId,City,PostCode,ReceiverName,AirService,LandService,OcreanFreightService")] SPWarehouseModel sPWarehouseModel)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,CompanyName,CountryOfWarehouseModelCountryName,ContactName,Email,ModelIsvalid,Mobile,AddressLine1,AddressLine2,AddressLine3,CountryId,City,PostCode,ReceiverName,AirService,LandService,OcreanFreightService")] SPWarehouseModel sPWarehouseModel)
         {
             if (id != sPWarehouseModel.Id)
             {

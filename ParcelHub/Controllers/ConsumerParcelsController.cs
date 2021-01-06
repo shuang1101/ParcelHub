@@ -25,11 +25,16 @@ namespace ParcelHub.Controllers
         }
         [Route("/data/getWarehouseDetails")]
         [HttpPost]
-        public JsonResult GetWarehouseDetails([FromBody]string warehouseId)
+        public JsonResult GetWarehouseDetails([FromBody] string warehouseId)
         {
-             int Id = Int32.Parse(warehouseId);
+            if (warehouseId == null)
+            {
+                return null;
+            }
+
             try
             {
+                int Id = Int32.Parse(warehouseId);
                 var warehouse = _context.SPWarehouseModel.FirstOrDefault(warehouse => warehouse.Id == Id);
 
                 return Json(warehouse);
@@ -38,7 +43,45 @@ namespace ParcelHub.Controllers
             {
                 ArgumentNullException ex;
                 return null;
-            }  
+            }
+        }
+        [Route("/data/getReceiverAddressId")]
+        [HttpPost]
+        public JsonResult GetConsumerAddress([FromBody] string warehouseId)
+        {
+            try
+            {
+
+                var address = _context.ConsumerAddress.Find(Int32.Parse(warehouseId));
+                string countryName = _context.CountryOfWarehouseModel.Find(address.CountryOfWarehouseModelIdAtDestination).CountryName;
+
+                var json = new
+                {
+                    receiverName = address.NameOfReceiver,
+                    country = countryName,
+                    StreetAddress = address.StreetAddress,
+                    Suburb = address.Suburb,
+                    City = address.City,
+                    state = address.State,
+                    PostCode = address.PostCode
+                };
+
+                return Json(json);
+            }
+            catch
+            {
+                ArgumentNullException ex;
+                return null;
+            }
+
+
+
+
+
+
+
+
+
         }
 
 
@@ -56,6 +99,20 @@ namespace ParcelHub.Controllers
         {
             // ViewBag.Name = _userService.GetUserName();
             ViewBag.Name = _userService.GetUserName();
+            var consumerAddress = _context.ConsumerAddress.Where(address => address.ApplicationUserId == _userService.GetUserId());
+
+            ViewBag.NoAddress = false;
+            if (consumerAddress == null)
+            {
+                ViewBag.NoAddress = true;
+            }
+            else
+            {
+
+                ViewBag.ListOfAddress = consumerAddress;
+            }
+
+
             return View();
         }
 
@@ -105,7 +162,7 @@ namespace ParcelHub.Controllers
                 //var addressResult = _context.ConsumerAddress.Add(address);
                 //await _context.SaveChangesAsync();
                 //addressId = addressResult.Entity.Id;
-              
+
 
             }
             else
@@ -119,7 +176,7 @@ namespace ParcelHub.Controllers
                 ApplicationUserId = userId,
                 Destination = form["consumerAddress.Country"].ToString(),
                 Origin = form["CountryOfOrigin"].ToString(),
-                
+
             };
             var memebershipId = _userService.GetUserMemberId();
             currentShippment.MemberShipId = memebershipId;
@@ -128,7 +185,7 @@ namespace ParcelHub.Controllers
             await _context.SaveChangesAsync();
             int shippmentId = result.Entity.Id; //find the ID of above shippment just created
 
-            string SPNumber ="KP"+DateTime.Now.ToString("yyyyMM")+shippmentId;
+            string SPNumber = "KP" + DateTime.Now.ToString("yyyyMM") + shippmentId;
             currentShippment.SPTackingNumber = SPNumber;
 
             _context.Update(currentShippment);
@@ -162,7 +219,7 @@ namespace ParcelHub.Controllers
                 }
 
                 ViewBag.Name = _userService.GetUserName();
-                return RedirectToAction("SucceedPage","ConsumerParcels");
+                return RedirectToAction("SucceedPage", "ConsumerParcels");
             }
 
 
@@ -171,6 +228,6 @@ namespace ParcelHub.Controllers
             return View();
         }
 
-     
+
     }
 }

@@ -38,7 +38,7 @@
                 @Html.DisplayNameFor(model => model.AddressLine3)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CountryId)
+                @Html.DisplayNameFor(model => model.CountryOfWarehouseModelCountryName)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.City)
@@ -56,7 +56,7 @@
                 @Html.DisplayNameFor(model => model.LandService)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.OcreanFreightService)
+                @Html.DisplayNameFor(model => model.OceanFreightService)
             </th>
             <th></th>
         </tr>
@@ -89,7 +89,7 @@
                 @Html.DisplayFor(modelItem => item.AddressLine3)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.CountryId)
+                @Html.DisplayFor(modelItem => item.CountryOfWarehouseModelCountryName)
             </td>
            
             <td>
@@ -108,7 +108,7 @@
                 @Html.DisplayFor(modelItem => item.LandService)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.OcreanFreightService)
+                @Html.DisplayFor(modelItem => item.OceanFreightService)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

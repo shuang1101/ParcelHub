@@ -56,11 +56,11 @@
                 <span asp-validation-for="AddressLine3" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="CountryOfWarehouseModel.CountryName" class="control-label"></label>
-                <select class="form-control" asp-for="CountryId">
+                <label asp-for="CountryOfWarehouseModelCountryName" class="control-label"></label>
+                <select class="form-control" asp-for="CountryOfWarehouseModelCountryName">
                     @foreach (var country in _context.CountryOfWarehouseModel)
                     {
-                        <option value="@country.Id">@country.CountryName</option>
+                        <option value="@country.CountryName">@country.CountryName</option>
                     }
                 </select>
             </div>
@@ -91,7 +91,7 @@
             </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
-                    <input class="form-check-input" asp-for="OcreanFreightService" /> @Html.DisplayNameFor(model => model.OcreanFreightService)
+                    <input class="form-check-input" asp-for="OceanFreightService" /> @Html.DisplayNameFor(model => model.OceanFreightService)
                 </label>
             </div>
             <div class="form-group">

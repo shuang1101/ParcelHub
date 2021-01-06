@@ -1,31 +1,71 @@
+$("#receiverAddress").on('change',function () {
+    var addressId = $("#receiverAddress").val();
+   
+    $.ajax({
+        url: '/data/getReceiverAddressId',
+        data: JSON.stringify(addressId),
+        type: 'POST',
+        contentType: 'application/json;charset=utf-8',
+        async: true,
+        success: function (data) {
+            $('#receiverName').val(data.receiverName);
+            $('#country').val(data.country);
+            $('#StreetAddress').val(data.StreetAddress);
+            $('#Suburb').val(data.Suburb);
+            $('#City').val(data.City);
+            $('#State').val(data.state);
+            $('#PostCode').val(data.PostCode);
+
+
+        },
+        error: function (data) {
+            alert("Failed:" + data[0])//弹出框
+        }
+    });
+
+});
 
 
 
-function box () {
-       
+
+function box() {
+
     var warehouseid = $("#chooseWarehouse").val();
-    var obj = { "warehouseId": warehouseid };
-        $.ajax({
-            url: '/data/getWarehouseDetails',//控制器活动,返回一个分部视图,并且给分部视图传递数据.
-            data: JSON.stringify(warehouseid),//传给服务器的数据(即后台AddUsers()方法的参数,参数类型要一致才可以)
-            type: 'POST',
-            contentType: 'application/json;charset=utf-8',//数据类型必须有
-            async: true,//异步
-            success: function (data) //成功后的回调方法
-            {
-                $("#address").val(data.addressLine1);//data--就是对应的分部视图页面内容.
-                $("#address1").val(data.addressLine2);
-                $("#postcode").val(data.postCode);
-                $("#mobile").val(data.mobile);
-                $("#receiver").val(data.receiverName);
-                //ale$("#myDiv").html(data);rt(data)//弹出框
-            },
-            error: function (data) {
-                alert("失败:" + data[0])//弹出框
+
+    $.ajax({
+        url: '/data/getWarehouseDetails',//控制器活动,返回一个分部视图,并且给分部视图传递数据.
+        data: JSON.stringify(warehouseid),//传给服务器的数据(即后台AddUsers()方法的参数,参数类型要一致才可以)
+        type: 'POST',
+        contentType: 'application/json;charset=utf-8',//数据类型必须有
+        async: true,//异步
+        success: function (data) //成功后的回调方法
+        {
+            $("#address").val(data.addressLine1);//data--就是对应的分部视图页面内容.
+            $("#address1").val(data.addressLine2);
+            $("#postcode").val(data.postCode);
+            $("#mobile").val(data.mobile);
+            $("#receiver").val(data.receiverName);
+            var air = data.airService;
+            var land = data.landService;
+            var ocean = data.oceanFreightService;
+            if (air == true) {
+                $("#air").val("Avaiable");
+            };
+            if (land == true) {
+                $("#land").val("<h1>GODD</h1>");
+            }
+            if (ocean == true) {
+                $("#ocean").val("Avaiable");
             }
 
-        });
-    }
+            //ale$("#myDiv").html(data);rt(data)//弹出框
+        },
+        error: function (data) {
+            alert("Failed:" + data[0])//弹出框
+        }
+
+    });
+}
 
 
 
@@ -44,7 +84,7 @@ function DynamicText() {
 }
 
 function DynamicTextBox(counter) {
-   
+
 
     var string = ' <td><input type="text" class="form-control" name="ShippingCompanyAtOrigin[@i]" /></td>\
         < td > <input type="text" class="form-control" name="OriginTrackingNumber[@i]" /></td>\
@@ -66,7 +106,7 @@ function DynamicTextBox(counter) {
 
 function RemoveDynamicText() {
 
-    
+
     var list = document.getElementById("firstdiv");
 
     list.removeChild(list.lastChild);
@@ -91,7 +131,7 @@ function EditDynamicText() {
 }
 
 function EditDynamicTextBox(counter) {
-   
+
 
     var string = ' <td><input type="hidden" name="parcelId"/><input type="text" class="form-control" name="OriginCourierCompany" required /></td>\
         < td > <input type="text" class="form-control" name="OriginTrackingNumber" required /></td>\
@@ -117,6 +157,6 @@ function EditRemoveDynamicText() {
     var list = document.getElementById("firstdiv-edit");
 
     list.removeChild(list.lastChild);
-   EditRemoveDynamicText.count--;
+    EditRemoveDynamicText.count--;
     EditDynamicText.count--;
 }

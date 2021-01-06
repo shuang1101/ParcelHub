@@ -12,14 +12,14 @@ namespace ParcelHub.Models
 {
     public class ConsumerAddress
     {
+        public string NameOfReceiver { get; set; }
         public string NameOfMyAddress { get; set; }
         public string ApplicationUserId { get; set; }
         public ApplicationUser ApplicationUser { get; set; }
         [Key]
         public int Id { get; init; }
-        public int CountryId { get; set; }
-        [ForeignKey("CountryId")]
-        public CountryOfWarehouseModel CountryOfWarehouseModel { get; set; }
+        public int CountryOfWarehouseModelIdAtDestination { get; set; }
+      
         public string State { get; set; }
         public string City { get; set; }
 

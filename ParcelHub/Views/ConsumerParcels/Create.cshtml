@@ -2,7 +2,7 @@
 @inject ParcelHub.DatabaseConnection.ApplicationDbContext applicationDbContext
 @{
     ViewData["title"] = "Creat New Shippment";
-
+    Layout = "_Layout";
 }
 
 <form asp-controller="ConsumerParcels" asp-action="Create" method="post">
@@ -15,10 +15,10 @@
                 <div class="form-group">
                     <label class="control-label"> Depot of origin</label>
                     @*country of origin*@
-                    <select class="form-control" id="chooseWarehouse" onchange="box()" asp-for="OriginSPWarehouseModelId">
+                    <select class="form-control" id="chooseWarehouse" onchange="box()" asp-for="ConsumerAddressId">
                         @foreach (var warehouse in applicationDbContext.SPWarehouseModel)
                         {
-                            <option value="@warehouse.Id"> @warehouse.CompanyName (@warehouse.City - @warehouse.CountryOfWarehouseModel.CountryName) </option>
+                            <option value="@warehouse.Id"> @warehouse.CompanyName (@warehouse.City - @warehouse.CountryOfWarehouseModelCountryName; ) </option>
                         }
                     </select>
 
@@ -28,7 +28,7 @@
                 {
                     <script type="text/javascript">
                         window.onload = box();
-
+                        //window.onload = receiverAddress();
                     </script>
                 }
 
@@ -52,13 +52,26 @@
                     <label class="control-label">Receiver Name</label>
                     <input class="form-control" disabled id="receiver" />@*ajax passing value by id => see mysite. js*@
                 </div>
+                <div class="form-group">
+                    <label class="control-label">Air</label>
+                    <input class="form-control" disabled id="air" />@*ajax passing value by id => see mysite. js*@
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Land</label>
+                    <input class="form-control" disabled id="land" />@*ajax passing value by id => see mysite. js*@
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Ocean</label>
+                    <input class="form-control" disabled id="ocean" />@*ajax passing value by id => see mysite. js*@
+                </div>
+
 
 
             </div>
         </div>
 
         <div class="col-md-1">
-            <p class="arrow"></p >@*====>*@
+            <p class="arrow"></p>@*====>*@
 
         </div>
         <div class="col-md-4" style="border:1px dotted red">
@@ -66,116 +79,131 @@
                 <label>Destination</label>
                 <br />
                 <label>Follow address is you want to package sent to in Destination Country</label>
+
                 <div class="form-group">
-                    <label>Use my saved address</label>
-                    <select class="form-control">
+                    @if (@ViewBag.NoAddress == true)
+                    {
+                        <label>You do not have any saved address</label>
+                    }
+                    else
+                    {
+                        <label>Use my saved address</label>
+                        <select class="form-control" asp-for="DestinatioSPWarehouseModelnId" id="receiverAddress" required>
+                            <option value="@null">Choose your address</option>
+
+                            @foreach (var item in ViewBag.ListOfAddress)
+                            {
+                                <option value=@item.Id>@item.NameOfMyAddress</option>
+                            }
+
+                        </select>
+                    }
+                <a class="btn btn-primary" asp-controller="ConsumerAddresses" asp-action="Index">Create a address    </a>
 
 
-                        <option> Previously Saved address  </option>
-
-                    </select>
                     <div class="form-group">
-                        <label class="control-label"> Name</label>
-                        <input class="form-control" value=@ViewBag.Name disabled />
+                        <label class="control-label"> Receiver Name</label>
+                        <input class="form-control" name="receiverName" id="receiverName" disabled/>
                     </div>
-                    <label class="control-label"> Country</label>
-                    <select class="form-control" name="consumerAddress.Country" required>
-                        <option>New Zealand  </option>
-                        <option>Austrilia  </option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="control-label ">Street Name</label>
-                    <input class="form-control" name="consumerAddress.StreetAddress" required />
-                </div>
-                <div class="form-group">
-                    <label class="control-label ">State</label>
-                    <input class="form-control" name="consumerAddress.State" />
-                </div>
-                <div class="form-group">
-                    <label class="control-label">Suburb</label>
-                    <input class="form-control" name="consumerAddress.Suburb" />
-                </div>
-                <div class="form-group">
-                    <label class="control-label">City</label>
-                    <input class="form-control" name="consumerAddress.City" required />
-                </div>
-                <div class="form-group">
-                    <label class="control-label">Post Code</label>
-                    <input class="form-control" name="consumerAddress.PostCode" />
-                </div>
-                <div class="form-group">
-                    <label>Destination deliver options</label>
-                    <select class="form-control" name="DestinationDeliverMethod">
 
-                        <option value="Deliver to Door">Deliver to Door</option>
-                        <option value="Pickup">Pickup from depot</option>
+                    <div class="form-group">
+                        <label class="control-label ">Country</label>
+                        <input class="form-control" name="country" id="country" disabled />
+                    </div>
 
-                    </select>
+                    <div class="form-group">
+                        <label class="control-label ">Street Name</label>
+                        <input class="form-control" name="StreetAddress" id="StreetAddress" disabled />
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Suburb</label>
+                        <input class="form-control" name="Suburb" id="Suburb"disabled />
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">City</label>
+                        <input class="form-control" name="City" id="City" disabled />
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label ">State</label>
+                        <input class="form-control" name="State" id="State" disabled/>
+                    </div>
 
 
-                </div>
+                    <div class="form-group">
+                        <label class="control-label">Post Code</label>
+                        <input class="form-control" name="PostCode" id="PostCode"disabled />
+                    </div>
+                    <div class="form-group">
+                        <label>Destination deliver options</label>
+                        <select class="form-control" name="DestinationDeliverMethod" asp-for="DestinationDeliverMethod" required>
+                            <option value="@null">Destination delivery method</option>
+                            <option value="DelivertoDoor">Deliver to Door</option>
+                            <option value="Pickup">Pickup from depot</option>
+                        </select>
 
+
+                    </div>
+
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="row" style="border:1px dotted red">
-        <div class="form-horizontal">
-            <div class="table-responsive">
-                <table class="table table-bordered table-striped table-highlight">
-                    <thead>
-                        <tr>
-                            <th>Shipping Company @@ origin</th>
-                            <th>Tracking Number @@ origin</th>
-                            <th>Goods Description</th>
-                            <th>Weight</th>
-                            <th>Volume</th>
-                            <th>NumberOfUnits</th>
-                            <th>Total Value</th>
-                            <th>Special Cargo</th>
-                        </tr>
-                    </thead>
+        <div class="row" style="border:1px dotted red">
+            <div class="form-horizontal">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped table-highlight">
+                        <thead>
+                            <tr>
+                                <th>Shipping Company @@ origin</th>
+                                <th>Tracking Number @@ origin</th>
+                                <th>Goods Description</th>
+                                <th>Weight</th>
+                                <th>Volume</th>
+                                <th>NumberOfUnits</th>
+                                <th>Total Value</th>
+                                <th>Reference</th>
+                            </tr>
+                        </thead>
 
-                    <tbody id="firstdiv">
+                        <tbody id="firstdiv">
 
-                        <tr>
-                            <td><input type="text" class="form-control" name="ShippingCompanyAtOrigin[0]" required /></td>
-                            <td><input type="text" class="form-control" name="OriginTrackingNumber[0]" required /></td>
-                            <td><input type="text" class="form-control" name="Description[0]" required /></td>
-                            <td><input type="text" class="form-control" name="EstimateWeight[0]" /></td>
-                            <td><input type="text" class="form-control" name="EstimateVolume[0]" /></td>
-                            <td><input type="number" class="form-control" name="NumberOfUnits[0]" required /></td>
-                            <td><input type="number" class="form-control" name="TotalValue[0]" required /></td>
-                            <td><input type="text" class="form-control" name="Reference[0]" /></td>
+                            <tr>
+                                <td><input type="text" class="form-control" name="ShippingCompanyAtOrigin[0]" required /></td>
+                                <td><input type="text" class="form-control" name="OriginTrackingNumber[0]" required /></td>
+                                <td><input type="text" class="form-control" name="Description[0]" required /></td>
+                                <td><input type="text" class="form-control" name="EstimateWeight[0]" /></td>
+                                <td><input type="text" class="form-control" name="EstimateVolume[0]" /></td>
+                                <td><input type="number" class="form-control" name="NumberOfUnits[0]" required /></td>
+                                <td><input type="number" class="form-control" name="TotalValue[0]" required /></td>
+                                <td><input type="text" class="form-control" name="Reference[0]" /></td>
 
-                            <td> <input type="button" onclick="DynamicText()" value="Add line" /> </td>
+                                <td> <input type="button" onclick="DynamicText()" value="Add line" /> </td>
 
-                        </tr>
+                            </tr>
 
-                    </tbody>
+                        </tbody>
 
 
-                </table>
+                    </table>
+
+
+                </div>
 
 
             </div>
 
 
+
+
+
+            <div class="form-group">
+                <input type="submit" value="Confirm Shippment" class="btn btn-primary" />
+            </div>
+
+
+
+
+
         </div>
-
-
-
-
-
-        <div class="form-group">
-            <input type="submit" value="Confirm Shippment" class="btn btn-primary" />
-        </div>
-
-
-
-
-
-    </div>
 
 </form>

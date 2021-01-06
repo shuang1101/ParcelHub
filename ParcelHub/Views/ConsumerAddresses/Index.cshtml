@@ -1,26 +1,28 @@
 ﻿@model IEnumerable<ParcelHub.Models.ConsumerAddress>
-
+@inject ParcelHub.DatabaseConnection.ApplicationDbContext _appDbContext
 @{
-
+    Layout = "_Layout";
 }
 
-<!DOCTYPE html>
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Index</title>
-</head>
-<body>
+<div>
 <p>
     <a asp-action="Create">Create New</a>
 </p>
 <table class="table">
     <thead>
         <tr>
-           
             <th>
-                @Html.DisplayNameFor(model => model.CountryOfWarehouseModel.CountryName)
+                @Html.DisplayNameFor(model => model.NameOfMyAddress)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NameOfReceiver)
+            </th>
+            <th>
+                Country
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Suburb)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.State)
@@ -38,14 +40,25 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+
+@foreach (var item in Model)
+{
         <tr>
-        
             <td>
-                @Html.DisplayFor(modelItem => item.CountryOfWarehouseModel.CountryName)
+                @Html.DisplayFor(modelItem => item.NameOfMyAddress)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.State)
+                @Html.DisplayFor(modelItem => item.NameOfReceiver)
+            </td>
+
+            <td>
+                @_appDbContext.CountryOfWarehouseModel.Find(item.CountryOfWarehouseModelIdAtDestination).CountryName
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Suburb)
+            </td>
+            <td>
+            @Html.DisplayFor(modelItem => item.State)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.City)
@@ -58,12 +71,12 @@
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+
                 <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
             </td>
         </tr>
 }
     </tbody>
 </table>
-</body>
+</div>
 </html>

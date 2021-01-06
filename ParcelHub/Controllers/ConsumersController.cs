@@ -14,11 +14,11 @@ namespace ParcelHub.Controllers
 {
     public class ConsumersController : Controller
     {
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly IUserSerivce _userservice;
         private readonly ApplicationDbContext _context;
 
-        public ConsumersController(UserManager<IdentityUser> userManager  ,IUserSerivce userservice, ApplicationDbContext context)
+        public ConsumersController(UserManager<ApplicationUser> userManager  ,IUserSerivce userservice, ApplicationDbContext context)
         {
             _userManager = userManager;
             _userservice = userservice;
