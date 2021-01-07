@@ -55,6 +55,7 @@ namespace ParcelHub
 
             services.AddScoped<IAdminService, AdminService>();
 
+            //services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
 
             services.Configure<SMTPConfig>(Configuration.GetSection("SMTPConfig"));
 

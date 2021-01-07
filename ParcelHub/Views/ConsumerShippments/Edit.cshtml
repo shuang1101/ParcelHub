@@ -1,6 +1,4 @@
-﻿
-@{
-    ViewData["title"] = "Creat New Shippment";
+﻿@{ ViewData["title"] = "Creat New Shippment";
 }
 
 <form asp-controller="ConsumerShippments" asp-action="Edit" method="post">
@@ -10,28 +8,17 @@
                 <label>Origin</label>
                 <br />
                 <label>Follow address is where you need the seller oversea send to</label>
-                <div class="form-group">
-                    <label class="control-label"> Country</label>   @*country of origin*@
-                <input name="CountryOfOrigin" value="@ViewBag.shippment.Origin" disabled />
-                <input type="hidden" name="CountryOfOrigin" value="@ViewBag.shippment.Origin" />
+                <div class="badge-success">
+                    <p>@ViewBag.Origin.CountryOfWarehouseModelCountryName</p>
+                    <p>@ViewBag.Origin.CompanyName</p>
+                    <p>@ViewBag.Origin.ReceiverName</p>
+                    <p>@ViewBag.Origin.AddressLine1</p>
+                    <p>@ViewBag.Origin.AddressLine2</p>
+                    <p>@ViewBag.Origin.AddressLine3</p>
+                    <p>@ViewBag.Origin.PostCode</p>
+
                 </div>
-                <div class="form-group">
-                    <label class="control-label">Address</label>
-                    <input class="form-control" disabled placeholder="广东省东莞市万江街道蚬涌社区兴隆街7号125-126" />
-                </div>
-                <div class="form-group">
-                    <label class="control-label">Post Code</label>
-                    <input class="form-control" disabled placeholder="510435" />
-                </div>
-                <div class="form-group">
-                    <label class="control-label">Mobile</label>
-                    <input class="form-control" disabled placeholder="13266850075" />
-                </div>
-                <div class="form-group">
-                    <label class="control-label">Receiver Name</label>
-                    <input class="form-control" disabled placeholder="罗凯文 / Kevin Luo" />
-                </div>
-               
+
 
             </div>
         </div>
@@ -43,49 +30,54 @@
             <div class="col">
                 <label>Destination</label>
                 <br />
-                <label>Follow address is you want to package sent to in Destination Country</label>
+                <label>Destination</label>
+
                 <div class="form-group">
-                    <label>Use my saved address</label>
-                    <select>
+
+                    @if (ViewBag.RequireDelivery == true)
+                    {<div class="badge-success">
+                            <p>@ViewBag.Destination.CountryOfWarehouseModelCountryName</p>
+                            <p>@ViewBag.ConsumerAddress.NameOfReceiver</p>
+                            <p>@ViewBag.ConsumerAddress.StreetAddress</p>
+                            <p>@ViewBag.ConsumerAddress.Suburb</p>
+                            <p>@ViewBag.ConsumerAddress.City</p>
+                            <p>@ViewBag.ConsumerAddress.State</p>
+
+                            <p>@ViewBag.ConsumerAddress.PostCode</p>
+
+                        </div>
 
 
-                        <option> Previously Saved address  </option>
+                    }
+                    else
+                    {
+                        <div class="badge-success">
+                            <p>@ViewBag.Destination.CompanyName</p>
+                            <p>@ViewBag.Destination.ReceiverName</p>
+                            <p>@ViewBag.Destination.CountryOfWarehouseModelCountryName</p>
+                            <p>@ViewBag.Destination.AddressLine1</p>
+                            <p>@ViewBag.Destination.AddressLine2</p>
+                            <p>@ViewBag.Destination.AddressLine3</p>
+                            <p>@ViewBag.Destination.PostCode</p>
 
-                    </select>
-                  
-                    <label class="control-label"> Country</label>
-                    <input class="form-control" name="consumerAddress.Country" value="@ViewBag.Address.Country" disabled/>
-                 
-                   
-                </div>
-                <div class="form-group">
-                    <label class="control-label ">Street Name</label>
-                    <input class="form-control" name="consumerAddress.StreetAddress" value="@ViewBag.Address.StreetAddress" required/>
-                </div>
-                <div class="form-group">
-                    <label class="control-label ">State</label>
-                    <input class="form-control" name="consumerAddress.State" value="@ViewBag.Address.State" />
-                </div>
-                <div class="form-group">
-                    <label class="control-label">Suburb</label>
-                    <input class="form-control" name="consumerAddress.Suburb" value="@ViewBag.Address.Suburb" />
-                </div>
-                <div class="form-group">
-                    <label class="control-label">City</label>
-                    <input class="form-control" name="consumerAddress.City" value="@ViewBag.Address.City" required />
-                </div>
-                <div class="form-group">
-                    <label class="control-label">Post Code</label>
-                    <input class="form-control" name="consumerAddress.PostCode" value="@ViewBag.Address.PostCode" required />
-                </div>
-                <div class="form-group">
-                    <label>Destination deliver options</label>
-                    <select class="form-control" name="DestinationDeliverMethod" autofocus="@ViewBag.Parcels[0].DestinationDeliverMethod" >
-                        
-                        <option value="DelivertoDoor">Deliver to Door</option>
-                        <option value="Pickup">Pickup from depot</option>
+                        </div>
+                    }
+                    <select class="form-control" name="DestinationDeliverMethod" autofocus="@ViewBag.Parcels[0].DestinationDeliverMethod">
+
+                        <option value="DelivertoDoor">Changet to Deliver to Door</option>
+
+                        <option value="Pickup">Change to Pickup from depot</option>
 
                     </select>
+                    <input type="checkbox" id="toggle-two" name="DeliveryMethod" a>
+                    <script> //
+                        $(function () {
+                            $('#toggle-two').bootstrapToggle({
+                                on: 'Enabled',
+                                off: 'Disabled'
+                            });
+                        })
+                    </script>
 
 
                 </div>
@@ -103,10 +95,10 @@
                     <h3>Tracking Number @ViewBag.Shippment.SPTackingNumber    </h3>
                 </div>
                 <table class="table table-bordered table-striped table-highlight">
-                    
-                    
+
+
                     <thead>
-                       
+
                         <tr>
                             <th>Shipping Company @@ origin</th>
                             <th>Tracking Number @@ origin</th>
@@ -118,22 +110,22 @@
                             <th>Special Cargo</th>
                         </tr>
                     </thead>
-                  
+
                     <tbody id="firstdiv-edit">
                         @for (int i = 0; i < ViewBag.Count; i++)
                         {
-                        <tr>
-                            <td><input type="hidden" name="parcelId" value="@ViewBag.Parcels[i].Id"/><input type="text" class="form-control" value="@ViewBag.Parcels[i].OriginCourierCompany"  name="OriginCourierCompany" required /></td>
-                            <td><input type="text" class="form-control" value="@ViewBag.Parcels[i].OriginTrackingNumber"  name="OriginTrackingNumber"required /></td>
-                            <td><input type="text" class="form-control" value="@ViewBag.Parcels[i].Description" name="Description" required /></td>
-                            <td><input type="text" class="form-control" value="@ViewBag.Parcels[i].EstimateWeight" name="EstimateWeight" /></td>
-                            <td><input type="text" class="form-control" value="@ViewBag.Parcels[i].EstimateVolume"  name="EstimateVolume"/></td>
-                            <td><input type="number" class="form-control" value="@ViewBag.Parcels[i].NumberOfUnits"  name="NumberOfUnits"required /></td>
-                            <td><input type="number" class="form-control" value="@ViewBag.Parcels[i].TotalValue"  name="TotalValue" required /></td>
-                            <td><input type="text" class="form-control" value="@ViewBag.Parcels[i].Reference" name="Reference"  /></td>
-                            <td> <input type="button" onclick="EditDynamicText()" value="Add line" /> </td>
-                            <td> <input type="button" onclick="EditDynamicText()" value="Add line" /> </td>
-                        </tr>
+                            <tr>
+                                <td><input type="hidden" name="parcelId" value="@ViewBag.Parcels[i].Id" /><input type="text" class="form-control" value="@ViewBag.Parcels[i].OriginCourierCompany" name="OriginCourierCompany" required /></td>
+                                <td><input type="text" class="form-control" value="@ViewBag.Parcels[i].OriginTrackingNumber" name="OriginTrackingNumber" required /></td>
+                                <td><input type="text" class="form-control" value="@ViewBag.Parcels[i].Description" name="Description" required /></td>
+                                <td><input type="text" class="form-control" value="@ViewBag.Parcels[i].EstimateWeight" name="EstimateWeight" /></td>
+                                <td><input type="text" class="form-control" value="@ViewBag.Parcels[i].EstimateVolume" name="EstimateVolume" /></td>
+                                <td><input type="number" class="form-control" value="@ViewBag.Parcels[i].NumberOfUnits" name="NumberOfUnits" required /></td>
+                                <td><input type="number" class="form-control" value="@ViewBag.Parcels[i].TotalValue" name="TotalValue" required /></td>
+                                <td><input type="text" class="form-control" value="@ViewBag.Parcels[i].Reference" name="Reference" /></td>
+                                <td> <input type="button" onclick="EditDynamicText()" value="Add line" /> </td>
+                                
+                            </tr>
                         }
 
 
@@ -142,20 +134,20 @@
 
                 </table>
 
-                
+
             </div>
 
 
         </div>
-       
-       
+
+
 
 
 
         <div class="form-group">
             <input type="submit" value="Confirm Shippment" class="btn btn-primary" />
         </div>
-       
+
 
 
 

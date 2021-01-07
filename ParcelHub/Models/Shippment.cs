@@ -17,9 +17,14 @@ namespace ParcelHub.Models
         [Key]
         public int Id { get; set; }
 
-        public int SPWarehouseModelId { get; set; }
+        public int OriginSPWarehouseModelId { get; set; }
 
-        public SPWarehouseModel SPWarehouseModel { get; set; }
+
+        public int DestinatioSPWarehouseModelnId { get; set; }
+
+        public int ConsumerAddressId { get; set; }
+        [ForeignKey("ConsumerAddressId")]
+        public virtual ConsumerAddress ConsumerAddress { get; set; }
 
         public string SPTackingNumber { get; set; }
 
@@ -29,14 +34,7 @@ namespace ParcelHub.Models
         public ApplicationUser ApplicationUser { get; set; }
         
 
-        public string ServiceProviderUserId { get; set; }
-
-
-        public string Origin { get; set; }
-
-        public string Destination { get; set; }
-      
-
+     
         public int ShippingContainerId { get; set; }
 
        
@@ -44,7 +42,7 @@ namespace ParcelHub.Models
 
         public float TotalValue { get; set; }
 
-
+        public bool RequireDelivery { get; set; }
         public bool ModelIsvalid { get; set; } = true;
 
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd H:mm}", ApplyFormatInEditMode = true)]

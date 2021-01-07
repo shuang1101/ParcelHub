@@ -70,6 +70,8 @@ namespace ParcelHub.Models
         public string TransitStatus { get; set; } = "Awaiting inbound";
         public string DestinationDeliverMethod { get; set; }
 
+        public bool RequireDelivery { get; set; } 
+        
         public string NumberOfUnits { get; set; }
 
         //Record the time when origin scanned the parcel

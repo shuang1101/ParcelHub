@@ -34,7 +34,7 @@ namespace ParcelHub.ServiceRepository
         public  string?  GetUserName()
         {
             string userId = _httpContext.HttpContext.User?.FindFirstValue(ClaimTypes.NameIdentifier);
-            var result = _dbContext.Consumer.Find(userId);
+            var result = _dbContext.Consumer.FirstOrDefault(user=>user.ApplicationUserId==userId);
             if (result == null)
             {
                 return "Error";

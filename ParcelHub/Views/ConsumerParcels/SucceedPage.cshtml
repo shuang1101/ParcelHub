@@ -2,22 +2,36 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
+
 }
+@model ParcelHub.Models.SPWarehouseModel
+@inject ParcelHub.ServiceRepository.IUserSerivce _user
 <h1>Shippment is all set</h1>
-<a asp-controller="ConsumerParcels" asp-action="Create">Click Here to Create Another One</a>
-<br />  
+<a asp-controller="ConsumerParcels" asp-action="Create">Click Here to Create Another Shippment</a>
+<br />
 <a asp-controller="ConsumerShippments" asp-action="Index">Go to my shippments</a>
 
-<div>
-    <p class="alert-success">
-        please contact customer service if you have any problem <br />  
+<div class="alert-success">
+    
+        please contact customer service if you have any problem <br />
         please make sure the seller attached following infomation when sending <br />
-        广东仓库  <br />
-        收件人：罗凯文 电话号码：13266850075        <br />
-        邮政编码：510435  <br />
-        收货地址：广东省东莞市万江街道蚬涌社区兴隆街7号125-126  <br />
-        上班时间：9:00-18:00 周末休息 如遇法定节假日 放假時間将另行通知  <br />
 
 
-    </p>
+    <p> Company: @Html.DisplayFor(m => m.CompanyName)</p>
+    <p>Receiver:@Html.DisplayFor(m=>m.ReceiverName)</p>
+    <p>Name:@Html.DisplayFor(m => m.ContactName) </p>
+    <p>Phone:@Html.DisplayFor(m => m.Mobile)</p>
+    <p>Address:@Html.DisplayFor(m => m.AddressLine1)</p>
+    <p>@Html.DisplayFor(m => m.AddressLine2)</p>
+    <p>@Html.DisplayFor(m => m.AddressLine3)</p>
+    <p>@Html.DisplayFor(m => m.City)</p>
+    <p>@Html.DisplayFor(m => m.CountryOfWarehouseModelCountryName)</p>
+    <p>@Html.DisplayFor(m => m.PostCode)</p>
+
+
+
+
+
+
+   
 </div>

@@ -110,57 +110,7 @@ namespace ParcelHub.Controllers
             return _context.Consumer.Any(e => e.Email == id);
         }
 
-        // GET: Consumers/Delete/5
-        //public async Task<IActionResult> Delete(string id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var consumer = await _context.Consumer
-        //        .FirstOrDefaultAsync(m => m.Email == id);
-        //    if (consumer == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return View(consumer);
-        //}
-
-        //// POST: Consumers/Delete/5
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> DeleteConfirmed(string id)
-        //{
-        //    var consumer = await _context.Consumer.FindAsync(id);
-        //    _context.Consumer.Remove(consumer);
-        //    await _context.SaveChangesAsync();
-        //    return RedirectToAction(nameof(Index));
-        //}
-        // GET: Consumers/Create
-        //public IActionResult Create()
-        //{
-        //    return View();
-        //}
-
-        //// POST: Consumers/Create
-        //// To protect from overposting attacks, enable the specific properties you want to bind to.
-        //// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Create([Bind("Id,LastName,FirstName,MobileNumber,Email,Password,IsValid")] Consumer consumer)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        _context.Add(consumer);
-        //        await _context.SaveChangesAsync();
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    return View(consumer);
-        //}
-
-        // GET: Consumers/Edit/5
+       
 
     }
 }

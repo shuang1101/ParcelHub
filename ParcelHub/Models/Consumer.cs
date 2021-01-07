@@ -13,6 +13,7 @@ namespace ParcelHub.Models
     {
         //Each Consumer might have >=0 addresses
         public bool ModelIsvalid { get; set; } = true;
+        [Key]
         public int Id { get; set; }
 
         [Required]
@@ -24,7 +25,7 @@ namespace ParcelHub.Models
         public string MobileNumber { get; set; }
        
         public string Email { get; set; }
-         [Key]
+        
         public string ApplicationUserId { get; set; }
 
         public DateTime DateRegisterd { get; set; }

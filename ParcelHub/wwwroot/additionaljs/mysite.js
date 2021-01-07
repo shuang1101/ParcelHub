@@ -10,11 +10,11 @@ $("#receiverAddress").on('change',function () {
         success: function (data) {
             $('#receiverName').val(data.receiverName);
             $('#country').val(data.country);
-            $('#StreetAddress').val(data.StreetAddress);
-            $('#Suburb').val(data.Suburb);
-            $('#City').val(data.City);
+            $('#StreetAddress').val(data.streetAddress);
+            $('#Suburb').val(data.suburb);
+            $('#City').val(data.city);
             $('#State').val(data.state);
-            $('#PostCode').val(data.PostCode);
+            $('#PostCode').val(data.postCode);
 
 
         },

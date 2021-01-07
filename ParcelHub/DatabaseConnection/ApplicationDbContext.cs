@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ParcelHub.DatabaseConnection
 {
-    public  class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IApplicationDbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -31,12 +31,12 @@ namespace ParcelHub.DatabaseConnection
         public DbSet<SPWarehouseModel> SPWarehouseModel { get; set; }
         public DbSet<ShippingContainer> ShippingContainer { get; set; }
 
-        public DbSet<Shippment> Shippment { get;set;}
+        public DbSet<Shippment> Shippment { get; set; }
 
         public DbSet<HomePageNews> HomePageNews { get; set; }
         public DbSet<CountryOfWarehouseModel> CountryOfWarehouseModel { get; set; }
         public DbSet<SPUserModel> SPUserModel { get; set; }
-        
+
 
     }
 }

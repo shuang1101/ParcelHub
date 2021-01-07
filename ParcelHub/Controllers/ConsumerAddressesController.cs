@@ -47,7 +47,7 @@ namespace ParcelHub.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,NameOfReceiver,NameOfMyAddress,Country,CountryOfWarehouseModelId,State,Suburb,City,StreetAddress,PostCode")] ConsumerAddress consumerAddress)
+        public async Task<IActionResult> Create([Bind("Id,NameOfReceiver,NameOfMyAddress,Country,CountryOfWarehouseModelIdAtDestination,State,Suburb,City,StreetAddress,PostCode")] ConsumerAddress consumerAddress)
         {
             if (ModelState.IsValid)
             {
@@ -81,7 +81,7 @@ namespace ParcelHub.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Country,State,City,NameOfMyAddress,NameOfReceiver,CountryOfWarehouseModelId,Suburb,StreetAddress,PostCode")] ConsumerAddress consumerAddress)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Country,State,City,NameOfMyAddress,NameOfReceiver,CountryOfWarehouseModelIdAtDestination,Suburb,StreetAddress,PostCode")] ConsumerAddress consumerAddress)
         {
             if (id != consumerAddress.Id)
             {

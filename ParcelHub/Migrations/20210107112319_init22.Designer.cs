@@ -10,8 +10,8 @@ using ParcelHub.DatabaseConnection;
 namespace ParcelHub.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210106122458_brownssds")]
-    partial class brownssds
+    [Migration("20210107112319_init22")]
+    partial class init22
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -225,8 +225,13 @@ namespace ParcelHub.Migrations
 
             modelBuilder.Entity("ParcelHub.Models.Consumer", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
                     b.Property<string>("ApplicationUserId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("DateRegisterd")
                         .HasColumnType("datetime2");
@@ -241,9 +246,6 @@ namespace ParcelHub.Migrations
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
-
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -262,7 +264,7 @@ namespace ParcelHub.Migrations
                     b.Property<string>("WechatId")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("ApplicationUserId");
+                    b.HasKey("Id");
 
                     b.ToTable("Consumer");
                 });
@@ -443,6 +445,9 @@ namespace ParcelHub.Migrations
                     b.Property<string>("Reference")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("RequireDelivery")
+                        .HasColumnType("bit");
+
                     b.Property<string>("SPTackingNumber")
                         .HasColumnType("nvarchar(max)");
 
@@ -597,11 +602,14 @@ namespace ParcelHub.Migrations
                     b.Property<string>("ApplicationUserId")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<int>("ConsumerAddressId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("DateTimeJobCreated")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Destination")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("DestinatioSPWarehouseModelnId")
+                        .HasColumnType("int");
 
                     b.Property<string>("MemberShipId")
                         .HasColumnType("nvarchar(max)");
@@ -609,19 +617,16 @@ namespace ParcelHub.Migrations
                     b.Property<bool>("ModelIsvalid")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Origin")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("OriginSPWarehouseModelId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("RequireDelivery")
+                        .HasColumnType("bit");
 
                     b.Property<bool>("RequiredInsurance")
                         .HasColumnType("bit");
 
                     b.Property<string>("SPTackingNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("SPWarehouseModelId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ServiceProviderUserId")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("ShippingContainerId")
@@ -634,7 +639,7 @@ namespace ParcelHub.Migrations
 
                     b.HasIndex("ApplicationUserId");
 
-                    b.HasIndex("SPWarehouseModelId");
+                    b.HasIndex("ConsumerAddressId");
 
                     b.ToTable("Shippment");
                 });
@@ -744,15 +749,15 @@ namespace ParcelHub.Migrations
                         .WithMany()
                         .HasForeignKey("ApplicationUserId");
 
-                    b.HasOne("ParcelHub.Models.SPWarehouseModel", "SPWarehouseModel")
+                    b.HasOne("ParcelHub.Models.ConsumerAddress", "ConsumerAddress")
                         .WithMany()
-                        .HasForeignKey("SPWarehouseModelId")
+                        .HasForeignKey("ConsumerAddressId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("ApplicationUser");
 
-                    b.Navigation("SPWarehouseModel");
+                    b.Navigation("ConsumerAddress");
                 });
 #pragma warning restore 612, 618
         }

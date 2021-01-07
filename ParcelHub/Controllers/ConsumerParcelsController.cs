@@ -57,12 +57,12 @@ namespace ParcelHub.Controllers
 
                 var json = new
                 {
-                    receiverName = address.NameOfReceiver,
-                    country = countryName,
+                    ReceiverName = address.NameOfReceiver,
+                    Country = countryName,
                     StreetAddress = address.StreetAddress,
                     Suburb = address.Suburb,
                     City = address.City,
-                    state = address.State,
+                    State = address.State,
                     PostCode = address.PostCode
                 };
 
@@ -74,22 +74,12 @@ namespace ParcelHub.Controllers
                 return null;
             }
 
-
-
-
-
-
-
-
-
         }
 
 
-
-
-        public IActionResult SucceedPage()
+        public IActionResult SucceedPage(SPWarehouseModel? warehouse)
         {
-            return View();
+            return View(warehouse);
         }
 
 
@@ -121,113 +111,82 @@ namespace ParcelHub.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,ShippmentId," +
-            "SPTackingNumber,PackageLabelBarCode,ApplicationUserId," +
-            "MemberShipId,OriginCourierCompany,OriginTrackingNumber," +
+        public async Task<IActionResult> Create([Bind("Id," +
             "OriginSPWarehouseModelId,DestinatioSPWarehouseModelnId," +
-            "ConsumerAddressId,Description,EstimateWeight,EstimateVolume," +
-            "ActualVolume,ActualWeight,TotalValue,Reference,TransitStatus," +
-            "DestinationDeliverMethod,NumberOfUnits,DateTimeInboundOrigin," +
-            "DateTimeArriveInDestination,DateTimeJobCreated,DateTimeJobLastEdit," +
-            "ModelIsvalid")] Parcel parcel)
+            "ConsumerAddressId," +
+            "DestinationDeliverMethod" )] Parcel parcel)
         {
             var form = Request.Form;
 
-
-            if (Request == null)
+            var applicationUserId = _userService.GetUserId();
+            var memberShipId = _userService.GetUserMemberId();
+            var destinatioSPWarehouseModelnId = 100;
+            var now = DateTime.Now;
+            var consumerAddressId = parcel.ConsumerAddressId;
+            var deliveryMethod = parcel.DestinationDeliverMethod;
+            var originSPWarehouseModelId = parcel.OriginSPWarehouseModelId;
+            bool requireDelivery = false;
+            if (parcel.DestinationDeliverMethod == "DelivertoDoor")
             {
-                return NotFound();
-            }
-
-            string userId = _userService.GetUserId();
-
-            var lookForAddress = _context.ConsumerAddress.FirstOrDefault(address => address
-            .StreetAddress.ToLower().Trim() == form["consumerAddress.StreetAddress"].ToString().ToLower().Trim()); // =>to string => to lower => trim blank space
-            int addressId = -1;
-
-
-            if (lookForAddress == null)
-            {
-                //ConsumerAddress address = new ConsumerAddress()
-                //{
-                //    CountryId = form["consumerAddress.Country"].ToString(),
-                //    StreetAddress = form["consumerAddress.StreetAddress"].ToString(),
-                //    State = form["consumerAddress.State"].ToString(),
-                //    Suburb = form["consumerAddress.Suburb"].ToString(),
-                //    City = form["consumerAddress.City"].ToString(),
-                //    PostCode = form["consumerAddress.PostCode"].ToString(),
-                //    ApplicationUserId = userId
-                //};
-
-                //var addressResult = _context.ConsumerAddress.Add(address);
-                //await _context.SaveChangesAsync();
-                //addressId = addressResult.Entity.Id;
-
-
-            }
-            else
-            {
-                addressId = lookForAddress.Id;
+                requireDelivery = true; 
             }
 
             // first generate a shippment so all parcels can go into that shippment
             Shippment currentShippment = new Shippment()
             {
-                ApplicationUserId = userId,
-                Destination = form["consumerAddress.Country"].ToString(),
-                Origin = form["CountryOfOrigin"].ToString(),
-
+                ApplicationUserId = applicationUserId,
+                OriginSPWarehouseModelId = originSPWarehouseModelId,
+                DestinatioSPWarehouseModelnId = destinatioSPWarehouseModelnId,
+                ConsumerAddressId = consumerAddressId,
+                MemberShipId = memberShipId,
+                RequireDelivery=requireDelivery
             };
-            var memebershipId = _userService.GetUserMemberId();
-            currentShippment.MemberShipId = memebershipId;
-            var result = _context.Shippment.Add(currentShippment);
+            var shipEntity = _context.Add(currentShippment);
+            _context.SaveChangesAsync().GetAwaiter().GetResult();
 
-            await _context.SaveChangesAsync();
-            int shippmentId = result.Entity.Id; //find the ID of above shippment just created
+            //find the ID of above shippment just created
+            var shippmentId = shipEntity.Entity.Id;
 
+            // Generate SPNumber for tracking and update this shippment
             string SPNumber = "KP" + DateTime.Now.ToString("yyyyMM") + shippmentId;
             currentShippment.SPTackingNumber = SPNumber;
 
             _context.Update(currentShippment);
             await _context.SaveChangesAsync();
 
-            if (true)      //ModelState.IsValid
+
+            for (int i = 0; i < (form.Count) / 8; i++)
             {
-                for (int i = 0; i < (form.Count - 7) / 8; i++)
+                parcel = new Parcel()
                 {
-                    //Parcel eachParcel = new Parcel()
-                    //{   
-                    //    DestinationAddressId = addressId,
-                    //    ShippmentId = shippmentId,
-                    //    ApplicationUserId = userId,
-                    //    DestinationDeliverMethod = form[$"DestinationDeliverMethod"].ToString(),
-                    //    CountryOfOrigin = form["CountryOfOrigin"].ToString(),
-                    //    SPTackingNumber=    SPNumber,
-                    //    OriginCourierCompany = form[$"ShippingCompanyAtOrigin[{i}]"].ToString(),
-                    //    OriginTrackingNumber = form[$"OriginTrackingNumber[{i}]"].ToString(),
-                    //    Description = form[$"Description[{i}]"].ToString(),
-                    //    EstimateWeight = form[$"EstimateWeight[{i}]"].ToString(),
-                    //    EstimateVolume = form[$"EstimateVolume[{i}]"].ToString(),
-                    //    TotalValue = form[$"TotalValue[{i}]"].ToString(),
-                    //    Reference = form[$"Reference[{i}]"].ToString(),
-                    //    NumberOfUnits = form[$"NumberOfUnits[{i}]"].ToString(),
+                    MemberShipId = memberShipId,
+                    ConsumerAddressId = consumerAddressId,
+                    ShippmentId = shippmentId,
+                    ApplicationUserId = applicationUserId,
+                    DestinationDeliverMethod = deliveryMethod,
+                    DestinatioSPWarehouseModelnId = destinatioSPWarehouseModelnId,
+                    OriginSPWarehouseModelId = originSPWarehouseModelId,
+                    SPTackingNumber = SPNumber,
+                    OriginCourierCompany = form[$"ShippingCompanyAtOrigin[{i}]"].ToString(),
+                    OriginTrackingNumber = form[$"OriginTrackingNumber[{i}]"].ToString(),
+                    Description = form[$"Description[{i}]"].ToString(),
+                    EstimateWeight = form[$"EstimateWeight[{i}]"].ToString(),
+                    EstimateVolume = form[$"EstimateVolume[{i}]"].ToString(),
+                    TotalValue = form[$"TotalValue[{i}]"].ToString(),
+                    Reference = form[$"Reference[{i}]"].ToString(),
+                    NumberOfUnits = form[$"NumberOfUnits[{i}]"].ToString(),
+                    DateTimeJobLastEdit=now,
+                    RequireDelivery=requireDelivery
 
-                    //};
-                    //eachParcel.MemberShipId = memebershipId;
-                    //_context.Parcel.Add(eachParcel);
-                    //await _context.SaveChangesAsync();
-                }
+                };
 
-                ViewBag.Name = _userService.GetUserName();
-                return RedirectToAction("SucceedPage", "ConsumerParcels");
+                    _context.Parcel.Add(parcel);
+                    await _context.SaveChangesAsync();
+               
             }
-
-
-
-            ViewBag.Name = _userService.GetUserName();
-            return View();
+            SPWarehouseModel origin = _context.SPWarehouseModel.FirstOrDefault(warehouse=>warehouse.Id==originSPWarehouseModelId);
+            
+            return RedirectToAction("SucceedPage", "ConsumerParcels",origin);
         }
-
-
     }
 }
