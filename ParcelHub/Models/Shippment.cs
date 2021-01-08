@@ -32,9 +32,10 @@ namespace ParcelHub.Models
 
         public string MemberShipId { get; set; }
         public ApplicationUser ApplicationUser { get; set; }
-        
 
-     
+        //Air or Ocean
+        public string TransportMethod { get; set; }
+
         public int ShippingContainerId { get; set; }
 
        

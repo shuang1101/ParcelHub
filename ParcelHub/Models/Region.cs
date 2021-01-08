@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace ParcelHub.Models
 {
-    public class CountryOfWarehouseModel
+    public class Region
     {
-        [Key]
         public int Id { get; set; }
-        public string CountryName { get; set; }
+        public int CountryId { get; set; }
+        public Country Country { get; set; }
 
+        public string RegionName { get; set; }
     }
 }

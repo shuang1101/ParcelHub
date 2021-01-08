@@ -53,7 +53,7 @@ namespace ParcelHub.Controllers
             {
 
                 var address = _context.ConsumerAddress.Find(Int32.Parse(warehouseId));
-                string countryName = _context.CountryOfWarehouseModel.Find(address.CountryOfWarehouseModelIdAtDestination).CountryName;
+                string countryName = _context.Country.Find(address.Region.CountryId).CountryName;
 
                 var json = new
                 {
@@ -76,6 +76,7 @@ namespace ParcelHub.Controllers
 
         }
 
+       
 
         public IActionResult SucceedPage(SPWarehouseModel? warehouse)
         {
@@ -114,17 +115,19 @@ namespace ParcelHub.Controllers
         public async Task<IActionResult> Create([Bind("Id," +
             "OriginSPWarehouseModelId,DestinatioSPWarehouseModelnId," +
             "ConsumerAddressId," +
-            "DestinationDeliverMethod" )] Parcel parcel)
+            "DestinationDeliverMethod,TransportMethod" )] Parcel parcel)
         {
             var form = Request.Form;
 
             var applicationUserId = _userService.GetUserId();
             var memberShipId = _userService.GetUserMemberId();
-            var destinatioSPWarehouseModelnId = 100;
+            
+            var destinatioSPWarehouseModelnId = parcel.DestinatioSPWarehouseModelnId;
             var now = DateTime.Now;
             var consumerAddressId = parcel.ConsumerAddressId;
             var deliveryMethod = parcel.DestinationDeliverMethod;
             var originSPWarehouseModelId = parcel.OriginSPWarehouseModelId;
+            var transportMethod = parcel.TransportMethod;
             bool requireDelivery = false;
             if (parcel.DestinationDeliverMethod == "DelivertoDoor")
             {
@@ -139,7 +142,8 @@ namespace ParcelHub.Controllers
                 DestinatioSPWarehouseModelnId = destinatioSPWarehouseModelnId,
                 ConsumerAddressId = consumerAddressId,
                 MemberShipId = memberShipId,
-                RequireDelivery=requireDelivery
+                RequireDelivery=requireDelivery,
+                TransportMethod= transportMethod
             };
             var shipEntity = _context.Add(currentShippment);
             _context.SaveChangesAsync().GetAwaiter().GetResult();
@@ -176,7 +180,8 @@ namespace ParcelHub.Controllers
                     Reference = form[$"Reference[{i}]"].ToString(),
                     NumberOfUnits = form[$"NumberOfUnits[{i}]"].ToString(),
                     DateTimeJobLastEdit=now,
-                    RequireDelivery=requireDelivery
+                    RequireDelivery=requireDelivery,
+                    TransportMethod= transportMethod
 
                 };
 

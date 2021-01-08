@@ -19,13 +19,39 @@ $("#receiverAddress").on('change',function () {
 
         },
         error: function (data) {
-            alert("Failed:" + data[0])//µ¯³ö¿ò
+            alert("please choose an address");//µ¯³ö¿ò
         }
     });
 
 });
 
 
+$('#createAddress').on('change', function () {
+    var model = $("#createAddress").val();
+    $.ajax({
+        url: '/data/getRegion',
+        data: JSON.stringify(model),
+        type: 'POST',
+        contentType: 'application/json;charset=utf-8',
+        async: true,
+        success: function (data) {
+            if (data) {
+                $('#region').html('');
+                var options = '';
+                options += '<option value=@null>Region</option>';
+                for (var i = 0; i < data.length; i++) {
+                    options += '<option value="' + data[i].key + '">' + data[i].value + '</option>';
+                }
+                $('#region').append(options);
+            }
+        },
+        error: function () {
+            alert("Please select a region you are in or close to you");
+        }
+
+    });
+
+});
 
 
 function box() {
@@ -61,7 +87,7 @@ function box() {
             //ale$("#myDiv").html(data);rt(data)//µ¯³ö¿ò
         },
         error: function (data) {
-            alert("Failed:" + data[0])//µ¯³ö¿ò
+            alert("please choose an address");//µ¯³ö¿ò
         }
 
     });
@@ -95,7 +121,7 @@ function DynamicTextBox(counter) {
                             <td><input type="number" class="form-control" name="TotalValue[@i]" /></td>\
                             <td><input type="text" class="form-control" name="Reference[@i]"  /></td>\
                                     <td> <input type="button" onclick="DynamicText()" value="Add line" /> </td>\
-                                      < td > <input type="button" onclick="RemoveDynamicText()" value="RemoveLine" /> </td></tr >';
+                                      < td > <input type="button" onclick="RemoveDynamicText()" value="RemoveLine" /> </td>';
 
     return string.replaceAll('@i', counter); //
 }
@@ -133,7 +159,7 @@ function EditDynamicText() {
 function EditDynamicTextBox(counter) {
 
 
-    var string = ' <td><input type="hidden" name="parcelId"/><input type="text" class="form-control" name="OriginCourierCompany" required /></td>\
+    var string = ' <td><input type="hidden" name="parcelId" value="-1"/><input type="text" class="form-control" name="OriginCourierCompany" required /></td>\
         < td > <input type="text" class="form-control" name="OriginTrackingNumber" required /></td>\
                             <td><input type="text" class="form-control" name="Description" required /></td>\
                             <td><input type="text" class="form-control" name="EstimateWeight" /></td>\
@@ -141,8 +167,7 @@ function EditDynamicTextBox(counter) {
                             <td><input type="number" class="form-control" name="NumberOfUnits" required /></td>\
                             <td><input type="number" class="form-control" name="TotalValue" required /></td>\
                             <td><input type="text" class="form-control" name="Reference" /></td>\
-                            <td> <input type="button" onclick="DynamicText()" value="Add line" /> </td>\
-                             <td> <input type="button" onclick="DynamicText()" value="Add line" /> </td>';
+                            <td> <input type="button" onclick="EditDynamicText()" value="Add line" /> </td>';
 
     return string.replaceAll('@i', counter); //
 }

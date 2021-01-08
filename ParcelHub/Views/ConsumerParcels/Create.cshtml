@@ -17,7 +17,7 @@
             <div class="col">
                 <label>Origin</label>
                 <br />
-                <label>Follow address is where you need the seller oversea send to</label>
+                <label>Origin deport for</label>
                 <div class="form-group">
                     <label class="control-label"> Depot of origin</label>
                     @*country of origin*@
@@ -57,30 +57,19 @@
                 <div class="form-group">
                     <label class="control-label">Receiver Name</label>
                     <input class="form-control" disabled id="receiver" />@*ajax passing value by id => see mysite. js*@
-                </div>
-                <!--<div class="form-group">
-                    <label class="control-label">Air</label>
-                    <input class="form-control" disabled id="air" />-->
-                @*ajax passing value by id => see mysite. js*@
-                <!--</div>
-                <div class="form-group">
-                    <label class="control-label">Land</label>
-                    <input class="form-control" disabled id="land" />-->
-                @*ajax passing value by id => see mysite. js*@
-                <!--</div>
-                <div class="form-group">
-                    <label class="control-label">Ocean</label>
-                    <input class="form-control" disabled id="ocean" />-->
-                @*ajax passing value by id => see mysite. js*@
-                <!--</div>-->
-
-
-
+                </div>  
             </div>
         </div>
 
         <div class="col-md-1">
-            <p class="arrow"></p>@*====>*@
+
+
+            <select class="form-control" asp-for="TransportMethod" required />
+            <option value=@null>Choose shipping method</option>
+            <option value="air">Air shipping</option>
+            <option value="ocean">Ocean Shipping</option>
+
+            </select>
 
         </div>
         <div class="col-md-4" style="border:1px dotted red">
@@ -107,6 +96,9 @@
 
                         </select>
                     }
+
+                  
+
                     <a class="btn btn-primary" asp-controller="ConsumerAddresses" asp-action="Index">Create a address    </a>
 
 
@@ -156,7 +148,7 @@
                 </div>
             </div>
         </div>
-
+     
         <div class="row" style="border:1px dotted red">
             <div class="form-horizontal">
                 <div class="table-responsive">
@@ -180,12 +172,12 @@
                                 <td><input type="text" class="form-control" name="ShippingCompanyAtOrigin[0]" required /></td>
                                 <td><input type="text" class="form-control" name="OriginTrackingNumber[0]" required /></td>
                                 <td><input type="text" class="form-control" name="Description[0]" required /></td>
-                                <td><input type="text" class="form-control" name="EstimateWeight[0]" /></td>
+                                <td><input type="text" class="form-control" name="EstimateWeight[0]"required/></td>
                                 <td><input type="text" class="form-control" name="EstimateVolume[0]" /></td>
                                 <td><input type="number" class="form-control" name="NumberOfUnits[0]" required /></td>
                                 <td><input type="number" class="form-control" name="TotalValue[0]" required /></td>
                                 <td><input type="text" class="form-control" name="Reference[0]" /></td>
-
+                               
                                 <td> <input type="button" onclick="DynamicText()" value="Add line" /> </td>
 
                             </tr>

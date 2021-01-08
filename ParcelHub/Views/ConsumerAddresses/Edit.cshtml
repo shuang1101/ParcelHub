@@ -21,8 +21,9 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
             <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="RegionId"> 
 
-            <input asp-for="CountryOfWarehouseModelIdAtDestination" class="form-control" type="hidden" />
+            <input asp-for="Region.CountryId" class="form-control" type="hidden" />
             <div class="form-group">
                 <label asp-for="NameOfMyAddress" class="control-label"></label>
                 <input asp-for="NameOfMyAddress" class="form-control" />
@@ -34,10 +35,22 @@
                 <input asp-for="NameOfReceiver" class="form-control" />
                 <span asp-validation-for="NameOfReceiver" class="text-danger"></span>
             </div>
+
+            @{
+                var region = _appDbContext.Region.Find(Model.RegionId);
+
+            }
+
+           
             <div class="form-group">
-                <label  class="control-label"></label>
-                <input value="@_appDbContext.CountryOfWarehouseModel.FirstOrDefault(a=>a.Id==Model.CountryOfWarehouseModelIdAtDestination).CountryName" class="form-control" disabled/>
-               
+                <label class="control-label"></label>
+                <input value="@_appDbContext.Country.First(m => m.Id == region.CountryId).CountryName" class="form-control" disabled />
+
+            </div>
+            <div class="form-group">
+                <label  class="control-label">Region</label>
+                <input class="form-control" value=" @_appDbContext.Region.Find(Model.RegionId).RegionName" disabled/>
+                
             </div>
 
             <div class="form-group">

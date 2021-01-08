@@ -10,11 +10,11 @@ using ParcelHub.Models;
 
 namespace ParcelHub.Controllers
 {
-    public class CountryOfWarehouseModelsController : Controller
+    public class CountryController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public CountryOfWarehouseModelsController(ApplicationDbContext context)
+        public CountryController(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -22,7 +22,7 @@ namespace ParcelHub.Controllers
         // GET: CountryOfWarehouseModels
         public async Task<IActionResult> Index()
         {
-            return View(await _context.CountryOfWarehouseModel.ToListAsync());
+            return View(await _context.Country.ToListAsync());
         }
 
         // GET: CountryOfWarehouseModels/Details/5
@@ -33,7 +33,7 @@ namespace ParcelHub.Controllers
                 return NotFound();
             }
 
-            var countryOfWarehouseModel = await _context.CountryOfWarehouseModel
+            var countryOfWarehouseModel = await _context.Country
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (countryOfWarehouseModel == null)
             {
@@ -54,15 +54,15 @@ namespace ParcelHub.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CountryName,Id")] CountryOfWarehouseModel countryOfWarehouseModel)
+        public async Task<IActionResult> Create([Bind("CountryName,Id")] Country country)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(countryOfWarehouseModel);
+                _context.Add(country);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(countryOfWarehouseModel);
+            return View(country);
         }
 
         // GET: CountryOfWarehouseModels/Edit/5
@@ -73,12 +73,12 @@ namespace ParcelHub.Controllers
                 return NotFound();
             }
 
-            var countryOfWarehouseModel = await _context.CountryOfWarehouseModel.FindAsync(id);
-            if (countryOfWarehouseModel == null)
+            var country = await _context.Country.FindAsync(id);
+            if (country == null)
             {
                 return NotFound();
             }
-            return View(countryOfWarehouseModel);
+            return View(country);
         }
 
         // POST: CountryOfWarehouseModels/Edit/5
@@ -86,9 +86,9 @@ namespace ParcelHub.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CountryName,Id")] CountryOfWarehouseModel countryOfWarehouseModel)
+        public async Task<IActionResult> Edit(int id, [Bind("CountryName,Id")] Country country)
         {
-            if (id != countryOfWarehouseModel.Id)
+            if (id != country.Id)
             {
                 return NotFound();
             }
@@ -97,12 +97,12 @@ namespace ParcelHub.Controllers
             {
                 try
                 {
-                    _context.Update(countryOfWarehouseModel);
+                    _context.Update(country);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CountryOfWarehouseModelExists(countryOfWarehouseModel.Id))
+                    if (!CountryOfWarehouseModelExists(country.Id))
                     {
                         return NotFound();
                     }
@@ -113,7 +113,7 @@ namespace ParcelHub.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(countryOfWarehouseModel);
+            return View(country);
         }
 
         // GET: CountryOfWarehouseModels/Delete/5
@@ -124,14 +124,14 @@ namespace ParcelHub.Controllers
                 return NotFound();
             }
 
-            var countryOfWarehouseModel = await _context.CountryOfWarehouseModel
+            var country = await _context.Country
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (countryOfWarehouseModel == null)
+            if (country == null)
             {
                 return NotFound();
             }
 
-            return View(countryOfWarehouseModel);
+            return View(country);
         }
 
         // POST: CountryOfWarehouseModels/Delete/5
@@ -139,15 +139,15 @@ namespace ParcelHub.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var countryOfWarehouseModel = await _context.CountryOfWarehouseModel.FindAsync(id);
-            _context.CountryOfWarehouseModel.Remove(countryOfWarehouseModel);
+            var country = await _context.Country.FindAsync(id);
+            _context.Country.Remove(country);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool CountryOfWarehouseModelExists(int id)
         {
-            return _context.CountryOfWarehouseModel.Any(e => e.Id == id);
+            return _context.Country.Any(e => e.Id == id);
         }
     }
 }

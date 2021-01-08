@@ -16,7 +16,7 @@ namespace ParcelHub.Controllers
         private readonly ApplicationDbContext _context;
         private readonly IUserSerivce _userService;
 
-        public ConsumerAddressesController(ApplicationDbContext context,IUserSerivce userService)
+        public ConsumerAddressesController(ApplicationDbContext context, IUserSerivce userService)
         {
             _context = context;
             _userService = userService;
@@ -26,19 +26,19 @@ namespace ParcelHub.Controllers
         public async Task<IActionResult> Index()
         {
             var applicationDbContext = _context.ConsumerAddress.
-                Where(address=>address.ApplicationUserId==_userService.GetUserId())
+                Where(address => address.ApplicationUserId == _userService.GetUserId())
                 .Where(add => add.ModelIsvalid == true);
-           
-            
+
+
 
             return View(await applicationDbContext.ToListAsync());
         }
 
-       
+
         // GET: ConsumerAddresses/Create
         public IActionResult Create()
         {
-           
+
             return View();
         }
 
@@ -47,12 +47,12 @@ namespace ParcelHub.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,NameOfReceiver,NameOfMyAddress,Country,CountryOfWarehouseModelIdAtDestination,State,Suburb,City,StreetAddress,PostCode")] ConsumerAddress consumerAddress)
+        public async Task<IActionResult> Create([Bind("Id,NameOfReceiver,NameOfMyAddress,Country,RegionId,CountryId,State,Suburb,City,StreetAddress,PostCode")] ConsumerAddress consumerAddress)
         {
             if (ModelState.IsValid)
             {
                 consumerAddress.ApplicationUserId = _userService.GetUserId();
-                
+
                 _context.Add(consumerAddress);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -81,7 +81,7 @@ namespace ParcelHub.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Country,State,City,NameOfMyAddress,NameOfReceiver,CountryOfWarehouseModelIdAtDestination,Suburb,StreetAddress,PostCode")] ConsumerAddress consumerAddress)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Country,State,City,NameOfMyAddress,NameOfReceiver,CountryId,RegionId,Suburb,StreetAddress,PostCode")] ConsumerAddress consumerAddress)
         {
             if (id != consumerAddress.Id)
             {
@@ -121,8 +121,8 @@ namespace ParcelHub.Controllers
             }
 
             var consumerAddress = await _context.ConsumerAddress
-                .Where(address=>address.ApplicationUserId==_userService.GetUserId())
-                .Where(add=>add.ModelIsvalid==true)
+                .Where(address => address.ApplicationUserId == _userService.GetUserId())
+                .Where(add => add.ModelIsvalid == true)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (consumerAddress == null)
             {
@@ -147,6 +147,37 @@ namespace ParcelHub.Controllers
         private bool ConsumerAddressExists(int id)
         {
             return _context.ConsumerAddress.Any(e => e.Id == id);
+        }
+
+        [Route("/data/getRegion")]
+        [HttpPost]
+        public JsonResult GetRegion([FromBody] string s)
+        {
+            if (s == null)
+            {
+                return null;
+            }
+            List<KeyValuePair<int, string>> data = new List<KeyValuePair<int, string>>();
+            try
+            {
+                var Id = Int32.Parse(s);
+                
+
+                foreach (var region in _context.Region.Where(r => r.CountryId == Id).ToList())
+                {
+                    data.Add(
+                        new KeyValuePair<int, string>(region.Id, region.RegionName)
+                        );
+                }
+
+            }
+            catch
+            {
+                Exception ex;
+            }
+
+            return Json(data);
+
         }
     }
 }

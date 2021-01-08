@@ -1,4 +1,5 @@
 ﻿@{ ViewData["title"] = "Creat New Shippment";
+    Layout = "_Layout";
 }
 
 <form asp-controller="ConsumerShippments" asp-action="Edit" method="post">
@@ -34,6 +35,7 @@
 
                 <div class="form-group">
 
+
                     @if (ViewBag.RequireDelivery == true)
                     {<div class="badge-success">
                             <p>@ViewBag.Destination.CountryOfWarehouseModelCountryName</p>
@@ -64,13 +66,14 @@
                     }
                     <select class="form-control" name="DestinationDeliverMethod" autofocus="@ViewBag.Parcels[0].DestinationDeliverMethod">
 
-                        <option value="DelivertoDoor">Changet to Deliver to Door</option>
+                        <option value="DelivertoDoor">Deliver to Door</option>
 
-                        <option value="Pickup">Change to Pickup from depot</option>
+                        <option value="Pickup">Pickup from depot</option>
 
                     </select>
                     <input type="checkbox" id="toggle-two" name="DeliveryMethod" a>
-                    <script> //
+                    <script>
+                        //
                         $(function () {
                             $('#toggle-two').bootstrapToggle({
                                 on: 'Enabled',
@@ -90,8 +93,10 @@
         <div class="form-horizontal">
             <div class="table-responsive">
                 <div>
+                    @*Key ID here*@
                     <input type="hidden" name="ShippmentId" value="@ViewBag.Shippment.Id">
                     <input type="hidden" name="SPTackingNumber" value="@ViewBag.Shippment.SPTackingNumber" /> @*Tracking number for current shippment*@
+
                     <h3>Tracking Number @ViewBag.Shippment.SPTackingNumber    </h3>
                 </div>
                 <table class="table table-bordered table-striped table-highlight">
@@ -108,24 +113,30 @@
                             <th>NumberOfUnits</th>
                             <th>Total Value</th>
                             <th>Special Cargo</th>
+                            <th></th>
+                            <th></th>
                         </tr>
                     </thead>
 
                     <tbody id="firstdiv-edit">
                         @for (int i = 0; i < ViewBag.Count; i++)
                         {
-                            <tr>
-                                <td><input type="hidden" name="parcelId" value="@ViewBag.Parcels[i].Id" /><input type="text" class="form-control" value="@ViewBag.Parcels[i].OriginCourierCompany" name="OriginCourierCompany" required /></td>
-                                <td><input type="text" class="form-control" value="@ViewBag.Parcels[i].OriginTrackingNumber" name="OriginTrackingNumber" required /></td>
-                                <td><input type="text" class="form-control" value="@ViewBag.Parcels[i].Description" name="Description" required /></td>
-                                <td><input type="text" class="form-control" value="@ViewBag.Parcels[i].EstimateWeight" name="EstimateWeight" /></td>
-                                <td><input type="text" class="form-control" value="@ViewBag.Parcels[i].EstimateVolume" name="EstimateVolume" /></td>
-                                <td><input type="number" class="form-control" value="@ViewBag.Parcels[i].NumberOfUnits" name="NumberOfUnits" required /></td>
-                                <td><input type="number" class="form-control" value="@ViewBag.Parcels[i].TotalValue" name="TotalValue" required /></td>
-                                <td><input type="text" class="form-control" value="@ViewBag.Parcels[i].Reference" name="Reference" /></td>
-                                <td> <input type="button" onclick="EditDynamicText()" value="Add line" /> </td>
-                                
-                            </tr>
+                        <tr>
+                            <td>
+                                <input type="hidden" name="parcelId" value="@ViewBag.Parcels[i].Id" />
+                                <input type="text" class="form-control" value="@ViewBag.Parcels[i].OriginCourierCompany" name="OriginCourierCompany" required />
+                            </td>
+                            <td><input type="text" class="form-control" value="@ViewBag.Parcels[i].OriginTrackingNumber" name="OriginTrackingNumber" required /></td>
+                            <td><input type="text" class="form-control" value="@ViewBag.Parcels[i].Description" name="Description" required /></td>
+                            <td><input type="text" class="form-control" value="@ViewBag.Parcels[i].EstimateWeight" name="EstimateWeight" required /></td>
+                            <td><input type="text" class="form-control" value="@ViewBag.Parcels[i].EstimateVolume" name="EstimateVolume" /></td>
+                            <td><input type="number" class="form-control" value="@ViewBag.Parcels[i].NumberOfUnits" name="NumberOfUnits" required /></td>
+                            <td><input type="number" class="form-control" value="@ViewBag.Parcels[i].TotalValue" name="TotalValue" required /></td>
+                            <td><input type="text" class="form-control" value="@ViewBag.Parcels[i].Reference" name="Reference" /></td>
+                            <td> <input type="button" onclick="EditDynamicText()" value="Add line" /> </td>
+                            <td><input type="button" onclick="EditRemoveDynamicText()" value="RemoveLine" />  </td>
+
+                        </tr>
                         }
 
 
@@ -155,3 +166,6 @@
     </div>
 
 </form>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

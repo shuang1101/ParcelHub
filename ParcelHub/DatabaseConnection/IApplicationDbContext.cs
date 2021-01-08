@@ -7,7 +7,7 @@ namespace ParcelHub.DatabaseConnection
     {
         DbSet<Consumer> Consumer { get; set; }
         DbSet<ConsumerAddress> ConsumerAddress { get; set; }
-        DbSet<CountryOfWarehouseModel> CountryOfWarehouseModel { get; set; }
+        DbSet<Country> Country { get; set; }
         DbSet<HomePageNews> HomePageNews { get; set; }
         DbSet<Invoice> Invoice { get; set; }
         DbSet<Parcel> Parcel { get; set; }

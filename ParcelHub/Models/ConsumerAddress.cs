@@ -18,8 +18,10 @@ namespace ParcelHub.Models
         public ApplicationUser ApplicationUser { get; set; }
         [Key]
         public int Id { get; init; }
-        public int CountryOfWarehouseModelIdAtDestination { get; set; }
-      
+
+        public int RegionId { get; set; }
+        public Region Region { get; set; }
+
         public string State { get; set; }
         public string City { get; set; }
 

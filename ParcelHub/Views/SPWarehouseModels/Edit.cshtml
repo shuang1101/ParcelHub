@@ -58,7 +58,7 @@
             <div class="form-group">
                 <label asp-for="CountryOfWarehouseModelCountryName" class="control-label"></label>
                 <select class="form-control" asp-for="CountryOfWarehouseModelCountryName">
-                    @foreach (var country in _context.CountryOfWarehouseModel)
+                    @foreach (var country in _context.Country)
                     {
                         <option value="@country.CountryName">@country.CountryName</option>
                     }

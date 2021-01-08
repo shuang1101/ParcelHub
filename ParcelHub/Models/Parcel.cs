@@ -30,8 +30,8 @@ namespace ParcelHub.Models
         public string OriginCourierCompany { get; set; }
         public string OriginTrackingNumber { get; set; }
 
-
-
+        //Air or Ocean
+        public string TransportMethod { get; set; }
       
         public int OriginSPWarehouseModelId { get; set; }
 

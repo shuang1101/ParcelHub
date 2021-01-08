@@ -7,10 +7,14 @@
 @model ParcelHub.Models.SPWarehouseModel
 @inject ParcelHub.ServiceRepository.IUserSerivce _user
 <h1>Shippment is all set</h1>
-<a asp-controller="ConsumerParcels" asp-action="Create">Click Here to Create Another Shippment</a>
-<br />
-<a asp-controller="ConsumerShippments" asp-action="Index">Go to my shippments</a>
+<div>
 
+
+
+    <a asp-controller="ConsumerParcels" asp-action="Create">Click Here to Create Another Shippment</a>
+    <hr />
+    <a asp-controller="ConsumerShippments" asp-action="Index">Go to my shippments</a>
+</div>
 <div class="alert-success">
     
         please contact customer service if you have any problem <br />
@@ -28,10 +32,4 @@
     <p>@Html.DisplayFor(m => m.CountryOfWarehouseModelCountryName)</p>
     <p>@Html.DisplayFor(m => m.PostCode)</p>
 
-
-
-
-
-
-   
 </div>

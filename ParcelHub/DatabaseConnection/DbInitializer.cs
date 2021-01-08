@@ -3,9 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using ParcelHub.Models;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+
 
 namespace ParcelHub.DatabaseConnection
 {
@@ -26,7 +25,7 @@ namespace ParcelHub.DatabaseConnection
 
         public void InitializeDB()
         {
-            if (_dbContext.Database.GetPendingMigrations().Count()>0)
+            if (_dbContext.Database.GetPendingMigrations().Count() > 0)
             {
                 _dbContext.Database.Migrate();
             }
@@ -41,21 +40,41 @@ namespace ParcelHub.DatabaseConnection
                 return;
             }
 
-            if (!_dbContext.CountryOfWarehouseModel.Any())
-            {
-                CountryOfWarehouseModel newZealand = new CountryOfWarehouseModel() {CountryName="New Zealand" };
-                CountryOfWarehouseModel Korea = new CountryOfWarehouseModel() { CountryName = "Korea" };
-                CountryOfWarehouseModel China = new CountryOfWarehouseModel() { CountryName = "China" };
-                CountryOfWarehouseModel USA = new CountryOfWarehouseModel() { CountryName = "USA" };
 
-                _dbContext.CountryOfWarehouseModel.Add(newZealand);
-                _dbContext.CountryOfWarehouseModel.Add(Korea);
-                _dbContext.CountryOfWarehouseModel.Add(China);
-                _dbContext.CountryOfWarehouseModel.Add(USA);
+
+
+            if (!_dbContext.Country.Any())
+            {
+                Country newZealand = new Country() { CountryName = "New Zealand" };
+                Country Korea = new Country() { CountryName = "Korea" };
+                Country China = new Country() { CountryName = "China" };
+                Country Usa = new Country() { CountryName = "USA" };
+
+                var NZ = _dbContext.Country.Add(newZealand);
+                var KOREA = _dbContext.Country.Add(Korea);
+                var CHINA = _dbContext.Country.Add(China);
+                var USA = _dbContext.Country.Add(Usa);
+                _dbContext.SaveChangesAsync().GetAwaiter().GetResult();
+
+                var nz = NZ.Entity.Id;
+                //var korea = KOREA.Entity.Id;
+                //var china = CHINA.Entity.Id;
+                //var usa = USA.Entity.Id;
+
+
+
+                Region AucklandMetro = new Region() { CountryId = nz, RegionName = "Auckland Metro" };
+                Region Whangarei_Hamilton_Metro = new Region() { CountryId = nz, RegionName = "Whangarei-Hamilton Metro" };
+                Region CapeReinga_Wellington_Metro = new Region() { CountryId = nz, RegionName = "CapeReinga-Wellington Metro" };
+                Region SouthIsland_Metro = new Region() { CountryId = nz, RegionName = "South Island Metro" };
+
+                _dbContext.Region.Add(AucklandMetro);
+                _dbContext.Region.Add(Whangarei_Hamilton_Metro);
+                _dbContext.Region.Add(CapeReinga_Wellington_Metro);
+                _dbContext.Region.Add(SouthIsland_Metro);
                 _dbContext.SaveChangesAsync().GetAwaiter().GetResult();
 
             }
-
 
             var UserName = _configuration.GetValue<string>("SeedMasterInformation:UserName");
             var Password = _configuration.GetValue<string>("SeedMasterInformation:Password");
@@ -65,14 +84,14 @@ namespace ParcelHub.DatabaseConnection
                 UserName = UserName,
                 EmailConfirmed = true,
                 Email = UserName,
-                SPWarehouseModelIdIfUserIsAdmin=999
+                SPWarehouseModelIdIfUserIsAdmin = 999
             };
 
-             _userManager.CreateAsync(master, Password).GetAwaiter().GetResult();
+            _userManager.CreateAsync(master, Password).GetAwaiter().GetResult();
 
-            var masterRole =  _userManager.FindByEmailAsync(UserName).GetAwaiter().GetResult();
+            var masterRole = _userManager.FindByEmailAsync(UserName).GetAwaiter().GetResult();
 
-             _userManager.AddToRoleAsync(masterRole, "Master").GetAwaiter().GetResult();
+            _userManager.AddToRoleAsync(masterRole, "Master").GetAwaiter().GetResult();
 
             var consumerMaster = new Consumer()
             {
@@ -80,13 +99,13 @@ namespace ParcelHub.DatabaseConnection
                 FirstName = "SuperUser",
                 Email = UserName,
                 ApplicationUserId = masterRole.Id,
-                DateRegisterd=DateTime.Now,
-                MemeberShipId="Master"
+                DateRegisterd = DateTime.Now,
+                MemeberShipId = "Master"
             };
 
             _dbContext.Consumer.Add(consumerMaster);
 
-             _dbContext.SaveChangesAsync().GetAwaiter().GetResult();
+            _dbContext.SaveChangesAsync().GetAwaiter().GetResult();
 
 
         }

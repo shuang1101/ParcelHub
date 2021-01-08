@@ -34,9 +34,9 @@ namespace ParcelHub.DatabaseConnection
         public DbSet<Shippment> Shippment { get; set; }
 
         public DbSet<HomePageNews> HomePageNews { get; set; }
-        public DbSet<CountryOfWarehouseModel> CountryOfWarehouseModel { get; set; }
+        public DbSet<Country> Country { get; set; }
         public DbSet<SPUserModel> SPUserModel { get; set; }
-
-
+        public DbSet<Region> Region { get; set; }
+       
     }
 }

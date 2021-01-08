@@ -22,6 +22,10 @@
                 Country
             </th>
             <th>
+                Region
+            </th>
+
+            <th>
                 @Html.DisplayNameFor(model => model.Suburb)
             </th>
             <th>
@@ -52,13 +56,22 @@
             </td>
 
             <td>
-                @_appDbContext.CountryOfWarehouseModel.Find(item.CountryOfWarehouseModelIdAtDestination).CountryName
+                @{
+                    var region = _appDbContext.Region.Find(item.RegionId);
+
+                }
+              @_appDbContext.Country.First(m=>m.Id==region.CountryId).CountryName
             </td>
+            <td>
+                @_appDbContext.Region.Find(item.RegionId).RegionName
+            </td>
+
+
             <td>
                 @Html.DisplayFor(modelItem => item.Suburb)
             </td>
             <td>
-            @Html.DisplayFor(modelItem => item.State)
+                @Html.DisplayFor(modelItem => item.State)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.City)

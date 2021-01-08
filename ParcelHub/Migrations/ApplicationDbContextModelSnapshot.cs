@@ -280,9 +280,6 @@ namespace ParcelHub.Migrations
                     b.Property<string>("City")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("CountryOfWarehouseModelIdAtDestination")
-                        .HasColumnType("int");
-
                     b.Property<bool>("ModelIsvalid")
                         .HasColumnType("bit");
 
@@ -294,6 +291,9 @@ namespace ParcelHub.Migrations
 
                     b.Property<string>("PostCode")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("RegionId")
+                        .HasColumnType("int");
 
                     b.Property<string>("State")
                         .HasColumnType("nvarchar(max)");
@@ -308,10 +308,12 @@ namespace ParcelHub.Migrations
 
                     b.HasIndex("ApplicationUserId");
 
+                    b.HasIndex("RegionId");
+
                     b.ToTable("ConsumerAddress");
                 });
 
-            modelBuilder.Entity("ParcelHub.Models.CountryOfWarehouseModel", b =>
+            modelBuilder.Entity("ParcelHub.Models.Country", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -323,7 +325,7 @@ namespace ParcelHub.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("CountryOfWarehouseModel");
+                    b.ToTable("Country");
                 });
 
             modelBuilder.Entity("ParcelHub.Models.HomePageNews", b =>
@@ -459,6 +461,9 @@ namespace ParcelHub.Migrations
                     b.Property<string>("TransitStatus")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("TransportMethod")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ApplicationUserId");
@@ -466,6 +471,26 @@ namespace ParcelHub.Migrations
                     b.HasIndex("ConsumerAddressId");
 
                     b.ToTable("Parcel");
+                });
+
+            modelBuilder.Entity("ParcelHub.Models.Region", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<int>("CountryId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("RegionName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CountryId");
+
+                    b.ToTable("Region");
                 });
 
             modelBuilder.Entity("ParcelHub.Models.SPUserModel", b =>
@@ -633,6 +658,9 @@ namespace ParcelHub.Migrations
                     b.Property<float>("TotalValue")
                         .HasColumnType("real");
 
+                    b.Property<string>("TransportMethod")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ApplicationUserId");
@@ -699,7 +727,15 @@ namespace ParcelHub.Migrations
                         .WithMany()
                         .HasForeignKey("ApplicationUserId");
 
+                    b.HasOne("ParcelHub.Models.Region", "Region")
+                        .WithMany()
+                        .HasForeignKey("RegionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("ApplicationUser");
+
+                    b.Navigation("Region");
                 });
 
             modelBuilder.Entity("ParcelHub.Models.Invoice", b =>
@@ -728,6 +764,17 @@ namespace ParcelHub.Migrations
                     b.Navigation("ApplicationUser");
 
                     b.Navigation("ConsumerAddress");
+                });
+
+            modelBuilder.Entity("ParcelHub.Models.Region", b =>
+                {
+                    b.HasOne("ParcelHub.Models.Country", "Country")
+                        .WithMany()
+                        .HasForeignKey("CountryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Country");
                 });
 
             modelBuilder.Entity("ParcelHub.Models.SPUserModel", b =>
