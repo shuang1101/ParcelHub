@@ -26,6 +26,9 @@ namespace ParcelHub.Controllers
         }
 
         // GET: Consumers
+
+     
+
         public async Task<IActionResult> Index()
         {
             var consumer = _context.Consumer

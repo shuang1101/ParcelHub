@@ -160,6 +160,7 @@ namespace ParcelHub.Controllers
                     // if found login to be staff, will signout and redirect to backend, because the adminEntity Does not apply to the consumer Entity
 
                     var user = await _userManager.FindByEmailAsync(loginUser.Email);
+
                     if (user.SPWarehouseModelIdIfUserIsAdmin > 0)
                     {
                       await  _accountRepo.SignOutAsync();
@@ -176,7 +177,12 @@ namespace ParcelHub.Controllers
                         return RedirectToAction("NeedHelpPage", "ConsumerRegisterAndLogin");
                     }
 
+                    // record last login time
 
+                   var consumer = _dbcontect.Consumer.FirstOrDefault(c => c.ApplicationUserId == user.Id);
+                    consumer.DateTimeLastLogin = DateTime.Now;
+                    _dbcontect.Consumer.Update(consumer);
+                   await _dbcontect.SaveChangesAsync();
 
                     return RedirectToAction("Index", "ConsumerHome");
                 }

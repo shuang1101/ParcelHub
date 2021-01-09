@@ -1,16 +1,18 @@
 ﻿@model IEnumerable<ParcelHub.Models.Consumer>
-@inject ParcelHub.DatabaseConnection.ApplicationDbContext _dbContext
+
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "IndexViewOnly";
     Layout = "~/Views/Shared/_SPLayout.cshtml";
 }
 
-<h1>Index</h1>
-
+<h1>Consumers </h1>
 
 <table class="table">
     <thead>
         <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.MemeberShipId)
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.ModelIsvalid)
             </th>
@@ -26,7 +28,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.Email)
             </th>
-          
+
             <th>
                 @Html.DisplayNameFor(model => model.DateRegisterd)
             </th>
@@ -36,15 +38,19 @@
             <th>
                 @Html.DisplayNameFor(model => model.WechatId)
             </th>
+         
             <th>
-                @Html.DisplayNameFor(model => model.MemeberShipId)
+                Check Address
             </th>
-            <th></th>
+
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
         <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.MemeberShipId)
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.ModelIsvalid)
             </td>
@@ -60,7 +66,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Email)
             </td>
-          
+
             <td>
                 @Html.DisplayFor(modelItem => item.DateRegisterd)
             </td>
@@ -70,13 +76,12 @@
             <td>
                 @Html.DisplayFor(modelItem => item.WechatId)
             </td>
+
             <td>
-                @Html.DisplayFor(modelItem => item.MemeberShipId)
+                <a asp-action="CheckAddress" asp-route-id="@item.ApplicationUserId">Address</a>
             </td>
-            <td>
-                <a asp-action="BanConsumer" asp-route-id="@item.ApplicationUserId">Ban Consumer ID</a> 
-                
-            </td>
+
+
         </tr>
 }
     </tbody>

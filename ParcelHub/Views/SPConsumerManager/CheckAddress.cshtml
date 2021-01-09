@@ -1,0 +1,105 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model List<ConsumerAddress>
+@inject ParcelHub.DatabaseConnection.ApplicationDbContext _appDbContext
+@{
+    Layout = "_SPLayout";
+}
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                MemeberShip ID
+            </th>
+
+            <th>
+                Name Of Receiver
+            </th>
+            <th>
+                Country
+            </th>
+            <th>
+                Region
+            </th>
+            <th>
+                State
+            </th>
+            <th>
+                City
+            </th>
+            <th>
+                Suburb
+            </th>
+            <th>
+                Street Address
+            </th>
+
+            <th>
+                PostCode
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @_appDbContext.Consumer.FirstOrDefault(c => c.ApplicationUserId == item.ApplicationUserId).MemeberShipId
+                </td>
+
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.NameOfReceiver)
+                </td>
+
+                @{
+                    var region = _appDbContext.Region.FirstOrDefault(r => r.Id == item.RegionId);
+                    if (region != null)
+                    {
+
+                        <td>
+                            @region.RegionName
+                        </td>
+                        <td>
+                            @_appDbContext.Country.FirstOrDefault(r => r.Id == region.CountryId).CountryName.ToString()
+                        </td>
+
+                    }
+
+
+
+                }
+
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.State)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.City)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Suburb)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StreetAddress)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PostCode)
+                </td>
+
+            </tr>
+        }
+        <tr>
+            <td>
+                <a asp-action="IndexViewOnly">Return</a>
+            </td>
+       
+            </tr>
+    
+      
+    </tbody>
+</table>

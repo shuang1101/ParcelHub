@@ -149,7 +149,7 @@ namespace ParcelHub.Controllers
             return _context.ConsumerAddress.Any(e => e.Id == id);
         }
 
-        [Route("/data/getRegion")]
+        [Route("/data/getRegionForConsumer")]
         [HttpPost]
         public JsonResult GetRegion([FromBody] string s)
         {

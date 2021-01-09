@@ -22,132 +22,63 @@ namespace ParcelHub.Controllers
         // GET: SPConsumerManager
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Consumer.ToListAsync());
+            // hide seeduser ==master Id==1
+            return View(await _context.Consumer.Where(m => m.Id != 1).ToListAsync());
         }
 
-        // GET: SPConsumerManager/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> IndexViewOnly()
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
 
-            var consumer = await _context.Consumer
-                .FirstOrDefaultAsync(m => m.Id == id);
+
+            return View(await _context.Consumer.Where(m => m.Id != 1).ToListAsync());
+        }
+
+        public IActionResult CheckAddress(string id)
+        {
+            var consumerAddress = _context.ConsumerAddress.Where(ca => ca.ApplicationUserId == id).ToList();
+            return View(consumerAddress);
+
+        }
+        public IActionResult BanConsumer(string id)
+        {
+            
+            var consumer = _context.Consumer.FirstOrDefault(ca => ca.ApplicationUserId == id);
+
             if (consumer == null)
+
             {
                 return NotFound();
             }
 
             return View(consumer);
-        }
 
-        // GET: SPConsumerManager/Create
-        public IActionResult Create()
-        {
-            return View();
         }
-
-        // POST: SPConsumerManager/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ModelIsvalid,Id,LastName,FirstName,MobileNumber,Email,ApplicationUserId,DateRegisterd,DateTimeLastLogin,WechatId,MemeberShipId")] Consumer consumer)
+        public async Task<IActionResult> BanConsumer(Consumer consumer)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(consumer);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(consumer);
-        }
 
-        // GET: SPConsumerManager/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            var uID = consumer.ApplicationUserId;
 
-            var consumer = await _context.Consumer.FindAsync(id);
-            if (consumer == null)
-            {
-                return NotFound();
-            }
-            return View(consumer);
-        }
+            var user = _context.Users.Find(uID);
 
-        // POST: SPConsumerManager/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ModelIsvalid,Id,LastName,FirstName,MobileNumber,Email,ApplicationUserId,DateRegisterd,DateTimeLastLogin,WechatId,MemeberShipId")] Consumer consumer)
-        {
-            if (id != consumer.Id)
-            {
-                return NotFound();
-            }
+            var consumerUser = _context.Consumer.FirstOrDefault(c => c.ApplicationUserId == uID);
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(consumer);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ConsumerExists(consumer.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(consumer);
-        }
+            user.IsValidUser = consumer.ModelIsvalid;
 
-        // GET: SPConsumerManager/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var consumer = await _context.Consumer
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (consumer == null)
-            {
-                return NotFound();
-            }
-
-            return View(consumer);
-        }
-
-        // POST: SPConsumerManager/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var consumer = await _context.Consumer.FindAsync(id);
-            _context.Consumer.Remove(consumer);
+            _context.Users.Update(user);
+            
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
 
-        private bool ConsumerExists(int id)
-        {
-            return _context.Consumer.Any(e => e.Id == id);
+            consumerUser.ModelIsvalid = consumer.ModelIsvalid;
+
+            _context.Consumer.Update(consumerUser);
+
+            await _context.SaveChangesAsync();
+
+            ViewBag.BanConsumer = 1;
+
+            return View(consumerUser);
+
         }
     }
 }
