@@ -45,6 +45,7 @@ namespace ParcelHub.Controllers
                 return null;
             }
         }
+
         [Route("/data/getReceiverAddressId")]
         [HttpPost]
         public JsonResult GetConsumerAddress([FromBody] string warehouseId)
@@ -53,17 +54,21 @@ namespace ParcelHub.Controllers
             {
 
                 var address = _context.ConsumerAddress.Find(Int32.Parse(warehouseId));
-                string countryName = _context.Country.Find(address.Region.CountryId).CountryName;
+
+                var region = _context.Region.Find(address.RegionId);
+
+                var country = _context.Country.Find(region.CountryId);
 
                 var json = new
                 {
                     ReceiverName = address.NameOfReceiver,
-                    Country = countryName,
+                    Country = country.CountryName,
                     StreetAddress = address.StreetAddress,
                     Suburb = address.Suburb,
                     City = address.City,
                     State = address.State,
-                    PostCode = address.PostCode
+                    PostCode = address.PostCode,
+                    Region=region.RegionName
                 };
 
                 return Json(json);
@@ -118,6 +123,7 @@ namespace ParcelHub.Controllers
             "DestinationDeliverMethod,TransportMethod" )] Parcel parcel)
         {
             var form = Request.Form;
+            var region = form["region"].ToString();
 
             var applicationUserId = _userService.GetUserId();
             var memberShipId = _userService.GetUserMemberId();
@@ -129,6 +135,9 @@ namespace ParcelHub.Controllers
             var originSPWarehouseModelId = parcel.OriginSPWarehouseModelId;
             var transportMethod = parcel.TransportMethod;
             bool requireDelivery = false;
+
+            var SPWarehouse = _context.SPWarehouseModel.FirstOrDefault();
+
             if (parcel.DestinationDeliverMethod == "DelivertoDoor")
             {
                 requireDelivery = true; 

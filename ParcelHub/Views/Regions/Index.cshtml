@@ -1,5 +1,5 @@
 ﻿@model IEnumerable<ParcelHub.Models.Region>
-
+@inject ParcelHub.DatabaseConnection.ApplicationDbContext _context
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_SPLayout.cshtml";
@@ -22,6 +22,11 @@
             <th>
                 @Html.DisplayNameFor(model => model.RegionName)
             </th>
+            <th>
+                Warehouse Providing Service
+            </th>
+
+
             <th></th>
         </tr>
     </thead>
@@ -38,8 +43,29 @@
                 @Html.DisplayFor(modelItem => item.RegionName)
             </td>
             <td>
+                @{
+                    var regionLIst = _context.RegionList.Where(r => r.regionId == item.Id).ToList();
+
+                    if (regionLIst.Count==0)
+                    {
+                        <p>No service Region Set</p>
+                    }
+                    else
+                    {
+                        foreach (var region in regionLIst)
+                        {
+                            <p>@_context.SPWarehouseModel.Find(region.SPWarehouseModelId).CompanyName</p>
+                        }
+                    }
+
+
+                }
+
+
+            </td>
+            <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-               
+
                 <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
             </td>
         </tr>

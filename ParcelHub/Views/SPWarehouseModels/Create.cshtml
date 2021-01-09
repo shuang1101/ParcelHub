@@ -55,7 +55,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="CountryOfWarehouseModelCountryName" class="control-label"></label>
-                <select class="form-control" asp-for="CountryOfWarehouseModelCountryName">
+                <select class="form-control" asp-for="CountryOfWarehouseModelCountryName" id="selectCountry">
                     @foreach (var country in _context.Country)
                     {
                         <option value="@country.CountryName">@country.CountryName</option>
@@ -72,6 +72,37 @@
                 <input asp-for="PostCode" class="form-control" />
                 <span asp-validation-for="PostCode" class="text-danger"></span>
             </div>
+            <div class="form-group" id="displayRegion">
+                <label class="control-label">Service Coverage</label>
+                <input asp-for="PostCode" class="form-control" />
+                <span asp-validation-for="PostCode" class="text-danger"></span>
+            </div>
+            @*<div class="form-group">
+                <label>Service Region Coverage</label>
+
+                @{
+                    var regionLIst = _context.RegionList.Where(r => r.SPWarehouseModelId == Model.Id).ToList();
+
+                    if (regionLIst == null)
+                    {
+                        <p>No service Region Set</p>
+                    }
+                    else
+                    {
+                        foreach (var region in regionLIst)
+                        {
+                            <p>@_context.Region.Where(r => r.Id == region.Id).ToString()</p>
+                        }
+                    }
+
+                }
+
+
+            </div>*@
+
+
+
+
             <div class="form-group">
                 <label asp-for="ReceiverName" class="control-label"></label>
                 <input asp-for="ReceiverName" class="form-control" />

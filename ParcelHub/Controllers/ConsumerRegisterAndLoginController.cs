@@ -60,7 +60,7 @@ namespace ParcelHub.Controllers
         [HttpPost]
         public async Task<IActionResult> ConsumerSignUpByEmail(SignUpUser User)
         {
-            
+
             if (ModelState.IsValid)
             {
                 if (User.ConfirmTAndC == false)
@@ -97,7 +97,7 @@ namespace ParcelHub.Controllers
 
         public async Task<IActionResult> ConsumerSignUpByNumber(SignUpUser User)
         {
-            
+
             if (ModelState.IsValid)
             {
                 if (User.ConfirmTAndC == false)
@@ -144,12 +144,40 @@ namespace ParcelHub.Controllers
         public async Task<IActionResult> ConsumerLogIn(LoginUser loginUser)
         {
 
+
+
+
+
             if (ModelState.IsValid)
             {
+
                 var result = await _accountRepo.PasswordSignInAsync(loginUser);
+
+
 
                 if (result.Succeeded)
                 {
+                    // if found login to be staff, will signout and redirect to backend, because the adminEntity Does not apply to the consumer Entity
+
+                    var user = await _userManager.FindByEmailAsync(loginUser.Email);
+                    if (user.SPWarehouseModelIdIfUserIsAdmin > 0)
+                    {
+                      await  _accountRepo.SignOutAsync();
+
+                        return RedirectToAction("SPLogin", "SPLogin");
+                    }
+
+                    // if client that is banned form site, will redirect to banned
+
+                    if (user.IsValidUser == false)
+                    {
+                        await _accountRepo.SignOutAsync();
+
+                        return RedirectToAction("NeedHelpPage", "ConsumerRegisterAndLogin");
+                    }
+
+
+
                     return RedirectToAction("Index", "ConsumerHome");
                 }
                 if (result.IsNotAllowed)
@@ -226,12 +254,12 @@ namespace ParcelHub.Controllers
                     LastName = "Please update",
                     FirstName = "name",
                     DateRegisterd = DateTime.Now,
-                    
+
                 };
 
 
-               var result =   _dbcontect.Add(consumer);
-              await _dbcontect.SaveChangesAsync();
+                var result = _dbcontect.Add(consumer);
+                await _dbcontect.SaveChangesAsync();
                 result.Entity.MemeberShipId = (1000 + result.Entity.Id).ToString();
                 await _dbcontect.SaveChangesAsync();
 
@@ -257,5 +285,7 @@ namespace ParcelHub.Controllers
         {
             return View();
         }
+
+       
     }
 }

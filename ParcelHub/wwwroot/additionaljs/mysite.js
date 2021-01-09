@@ -14,6 +14,7 @@ $("#receiverAddress").on('change',function () {
             $('#Suburb').val(data.suburb);
             $('#City').val(data.city);
             $('#State').val(data.state);
+            $('#Region').val(data.region);
             $('#PostCode').val(data.postCode);
 
 
@@ -29,7 +30,7 @@ $("#receiverAddress").on('change',function () {
 $('#createAddress').on('change', function () {
     var model = $("#createAddress").val();
     $.ajax({
-        url: '/data/getRegion',
+        url: '/data/getRegionForConsumer',
         data: JSON.stringify(model),
         type: 'POST',
         contentType: 'application/json;charset=utf-8',
@@ -52,6 +53,33 @@ $('#createAddress').on('change', function () {
     });
 
 });
+
+//$('#selectCountry').on('change', function () {
+//    var model = $("#selectCountry").val();
+//    $.ajax({
+//        url: '/data/getRegionForSP',
+//        data: JSON.stringify(model),
+//        type: 'POST',
+//        contentType: 'application/json;charset=utf-8',
+//        async: true,
+//        success: function (data) {
+//            if (data) {
+//                $('#region').html('');
+//                var options = '';
+//                options += '<option value=@null>Region</option>';
+//                for (var i = 0; i < data.length; i++) {
+//                    options += '<option value="' + data[i].key + '">' + data[i].value + '</option>';
+//                }
+//                $('#region').append(options);
+//            }
+//        },
+//        error: function () {
+//            alert("Choose coverage");
+//        }
+
+//    });
+
+//});
 
 
 function box() {

@@ -13,7 +13,8 @@ namespace ParcelHub.DatabaseConnection
         DbSet<Parcel> Parcel { get; set; }
         DbSet<ShippingContainer> ShippingContainer { get; set; }
         DbSet<Shippment> Shippment { get; set; }
-        DbSet<SPUserModel> SPUserModel { get; set; }
         DbSet<SPWarehouseModel> SPWarehouseModel { get; set; }
+        DbSet<RegionList> RegionList { get; set; }
+        DbSet<Region> Region { get; set; }
     }
 }

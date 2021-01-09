@@ -36,7 +36,6 @@ namespace ParcelHub.Models
         public bool LandService { get; set; } = false;
         public bool OceanFreightService { get; set; } = false;
 
-      
-
+      public int RegionListId { get; set; }
     }
 }

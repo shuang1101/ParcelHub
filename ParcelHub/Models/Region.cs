@@ -12,5 +12,6 @@ namespace ParcelHub.Models
         public Country Country { get; set; }
 
         public string RegionName { get; set; }
+
     }
 }

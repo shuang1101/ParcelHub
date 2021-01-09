@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using ParcelHub.DatabaseConnection;
 using System;
 using System.Collections.Generic;
@@ -13,11 +14,15 @@ namespace ParcelHub.ServiceRepository
         private readonly IHttpContextAccessor _httpContext;
         private readonly ApplicationDbContext _dbContext;
 
+
         public UserSerivce(IHttpContextAccessor httpContext,ApplicationDbContext dbContext)
         {
             _httpContext = httpContext;
             _dbContext = dbContext;
+            
         }
+
+       
         public string GetUserId()
         {
             return _httpContext.HttpContext.User?.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -44,8 +49,17 @@ namespace ParcelHub.ServiceRepository
 
         public string GetUserMemberId()
         {
+
+
           string id =  _httpContext.HttpContext.User?.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (id != null && _dbContext.Users.Find(id).SPWarehouseModelIdIfUserIsAdmin > 0)
+            {
+                return "Hi Dear Staff";
+            }
+
             var consumer = _dbContext.Consumer.FirstOrDefault(consumer=>consumer.ApplicationUserId==id);
+           
             return consumer.MemeberShipId;
         }
     }

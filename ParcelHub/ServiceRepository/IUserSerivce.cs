@@ -1,4 +1,7 @@
-﻿namespace ParcelHub.ServiceRepository
+﻿using System;
+using System.Threading.Tasks;
+
+namespace ParcelHub.ServiceRepository
 {
     public interface IUserSerivce
     {

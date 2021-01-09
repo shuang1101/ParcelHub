@@ -172,6 +172,9 @@ namespace ParcelHub.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("IsValidUser")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
 
@@ -194,6 +197,9 @@ namespace ParcelHub.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
+
+                    b.Property<string>("Role")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("SPWarehouseModelIdIfUserIsAdmin")
                         .HasColumnType("int");
@@ -493,44 +499,29 @@ namespace ParcelHub.Migrations
                     b.ToTable("Region");
                 });
 
-            modelBuilder.Entity("ParcelHub.Models.SPUserModel", b =>
+            modelBuilder.Entity("ParcelHub.Models.RegionList", b =>
                 {
-                    b.Property<int>("ApplicationUserId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<string>("ConfirmPassword")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsValid")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Role")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("SPWarehouseModelId")
                         .HasColumnType("int");
 
-                    b.Property<string>("UserName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("SPWarehouseModelId1")
+                        .HasColumnType("int");
 
-                    b.HasKey("ApplicationUserId");
+                    b.Property<int>("regionId")
+                        .HasColumnType("int");
 
-                    b.HasIndex("SPWarehouseModelId");
+                    b.HasKey("Id");
 
-                    b.ToTable("SPUserModel");
+                    b.HasIndex("SPWarehouseModelId1");
+
+                    b.HasIndex("regionId");
+
+                    b.ToTable("RegionList");
                 });
 
             modelBuilder.Entity("ParcelHub.Models.SPWarehouseModel", b =>
@@ -585,6 +576,9 @@ namespace ParcelHub.Migrations
 
                     b.Property<string>("ReceiverName")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("RegionListId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -777,13 +771,19 @@ namespace ParcelHub.Migrations
                     b.Navigation("Country");
                 });
 
-            modelBuilder.Entity("ParcelHub.Models.SPUserModel", b =>
+            modelBuilder.Entity("ParcelHub.Models.RegionList", b =>
                 {
                     b.HasOne("ParcelHub.Models.SPWarehouseModel", "SPWarehouseModel")
                         .WithMany()
-                        .HasForeignKey("SPWarehouseModelId")
+                        .HasForeignKey("SPWarehouseModelId1");
+
+                    b.HasOne("ParcelHub.Models.Region", "Region")
+                        .WithMany()
+                        .HasForeignKey("regionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Region");
 
                     b.Navigation("SPWarehouseModel");
                 });

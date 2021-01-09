@@ -1,5 +1,5 @@
-﻿@model ParcelHub.Models.SPUserModel
-
+﻿@model ParcelHub.Models.SPUserCreateAndLoginModel
+@inject ParcelHub.DatabaseConnection.ApplicationDbContext _dbContext
 @{
     ViewData["Title"] = "Edit";
     Layout = "~/Views/Shared/_SPLayout.cshtml";
@@ -36,8 +36,17 @@
             </div>
             <div class="form-group">
                 <label asp-for="Role" class="control-label"></label>
-                <input asp-for="Role" class="form-control" />
-                <span asp-validation-for="Role" class="text-danger"></span>
+                <input asp-for="Role" class="form-control" disabled/>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Update Password(leave empty if no change)</label>
+                <input asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Confirm Password(leave empty if no change)</label>
+                <input asp-for="ConfirmPassword" class="form-control" />
+                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

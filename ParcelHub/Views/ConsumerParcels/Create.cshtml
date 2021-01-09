@@ -85,7 +85,7 @@
                     }
                     else
                     {
-                        <label>Use my saved address</label>
+                        <label>Deliver address</label>
                         <select class="form-control" asp-for="ConsumerAddressId" id="receiverAddress" required>
                             <option value="@null">Choose your address</option>
 
@@ -97,7 +97,7 @@
                         </select>
                     }
 
-                  
+
 
                     <a class="btn btn-primary" asp-controller="ConsumerAddresses" asp-action="Index">Create a address    </a>
 
@@ -116,6 +116,7 @@
                         <label class="control-label ">Street Name</label>
                         <input class="form-control" id="StreetAddress" disabled />
                     </div>
+                    
                     <div class="form-group">
                         <label class="control-label">Suburb</label>
                         <input class="form-control" id="Suburb" disabled />
@@ -129,7 +130,10 @@
                         <input class="form-control" id="State" disabled />
                     </div>
 
-
+                    <div class="form-group">
+                        <label class="control-label">Suburb</label>
+                        <input class="form-control" id="Region"  name="region" disabled />
+                    </div>
                     <div class="form-group">
                         <label class="control-label">Post Code</label>
                         <input class="form-control" id="PostCode" disabled />

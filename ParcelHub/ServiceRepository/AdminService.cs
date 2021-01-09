@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using ParcelHub.DatabaseConnection;
+using ParcelHub.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,15 +12,20 @@ namespace ParcelHub.ServiceRepository
 {
     public class AdminService : IAdminService
     {
+      
         private readonly IHttpContextAccessor _httpContext;
         private readonly IUserSerivce _userSerivce;
         private readonly ApplicationDbContext _dbContext;
+        private readonly UserManager<ApplicationUser>  _userManager;
 
-        public AdminService(IHttpContextAccessor httpContext, IUserSerivce userSerivce, ApplicationDbContext dbContext)
+        public AdminService(IHttpContextAccessor httpContext, IUserSerivce userSerivce, ApplicationDbContext dbContext, UserManager<ApplicationUser> userManager)
         {
+            
             _httpContext = httpContext;
             _userSerivce = userSerivce;
             _dbContext = dbContext;
+            _userManager = userManager;
+
         }
 
         public int GetAdminSPWarehouseId()
@@ -33,6 +40,20 @@ namespace ParcelHub.ServiceRepository
         }
 
 
+        public async Task<IdentityResult> ChangePasswordForSPAdmin(ApplicationUser spAdmin, string newPassword)
+        {
+            await _userManager.RemovePasswordAsync(spAdmin);
+          var result = await _userManager.AddPasswordAsync(spAdmin, newPassword);
+            return result;
+        }
 
+        public async Task<IdentityResult> AddSPUserToRole(ApplicationUser user, string role)
+        {
+           var result = _userManager.AddToRoleAsync(user, role).GetAwaiter().GetResult();
+
+            return result;
+        }
+
+        
     }
 }

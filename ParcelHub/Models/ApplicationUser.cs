@@ -12,5 +12,9 @@ namespace ParcelHub.Models
 
         public int AgentCodeId { get; set; }
 
+        public bool IsValidUser { get; set; } = true;
+
+        public string Role { get; set; }
+
     }
 }

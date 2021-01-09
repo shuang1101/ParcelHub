@@ -1,5 +1,5 @@
-﻿@model IEnumerable<ParcelHub.Models.SPUserModel>
-
+﻿@model IEnumerable<ApplicationUser>
+@inject ParcelHub.ServiceRepository.IUserSerivce _userService
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_SPLayout.cshtml";
@@ -20,10 +20,10 @@
                 @Html.DisplayNameFor(model => model.Email)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.SPWarehouseModel.CompanyName)
+                Warehouse ID
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IsValid)
+                @Html.DisplayNameFor(model => model.IsValidUser)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Role)
@@ -32,29 +32,57 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.UserName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SPWarehouseModel.CompanyName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsValid)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Role)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ApplicationUserId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ApplicationUserId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ApplicationUserId">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+
+            if (item.Id == _userService.GetUserId())
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UserName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SPWarehouseModelIdIfUserIsAdmin)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IsValidUser)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Role)
+                    </td>
+                </tr>
+            }
+            else
+
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UserName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SPWarehouseModelIdIfUserIsAdmin)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IsValidUser)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Role)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+
+
+        }
     </tbody>
 </table>

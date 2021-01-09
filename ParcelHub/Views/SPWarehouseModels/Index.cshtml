@@ -1,5 +1,5 @@
 ﻿@model IEnumerable<ParcelHub.Models.SPWarehouseModel>
-
+@inject ParcelHub.DatabaseConnection.ApplicationDbContext _context
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_SPLayout.cshtml";
@@ -47,6 +47,10 @@
                 @Html.DisplayNameFor(model => model.PostCode)
             </th>
             <th>
+                Service Coverage
+            </th>
+
+            <th>
                 @Html.DisplayNameFor(model => model.ReceiverName)
             </th>
             <th>
@@ -62,60 +66,83 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.CompanyName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ContactName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ModelIsvalid)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Mobile)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AddressLine1)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AddressLine2)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AddressLine3)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CountryOfWarehouseModelCountryName)
-            </td>
-           
-            <td>
-                @Html.DisplayFor(modelItem => item.City)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PostCode)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ReceiverName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AirService)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LandService)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.OceanFreightService)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CompanyName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ContactName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ModelIsvalid)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Mobile)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AddressLine1)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AddressLine2)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AddressLine3)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CountryOfWarehouseModelCountryName)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.City)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PostCode)
+                </td>
+                <td>
+                    @{
+                        var regionsList = _context.RegionList.Where(r => r.SPWarehouseModelId == item.Id).ToList();
+                        if (regionsList.Count == 0)
+                        {
+                            <p>No Service region has been asigned to this Warehouse</p>
+                        }
+                        else
+                        {
+                            var regions = _context.Region.ToList();
+
+                            foreach (var rList in regionsList)
+                            {
+
+                                <p>@regions.Find(r => r.Id == rList.regionId).RegionName</p>
+                            }
+                        }
+
+                    }
+
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReceiverName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AirService)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LandService)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OceanFreightService)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

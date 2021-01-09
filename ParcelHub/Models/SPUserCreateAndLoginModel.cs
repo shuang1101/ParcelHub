@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace ParcelHub.Models
 {
-    public class SPUserModel
+    public class SPUserCreateAndLoginModel
     {
         [Required(ErrorMessage ="Please enter user name")]
         public string UserName { get; set; }
 
-        [Key]
-        public int ApplicationUserId { get; set; }
+
+        public string ApplicationUserId { get; set; }
         [Required(ErrorMessage = "Please enter email")]
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }

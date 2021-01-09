@@ -11,6 +11,7 @@ namespace ParcelHub.ServiceRepository
         Task<IdentityResult> ConfirmVarification(string uid, string token);
         Task SignOutAsync();
         Task<IdentityResult> ChangePasswordAsync(ChangePasswordUserModel model);
-        
+
+
     }
 }

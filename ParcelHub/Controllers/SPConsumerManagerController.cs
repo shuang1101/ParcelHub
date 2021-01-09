@@ -10,41 +10,22 @@ using ParcelHub.Models;
 
 namespace ParcelHub.Controllers
 {
-    public class SPWarehouseModelsController : Controller
+    public class SPConsumerManagerController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public SPWarehouseModelsController(ApplicationDbContext context)
+        public SPConsumerManagerController(ApplicationDbContext context)
         {
             _context = context;
         }
-        //[Route("/data/getRegionForSP")]
-        //[HttpPost]
-        //public JsonResult GetRegionForSP(string str)
-        //{
-        //   var country = _context.Country.FirstOrDefault(c => c.CountryName == str);
-        //    var region = _context.Region.Where(r=>r.CountryId==country.Id);
-        //    List < KeyValuePair<int, string>> regionList = new List<KeyValuePair<int, string>>();
-        //    foreach (var item in region)
-        //    {
-        //        regionList.Add(new KeyValuePair<int, string>(item.Id, item.RegionName ));
-        //    }
 
-
-        //    return Json(regionList);
-        //}
-
-
-
-        // GET: SPWarehouseModels
+        // GET: SPConsumerManager
         public async Task<IActionResult> Index()
         {
-
-
-            return View(await _context.SPWarehouseModel.ToListAsync());
+            return View(await _context.Consumer.ToListAsync());
         }
 
-        // GET: SPWarehouseModels/Details/5
+        // GET: SPConsumerManager/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -52,39 +33,39 @@ namespace ParcelHub.Controllers
                 return NotFound();
             }
 
-            var sPWarehouseModel = await _context.SPWarehouseModel
+            var consumer = await _context.Consumer
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (sPWarehouseModel == null)
+            if (consumer == null)
             {
                 return NotFound();
             }
 
-            return View(sPWarehouseModel);
+            return View(consumer);
         }
 
-        // GET: SPWarehouseModels/Create
+        // GET: SPConsumerManager/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: SPWarehouseModels/Create
+        // POST: SPConsumerManager/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,CountryOfWarehouseModelCountryName,CompanyName,ContactName,Email,ModelIsvalid,Mobile,AddressLine1,AddressLine2,AddressLine3,CountryId,City,PostCode,ReceiverName,AirService,LandService,OcreanFreightService")] SPWarehouseModel sPWarehouseModel)
+        public async Task<IActionResult> Create([Bind("ModelIsvalid,Id,LastName,FirstName,MobileNumber,Email,ApplicationUserId,DateRegisterd,DateTimeLastLogin,WechatId,MemeberShipId")] Consumer consumer)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(sPWarehouseModel);
+                _context.Add(consumer);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(sPWarehouseModel);
+            return View(consumer);
         }
 
-        // GET: SPWarehouseModels/Edit/5
+        // GET: SPConsumerManager/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -92,22 +73,22 @@ namespace ParcelHub.Controllers
                 return NotFound();
             }
 
-            var sPWarehouseModel = await _context.SPWarehouseModel.FindAsync(id);
-            if (sPWarehouseModel == null)
+            var consumer = await _context.Consumer.FindAsync(id);
+            if (consumer == null)
             {
                 return NotFound();
             }
-            return View(sPWarehouseModel);
+            return View(consumer);
         }
 
-        // POST: SPWarehouseModels/Edit/5
+        // POST: SPConsumerManager/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,CompanyName,CountryOfWarehouseModelCountryName,ContactName,Email,ModelIsvalid,Mobile,AddressLine1,AddressLine2,AddressLine3,CountryId,City,PostCode,ReceiverName,AirService,LandService,OcreanFreightService")] SPWarehouseModel sPWarehouseModel)
+        public async Task<IActionResult> Edit(int id, [Bind("ModelIsvalid,Id,LastName,FirstName,MobileNumber,Email,ApplicationUserId,DateRegisterd,DateTimeLastLogin,WechatId,MemeberShipId")] Consumer consumer)
         {
-            if (id != sPWarehouseModel.Id)
+            if (id != consumer.Id)
             {
                 return NotFound();
             }
@@ -116,12 +97,12 @@ namespace ParcelHub.Controllers
             {
                 try
                 {
-                    _context.Update(sPWarehouseModel);
+                    _context.Update(consumer);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!SPWarehouseModelExists(sPWarehouseModel.Id))
+                    if (!ConsumerExists(consumer.Id))
                     {
                         return NotFound();
                     }
@@ -132,10 +113,10 @@ namespace ParcelHub.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(sPWarehouseModel);
+            return View(consumer);
         }
 
-        // GET: SPWarehouseModels/Delete/5
+        // GET: SPConsumerManager/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -143,30 +124,30 @@ namespace ParcelHub.Controllers
                 return NotFound();
             }
 
-            var sPWarehouseModel = await _context.SPWarehouseModel
+            var consumer = await _context.Consumer
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (sPWarehouseModel == null)
+            if (consumer == null)
             {
                 return NotFound();
             }
 
-            return View(sPWarehouseModel);
+            return View(consumer);
         }
 
-        // POST: SPWarehouseModels/Delete/5
+        // POST: SPConsumerManager/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var sPWarehouseModel = await _context.SPWarehouseModel.FindAsync(id);
-            _context.SPWarehouseModel.Remove(sPWarehouseModel);
+            var consumer = await _context.Consumer.FindAsync(id);
+            _context.Consumer.Remove(consumer);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool SPWarehouseModelExists(int id)
+        private bool ConsumerExists(int id)
         {
-            return _context.SPWarehouseModel.Any(e => e.Id == id);
+            return _context.Consumer.Any(e => e.Id == id);
         }
     }
 }
